@@ -4,10 +4,10 @@ import { z } from 'zod';
 export const createContestSchema = z
   .object({
     id: z.string(),
-    name: z.number(),
-    studentIds: z.array(z.string()),
-    startingTime: z.date(),
-    endingTime: z.date(),
+    name: z.string(),
+    students: z.array(z.string()),
+    startingTime: z.coerce.date(),
+    endingTime: z.coerce.date(),
   })
   .required();
 
@@ -21,7 +21,7 @@ export class CreateContestDto {
   name: string;
 
   @ApiProperty()
-  studentIds: string[];
+  students: string[];
 
   @ApiProperty()
   startingTime: Date;
@@ -38,7 +38,7 @@ export class UpdateContestDto {
   name: string;
 
   @ApiProperty({ required: false })
-  studentIds: string[];
+  students: string[];
 
   @ApiProperty({ required: false })
   startingTime: Date;
