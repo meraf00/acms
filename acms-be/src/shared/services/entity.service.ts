@@ -17,17 +17,17 @@ export const EntityService = <T>(populateFields: string[] = []) => {
 
     async findOne(id: string): Promise<T | null> {
       return await this.entityModel
-        .findOne({ id })
+        .findOne({ _id: id })
         .populate(populateFields)
         .exec();
     }
 
     async update(id: string, data: any) {
-      return await this.entityModel.updateOne({ id }, data).exec();
+      return await this.entityModel.updateOne({ _id: id }, data).exec();
     }
 
     async delete(id: string) {
-      return await this.entityModel.deleteOne({ id }).exec();
+      return await this.entityModel.deleteOne({ _id: id }).exec();
     }
   }
 
