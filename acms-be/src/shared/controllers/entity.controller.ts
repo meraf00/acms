@@ -7,10 +7,8 @@ import {
   Param,
   Post,
   Put,
-  UseGuards,
 } from '@nestjs/common';
 
-import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { ApiBearerAuth, ApiBody } from '@nestjs/swagger';
 import { ZodValidationPipe } from '../pipes/zod.pipe';
 import { EntityControllerOptions } from '../types/controller-options';
@@ -38,7 +36,6 @@ export const EntityController = <T>(
       }
     }
 
-    @UseGuards(JwtAuthGuard)
     @Get()
     findAll() {
       return this.entityService.findAll();
