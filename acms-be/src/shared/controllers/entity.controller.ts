@@ -12,12 +12,8 @@ import {
 import { IEntityService } from '../services/entity.service';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { ApiBearerAuth, ApiBody } from '@nestjs/swagger';
-
-export interface EntityControllerOptions {
-  entityService: any;
-  createDto: any;
-  updateDto: any;
-}
+import { ZodValidationPipe } from '../pipes/zod.pipe';
+import { EntityControllerOptions } from '../types/controller-options';
 
 export const EntityController = <T>(
   controllerOptions: EntityControllerOptions,
@@ -29,7 +25,10 @@ export const EntityController = <T>(
 
     @ApiBody({ type: controllerOptions.createDto })
     @Post()
-    async create(@Body() createEntityDto: typeof controllerOptions.createDto) {
+    async create(
+      @Body(new ZodValidationPipe(controllerOptions.createSchema))
+      createEntityDto,
+    ) {
       try {
         return await this.entityService.create(createEntityDto);
       } catch (err) {
@@ -53,7 +52,8 @@ export const EntityController = <T>(
     @Put(':id')
     async update(
       @Param('id') id: string,
-      @Body() updateEntityDto: typeof controllerOptions.updateDto,
+      @Body(new ZodValidationPipe(controllerOptions.updateSchema))
+      updateEntityDto,
     ) {
       try {
         return this.entityService.update(id, updateEntityDto);
