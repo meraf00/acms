@@ -1,16 +1,20 @@
 import { Controller } from '@nestjs/common';
 import { ContestService } from '../services/contest.service';
-import { CreateContestDto, UpdateContestDto } from '../dtos/contest.dto';
-
 import {
-  EntityController,
-  EntityControllerOptions,
-} from 'src/shared/controllers/entity.controller';
+  CreateContestDto,
+  UpdateContestDto,
+  createContestSchema,
+  updateContestSchema,
+} from '../dtos/contest.dto';
+
+import { EntityController } from 'src/shared/controllers/entity.controller';
 import { Contest } from '../entities/contest.entity';
 import { ApiTags } from '@nestjs/swagger';
+import { EntityControllerOptions } from '@shared/types/controller-options';
 
 const controllerOptions: EntityControllerOptions = {
-  entityService: ContestService,
+  createSchema: createContestSchema,
+  updateSchema: updateContestSchema,
   createDto: CreateContestDto,
   updateDto: UpdateContestDto,
 };
