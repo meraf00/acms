@@ -17,7 +17,7 @@ async function bootstrap() {
   const config = new DocumentBuilder()
     .setTitle('ACMS Documentation')
     .setDescription('The ACMS API description')
-    .setVersion('1.0')
+    .setVersion('2.0')
     .addBearerAuth({
       type: 'http',
       scheme: 'bearer',
