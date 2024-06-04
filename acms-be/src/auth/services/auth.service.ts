@@ -50,7 +50,7 @@ export class AuthService {
     }
   }
 
-  async findUserByEmail(email: string): Promise<User> {
+  async findUserByEmail(email: string): Promise<User | null> {
     const user = await this.userModel.findOne({ email });
 
     if (!user) {
