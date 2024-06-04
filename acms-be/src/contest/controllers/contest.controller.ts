@@ -24,7 +24,7 @@ const controllerOptions: EntityControllerOptions = {
 
 @ApiTags('contests')
 @Controller('contests')
-@UseGuards(RoleGuard([Roles.hoe, Roles.hoe, Roles.acms]))
+@UseGuards(RoleGuard([Roles.hoa, Roles.hoe, Roles.acms]))
 @UseGuards(JwtAuthGuard)
 export class ContestController extends EntityController<Contest>(
   controllerOptions,
