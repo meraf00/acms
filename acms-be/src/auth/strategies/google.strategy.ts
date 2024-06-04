@@ -9,9 +9,9 @@ import { OAuthConfig } from 'src/config';
 export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
   constructor(private readonly configService: ConfigService) {
     super({
-      clientID: configService.get<OAuthConfig>('oauth').client_id,
-      clientSecret: configService.get<OAuthConfig>('oauth').client_secret,
-      callbackURL: configService.get<OAuthConfig>('oauth').redirect_uris[0],
+      clientID: configService.get<OAuthConfig>('oauth')?.client_id,
+      clientSecret: configService.get<OAuthConfig>('oauth')?.client_secret,
+      callbackURL: configService.get<OAuthConfig>('oauth')?.redirect_uris[0],
       scope: ['profile', 'email'],
     });
   }

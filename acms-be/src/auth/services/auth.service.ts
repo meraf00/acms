@@ -42,7 +42,7 @@ export class AuthService {
       const newUser = await this.userModel.create(user);
 
       return this.generateJwt({
-        sub: newUser.id,
+        sub: newUser.email,
         email: newUser.email,
       });
     } catch (e) {
