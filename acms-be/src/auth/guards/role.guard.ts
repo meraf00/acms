@@ -1,20 +1,18 @@
 import { CanActivate, ExecutionContext, Type } from '@nestjs/common';
 
-export function RoleGuard(roles: string): Type<CanActivate> {
+export function RoleGuard(roles: string[]): Type<CanActivate> {
   class RoleGuardMixin implements CanActivate {
     canActivate(context: ExecutionContext) {
-      const allowedRoles = roles.split('|');
+      const allowedRoles = roles;
       if (allowedRoles.length < 1) {
         return true;
       }
 
       const request = context.switchToHttp().getRequest();
       const user: any = request.user;
-      const userRoles = user?.roles;
+      const userRole = user?.role;
 
-      return allowedRoles.some((allowedRole) =>
-        userRoles?.find((x: any) => x.key == allowedRole.trim()),
-      );
+      return allowedRoles.includes(userRole);
     }
   }
 
