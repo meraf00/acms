@@ -1,51 +1,48 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsArray, IsDateString, IsOptional, IsString } from 'class-validator';
+import { z } from 'zod';
+
+export const createContestSchema = z
+  .object({
+    id: z.string(),
+    name: z.number(),
+    studentIds: z.array(z.string()),
+    startingTime: z.date(),
+    endingTime: z.date(),
+  })
+  .required();
+
+export const updateContestSchema = createContestSchema.partial();
 
 export class CreateContestDto {
   @ApiProperty()
-  @IsString()
   id: string;
 
   @ApiProperty()
-  @IsString()
   name: string;
 
   @ApiProperty()
-  @IsArray()
   studentIds: string[];
 
   @ApiProperty()
-  @IsDateString()
   startingTime: Date;
 
   @ApiProperty()
-  @IsDateString()
   endingTime: Date;
 }
 
 export class UpdateContestDto {
-  @ApiProperty()
-  @IsString()
-  @IsOptional()
+  @ApiProperty({ required: false })
   id: string;
 
-  @ApiProperty()
-  @IsString()
-  @IsOptional()
+  @ApiProperty({ required: false })
   name: string;
 
-  @ApiProperty()
-  @IsArray()
-  @IsOptional()
+  @ApiProperty({ required: false })
   studentIds: string[];
 
-  @ApiProperty()
-  @IsDateString()
-  @IsOptional()
+  @ApiProperty({ required: false })
   startingTime: Date;
 
-  @ApiProperty()
-  @IsDateString()
-  @IsOptional()
+  @ApiProperty({ required: false })
   endingTime: Date;
 }
