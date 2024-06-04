@@ -9,11 +9,12 @@ import {
   Put,
   UseGuards,
 } from '@nestjs/common';
-import { IEntityService } from '../services/entity.service';
+
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { ApiBearerAuth, ApiBody } from '@nestjs/swagger';
 import { ZodValidationPipe } from '../pipes/zod.pipe';
 import { EntityControllerOptions } from '../types/controller-options';
+import { IEntityService } from '@shared/types/service';
 
 export const EntityController = <T>(
   controllerOptions: EntityControllerOptions,
