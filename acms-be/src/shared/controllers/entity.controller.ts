@@ -1,7 +1,17 @@
-import { Body, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+  UseGuards,
+} from '@nestjs/common';
 import { IEntityService } from '../services/entity.service';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
-import { ApiBearerAuth } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody } from '@nestjs/swagger';
 
 export interface EntityControllerOptions {
   entityService: any;
@@ -12,41 +22,55 @@ export interface EntityControllerOptions {
 export const EntityController = <T>(
   controllerOptions: EntityControllerOptions,
 ) => {
+  @Controller()
+  @ApiBearerAuth()
   class EntityController {
     constructor(readonly entityService: IEntityService<T>) {}
 
-    @ApiBearerAuth()
+    @ApiBody({ type: controllerOptions.createDto })
     @Post()
-    create(@Body() createEntityDto: typeof controllerOptions.createDto) {
-      return this.entityService.create(createEntityDto);
+    async create(@Body() createEntityDto: typeof controllerOptions.createDto) {
+      try {
+        return await this.entityService.create(createEntityDto);
+      } catch (err) {
+        console.error(err);
+        throw new BadRequestException('Unable to complete request.');
+      }
     }
 
-    @ApiBearerAuth()
     @UseGuards(JwtAuthGuard)
     @Get()
     findAll() {
       return this.entityService.findAll();
     }
 
-    @ApiBearerAuth()
     @Get(':id')
     findOne(@Param('id') id: string) {
       return this.entityService.findOne(id);
     }
 
-    @ApiBearerAuth()
+    @ApiBody({ type: controllerOptions.updateDto })
     @Put(':id')
-    update(
+    async update(
       @Param('id') id: string,
       @Body() updateEntityDto: typeof controllerOptions.updateDto,
     ) {
-      return this.entityService.update(id, updateEntityDto);
+      try {
+        return this.entityService.update(id, updateEntityDto);
+      } catch (err) {
+        console.error(err);
+        throw new BadRequestException('Unable to complete request.');
+      }
     }
 
-    @ApiBearerAuth()
     @Delete(':id')
-    remove(@Param('id') id: string) {
-      return this.entityService.delete(id);
+    async delete(@Param('id') id: string) {
+      try {
+        return await this.entityService.delete(id);
+      } catch (err) {
+        console.error(err);
+        throw new BadRequestException('Unable to complete request.');
+      }
     }
   }
 
