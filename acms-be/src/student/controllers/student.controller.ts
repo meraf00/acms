@@ -1,4 +1,4 @@
-import { Controller } from '@nestjs/common';
+import { Controller, UseGuards } from '@nestjs/common';
 import { StudentService } from '../services/student.service';
 
 import { ApiTags } from '@nestjs/swagger';
@@ -11,6 +11,9 @@ import {
 } from '../dtos/student.dto';
 import { Student } from '../entities/student.entity';
 import { EntityControllerOptions } from '@shared/types/controller-options';
+import { RoleGuard } from 'src/auth/guards/role.guard';
+import { Roles } from '@shared/types/roles';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 
 const controllerOptions: EntityControllerOptions = {
   createSchema: createStudentSchema,
@@ -21,6 +24,8 @@ const controllerOptions: EntityControllerOptions = {
 
 @ApiTags('students')
 @Controller('students')
+@UseGuards(RoleGuard([Roles.hoa, Roles.hoe, Roles.acms]))
+@UseGuards(JwtAuthGuard)
 export class StudentController extends EntityController<Student>(
   controllerOptions,
 ) {
