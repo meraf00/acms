@@ -11,4 +11,13 @@ export class ContestService extends EntityService<Contest>(['students']) {
   ) {
     super(contestModel);
   }
+
+  async getActiveContests() {
+    const now = new Date();
+
+    return await this.contestModel.find({
+      startTime: { $lte: now },
+      endTime: { $gte: now },
+    });
+  }
 }
