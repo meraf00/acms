@@ -3,6 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import ImageKit from 'imagekit';
 import { ImageKitConfig } from 'src/config';
 import { ImageKitService } from './services/image-kit.service';
+import { ImageKitController } from './controllers/imagekit.controller';
 
 @Module({
   providers: [
@@ -19,5 +20,7 @@ import { ImageKitService } from './services/image-kit.service';
     },
     ImageKitService,
   ],
+
+  controllers: [ImageKitController],
 })
 export class ImageKitModule {}
