@@ -5,7 +5,7 @@ import { ConfigService } from '@nestjs/config';
 import { User } from '../../user/entities/user.entity';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { JwtConfig } from 'src/config';
+import { JwtConfig } from '@shared/config';
 
 export type JwtPayload = {
   sub: string;

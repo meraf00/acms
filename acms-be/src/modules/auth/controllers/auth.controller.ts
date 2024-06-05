@@ -4,7 +4,7 @@ import { Request } from 'express';
 import { AuthService } from '../services/auth.service';
 import { GoogleOauthGuard } from '../guards/google-oauth.guard';
 import { ApiTags } from '@nestjs/swagger';
-import { User } from 'src/user/entities/user.entity';
+import { User } from '@modules/user/entities/user.entity';
 
 @ApiTags('auth')
 @Controller('auth')

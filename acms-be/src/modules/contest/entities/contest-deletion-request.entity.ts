@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument, Types } from 'mongoose';
-import { User } from 'src/user/entities/user.entity';
+import { User } from '@modules/user/entities/user.entity';
 import { Contest } from './contest.entity';
 
 export type ContestDeletionRequestDocument =

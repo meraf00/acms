@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import ImageKit from 'imagekit';
-import { ImageKitConfig } from 'src/config';
+import { ImageKitConfig } from '@shared/config';
 import { ImageKitService } from './services/image-kit.service';
 import { ImageKitController } from './controllers/imagekit.controller';
 

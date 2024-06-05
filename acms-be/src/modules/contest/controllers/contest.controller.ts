@@ -7,13 +7,13 @@ import {
   updateContestSchema,
 } from '../dtos/contest.dto';
 
-import { EntityController } from 'src/shared/controllers/entity.controller';
+import { EntityController } from '@shared/controllers/entity.controller';
 import { Contest } from '../entities/contest.entity';
 import { ApiTags } from '@nestjs/swagger';
 import { EntityControllerOptions } from '@shared/types/controller-options';
-import { RoleGuard } from 'src/auth/guards/role.guard';
+import { RoleGuard } from '@modules/auth/guards/role.guard';
 import { Roles } from '@shared/types/roles';
-import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { JwtAuthGuard } from '@modules/auth/guards/jwt-auth.guard';
 
 const controllerOptions: EntityControllerOptions = {
   createSchema: createContestSchema,

@@ -1,14 +1,14 @@
 import { Module } from '@nestjs/common';
+import { MongooseModule } from '@nestjs/mongoose';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { ContestModule } from './contest/contest.module';
-import { MongooseModule } from '@nestjs/mongoose';
+import { ContestModule } from '@modules/contest/contest.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { StudentModule } from './student/student.module';
-import { AuthModule } from './auth/auth.module';
-import { UserModule } from './user/user.module';
-import config, { DatabaseConfig } from './config';
-import { ImageKitModule } from './image-kit/image-kit.module';
+import { StudentModule } from '@modules/student/student.module';
+import { AuthModule } from '@modules/auth/auth.module';
+import { UserModule } from '@modules/user/user.module';
+import config, { DatabaseConfig } from '@shared/config';
+import { ImageKitModule } from '@modules/image-kit/image-kit.module';
 
 @Module({
   imports: [

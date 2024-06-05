@@ -6,7 +6,7 @@ import {
 import { JwtService } from '@nestjs/jwt';
 import { RegisterUserDto } from '../dtos/requests.dto';
 import { InjectModel } from '@nestjs/mongoose';
-import { User, UserDocument } from 'src/user/entities/user.entity';
+import { User, UserDocument } from '@modules/user/entities/user.entity';
 import { Model } from 'mongoose';
 import { Roles } from '@shared/types/roles';
 
