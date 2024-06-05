@@ -10,12 +10,11 @@ export interface JwtConfig {
   expiration: string;
 }
 
-// export interface CloundinaryConfig {
-//   name: string;
-//   apiKey: string;
-//   apiSecret: string;
-//   folder: string;
-// }
+export interface ImageKitConfig {
+  publicKey: string;
+  privateKey: string;
+  urlEndpoint: string;
+}
 
 export interface OAuthConfig {
   client_id: string;
@@ -33,6 +32,7 @@ export interface ACMSConfiguration {
   database: DatabaseConfig;
   jwt: JwtConfig;
   oauth: OAuthConfig;
+  imageKit: ImageKitConfig;
 }
 
 const envSchema = z
@@ -50,11 +50,10 @@ const envSchema = z
     //   OAuth
     OAUTH_CLIENT_SECRET_FILEPATH: z.string(),
 
-    //   Cloundinary
-    // CLOUDINARY_NAME: z.string(),
-    // CLOUDINARY_API_KEY: z.string(),
-    // CLOUDINARY_API_SECRET: z.string(),
-    // CLOUDINARY_FOLDER: z.string(),
+    //   IMAGE-KIT
+    IMAGEKIT_PUBLIC_KEY: z.string(),
+    IMAGEKIT_PRIVATE_KEY: z.string(),
+    IMAGEKIT_URL_ENDPOINT: z.string(),
   })
   .required();
 
@@ -78,11 +77,10 @@ export default (): ACMSConfiguration => {
     },
 
     oauth: oauth.web,
-    // cloudinary: {
-    //   name: parsedEnv.CLOUDINARY_NAME,
-    //   apiKey: parsedEnv.CLOUDINARY_API_KEY,
-    //   apiSecret: parsedEnv.CLOUDINARY_API_SECRET,
-    //   folder: parsedEnv.CLOUDINARY_FOLDER,
-    // },
+    imageKit: {
+      publicKey: parsedEnv.IMAGEKIT_PUBLIC_KEY,
+      privateKey: parsedEnv.IMAGEKIT_PRIVATE_KEY,
+      urlEndpoint: parsedEnv.IMAGEKIT_URL_ENDPOINT,
+    },
   };
 };
