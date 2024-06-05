@@ -8,6 +8,7 @@ import { RegisterUserDto } from '../dtos/requests.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { User, UserDocument } from 'src/user/entities/user.entity';
 import { Model } from 'mongoose';
+import { Roles } from '@shared/types/roles';
 
 @Injectable()
 export class AuthService {
@@ -39,7 +40,10 @@ export class AuthService {
 
   async registerUser(user: RegisterUserDto) {
     try {
-      const newUser = await this.userModel.create(user);
+      const newUser = await this.userModel.create({
+        ...user,
+        role: Roles.student,
+      });
 
       return this.generateJwt({
         sub: newUser.email,
