@@ -5,6 +5,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { Contest, ContestSchema } from './entities/contest.entity';
 import { ActiveContestController } from './controllers/active-contest.controller';
 import { ContestDeletionRequestController } from './controllers/contest-deletion-request.controller';
+import { ContestDeletionRequestService } from './services/contest-deletion.service';
 
 @Module({
   imports: [
@@ -15,6 +16,6 @@ import { ContestDeletionRequestController } from './controllers/contest-deletion
     ActiveContestController,
     ContestDeletionRequestController,
   ],
-  providers: [ContestService],
+  providers: [ContestService, ContestDeletionRequestService],
 })
 export class ContestModule {}
