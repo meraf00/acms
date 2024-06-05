@@ -1,10 +1,10 @@
+import { User } from '@modules/user/entities/user.entity';
 import { Controller, Get, Req, UseGuards } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { Request } from 'express';
 
-import { AuthService } from '../services/auth.service';
 import { GoogleOauthGuard } from '../guards/google-oauth.guard';
-import { ApiTags } from '@nestjs/swagger';
-import { User } from '@modules/user/entities/user.entity';
+import { AuthService } from '../services/auth.service';
 
 @ApiTags('auth')
 @Controller('auth')

@@ -1,10 +1,10 @@
-import { Controller, Get, UseGuards } from '@nestjs/common';
-import { ContestService } from '../services/contest.service';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-
-import { RoleGuard } from '@modules/auth/guards/role.guard';
-import { Roles } from '@shared/types/roles';
 import { JwtAuthGuard } from '@modules/auth/guards/jwt-auth.guard';
+import { RoleGuard } from '@modules/auth/guards/role.guard';
+import { Controller, Get, UseGuards } from '@nestjs/common';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { Roles } from '@shared/types/roles';
+
+import { ContestService } from '../services/contest.service';
 
 @ApiTags('contests')
 @ApiBearerAuth()

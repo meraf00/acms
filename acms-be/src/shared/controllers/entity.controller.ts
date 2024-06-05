@@ -8,11 +8,11 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
-
 import { ApiBearerAuth, ApiBody } from '@nestjs/swagger';
+import { IEntityService } from '@shared/types/service';
+
 import { ZodValidationPipe } from '../pipes/zod.pipe';
 import { EntityControllerOptions } from '../types/controller-options';
-import { IEntityService } from '@shared/types/service';
 
 export const EntityController = <T>(
   controllerOptions: EntityControllerOptions,

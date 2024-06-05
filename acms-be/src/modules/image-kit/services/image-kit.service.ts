@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import ImageKit from 'imagekit';
 import { ImageKitConfig } from '@shared/config';
+import ImageKit from 'imagekit';
+
 import { PresignedParams } from '../dtos/response.dto';
 
 @Injectable()

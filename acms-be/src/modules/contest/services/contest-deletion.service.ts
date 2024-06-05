@@ -1,7 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model, UpdateWriteOpResult } from 'mongoose';
 import { EntityService } from '@shared/services/entity.service';
+import { Model, UpdateWriteOpResult } from 'mongoose';
+
 import { ContestDeletionRequest } from '../entities/contest-deletion-request.entity';
 
 @Injectable()

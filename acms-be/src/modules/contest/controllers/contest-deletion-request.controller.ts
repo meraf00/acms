@@ -9,11 +9,12 @@ import {
   Req,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { ContestDeletionRequestService } from '../services/contest-deletion.service';
+
 import {
   CreateContestDeletionRequestDto,
   UpdateContestDeletionApprovalDto,
 } from '../dtos/contest-deletion-request.dto';
+import { ContestDeletionRequestService } from '../services/contest-deletion.service';
 
 @ApiTags('contest-deletion-requests')
 @ApiBearerAuth()
