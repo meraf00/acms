@@ -6,10 +6,20 @@ import { Contest, ContestSchema } from './entities/contest.entity';
 import { ActiveContestController } from './controllers/active-contest.controller';
 import { ContestDeletionRequestController } from './controllers/contest-deletion-request.controller';
 import { ContestDeletionRequestService } from './services/contest-deletion.service';
+import {
+  ContestDeletionRequest,
+  ContestDeletionRequestSchema,
+} from './entities/contest-deletion-request.entity';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: Contest.name, schema: ContestSchema }]),
+    MongooseModule.forFeature([
+      { name: Contest.name, schema: ContestSchema },
+      {
+        name: ContestDeletionRequest.name,
+        schema: ContestDeletionRequestSchema,
+      },
+    ]),
   ],
   controllers: [
     ContestController,
