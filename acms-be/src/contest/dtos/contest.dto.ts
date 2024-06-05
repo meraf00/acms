@@ -14,19 +14,41 @@ export const createContestSchema = z
 export const updateContestSchema = createContestSchema.partial();
 
 export class CreateContestDto {
-  @ApiProperty()
+  @ApiProperty({
+    type: String,
+    example: '551155',
+    description: 'Codeforces given id of the contest',
+  })
   id: string;
 
-  @ApiProperty()
+  @ApiProperty({
+    type: String,
+    example: 'A2SV In Person Contest #1',
+    description: 'Name of the contest',
+  })
   name: string;
 
-  @ApiProperty()
+  @ApiProperty({
+    type: [String],
+    example: ['665f0cd60e3d9856a54f6b80', '665f0cd60e3d9856a54f6b80'],
+    description: 'Array of student ids',
+  })
   students: string[];
 
-  @ApiProperty()
+  @ApiProperty({
+    type: Date,
+    format: 'date-time',
+    example: '2021-10-20T00:00:00.000Z',
+    description: 'Starting time of the contest',
+  })
   startingTime: Date;
 
-  @ApiProperty()
+  @ApiProperty({
+    type: Date,
+    format: 'date-time',
+    example: '2021-10-20T00:00:00.000Z',
+    description: 'Ending time of the contest',
+  })
   endingTime: Date;
 }
 
