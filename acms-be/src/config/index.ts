@@ -14,6 +14,7 @@ export interface ImageKitConfig {
   publicKey: string;
   privateKey: string;
   urlEndpoint: string;
+  presignedExpire: number;
 }
 
 export interface OAuthConfig {
@@ -54,6 +55,7 @@ const envSchema = z
     IMAGEKIT_PUBLIC_KEY: z.string(),
     IMAGEKIT_PRIVATE_KEY: z.string(),
     IMAGEKIT_URL_ENDPOINT: z.string(),
+    IMAGEKIT_URL_PRESIGNED_URL_TTL: z.number(),
   })
   .required();
 
@@ -81,6 +83,7 @@ export default (): ACMSConfiguration => {
       publicKey: parsedEnv.IMAGEKIT_PUBLIC_KEY,
       privateKey: parsedEnv.IMAGEKIT_PRIVATE_KEY,
       urlEndpoint: parsedEnv.IMAGEKIT_URL_ENDPOINT,
+      presignedExpire: parsedEnv.IMAGEKIT_URL_PRESIGNED_URL_TTL,
     },
   };
 };
