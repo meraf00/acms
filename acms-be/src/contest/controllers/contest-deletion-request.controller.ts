@@ -8,7 +8,7 @@ import {
   Put,
   Req,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { ContestDeletionRequestService } from '../services/contest-deletion.service';
 import {
   CreateContestDeletionRequestDto,
@@ -16,6 +16,7 @@ import {
 } from '../dtos/contest-deletion-request.dto';
 
 @ApiTags('contest-deletion-requests')
+@ApiBearerAuth()
 @Controller('contest-deletion-requests')
 export class ContestDeletionRequestController {
   constructor(
