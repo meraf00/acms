@@ -55,7 +55,9 @@ const envSchema = z
     IMAGEKIT_PUBLIC_KEY: z.string(),
     IMAGEKIT_PRIVATE_KEY: z.string(),
     IMAGEKIT_URL_ENDPOINT: z.string(),
-    IMAGEKIT_URL_PRESIGNED_URL_TTL: z.number(),
+    IMAGEKIT_URL_PRESIGNED_URL_TTL: z
+      .string()
+      .transform((val) => parseInt(val, 10)),
   })
   .required();
 
