@@ -1,15 +1,22 @@
+import { ValidationPipe, VersioningType } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { ValidationPipe } from '@nestjs/common';
 import { TransformInterceptor } from '@shared/interceptors/response-interceptor';
+import { ApiVersion } from '@shared/types/version';
+
+import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   app.enableCors();
 
-  app.setGlobalPrefix('api/v2');
+  app.setGlobalPrefix('api');
+
+  app.enableVersioning({
+    type: VersioningType.URI,
+    defaultVersion: ApiVersion.V2,
+  });
 
   app.useGlobalPipes(new ValidationPipe({ transform: true }));
   app.useGlobalInterceptors(new TransformInterceptor());
@@ -17,7 +24,7 @@ async function bootstrap() {
   const config = new DocumentBuilder()
     .setTitle('ACMS Documentation')
     .setDescription('The ACMS API description')
-    .setVersion('2.0')
+    .setVersion(ApiVersion.V2)
     .addBearerAuth({
       type: 'http',
       scheme: 'bearer',

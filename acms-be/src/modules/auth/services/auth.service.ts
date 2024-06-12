@@ -1,14 +1,15 @@
+import { User, UserDocument } from '@modules/user/entities/user.entity';
 import {
   BadRequestException,
   Injectable,
   InternalServerErrorException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { RegisterUserDto } from '../dtos/requests.dto';
 import { InjectModel } from '@nestjs/mongoose';
-import { User, UserDocument } from '@modules/user/entities/user.entity';
-import { Model } from 'mongoose';
 import { Roles } from '@shared/types/roles';
+import { Model } from 'mongoose';
+
+import { RegisterUserDto } from '../dtos/requests.dto';
 
 @Injectable()
 export class AuthService {

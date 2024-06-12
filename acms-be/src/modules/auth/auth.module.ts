@@ -1,9 +1,10 @@
-import { Module } from '@nestjs/common';
-import { AuthController } from './controllers/auth.controller';
 import { UserModule } from '@modules/user/user.module';
-import { JwtModule } from '@nestjs/jwt';
+import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { JwtModule } from '@nestjs/jwt';
 import { JwtConfig } from '@shared/config';
+
+import { AuthController } from './controllers/auth.controller';
 import { AuthService } from './services/auth.service';
 import { GoogleStrategy } from './strategies/google.strategy';
 import { JwtStrategy } from './strategies/jwt.strategy';

@@ -1,9 +1,10 @@
 import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import ImageKit from 'imagekit';
 import { ImageKitConfig } from '@shared/config';
-import { ImageKitService } from './services/image-kit.service';
+import ImageKit from 'imagekit';
+
 import { ImageKitController } from './controllers/imagekit.controller';
+import { ImageKitService } from './services/image-kit.service';
 
 @Module({
   providers: [

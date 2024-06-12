@@ -1,23 +1,34 @@
+import { JwtAuthGuard } from '@modules/auth/guards/jwt-auth.guard';
+import { RoleGuard } from '@modules/auth/guards/role.guard';
 import {
+  BadRequestException,
   Body,
   Controller,
   Delete,
   Get,
+  NotFoundException,
   Param,
   Post,
   Put,
   Req,
+  UseGuards,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { ContestDeletionRequestService } from '../services/contest-deletion.service';
+import { Roles } from '@shared/types/roles';
+import { ApiVersion } from '@shared/types/version';
+import { DeleteResult } from 'mongodb';
+
 import {
   CreateContestDeletionRequestDto,
   UpdateContestDeletionApprovalDto,
 } from '../dtos/contest-deletion-request.dto';
+import { ContestDeletionRequestService } from '../services/contest-deletion.service';
 
 @ApiTags('contest-deletion-requests')
 @ApiBearerAuth()
-@Controller('contest-deletion-requests')
+@Controller({ version: ApiVersion.V2, path: 'contest-deletion-requests' })
+@UseGuards(RoleGuard([Roles.acms, Roles.hoa, Roles.hoe]))
+@UseGuards(JwtAuthGuard)
 export class ContestDeletionRequestController {
   constructor(
     readonly contestDeletionRequestService: ContestDeletionRequestService,
@@ -40,11 +51,15 @@ export class ContestDeletionRequestController {
     @Body() body: UpdateContestDeletionApprovalDto,
     @Req() req: any,
   ) {
-    return this.contestDeletionRequestService.updateApproval(
-      'id',
-      body.approve,
-      req.user.id,
-    );
+    try {
+      return this.contestDeletionRequestService.updateApproval(
+        id,
+        body.approve,
+        req.user.id,
+      );
+    } catch (e) {
+      throw new BadRequestException('Unable to complete request.');
+    }
   }
 
   @Get()
@@ -54,11 +69,23 @@ export class ContestDeletionRequestController {
 
   @Get(':id')
   async getContestDeletionRequest(@Param('id') id: string) {
-    return this.contestDeletionRequestService.findOne(id);
+    const cdr = await this.contestDeletionRequestService.findOne(id);
+    if (!cdr) {
+      throw new NotFoundException('not_found');
+    }
+    return cdr;
   }
 
   @Delete(':id')
   async deleteContestDeletionRequest(@Param('id') id: string) {
-    return this.contestDeletionRequestService.delete(id);
+    let result: DeleteResult;
+    try {
+      result = await this.contestDeletionRequestService.delete(id);
+    } catch (err) {
+      throw new BadRequestException('Unable to complete request.');
+    }
+    if (result.deletedCount === 0) {
+      throw new NotFoundException('not_found');
+    }
   }
 }

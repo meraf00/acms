@@ -1,19 +1,20 @@
+import { JwtAuthGuard } from '@modules/auth/guards/jwt-auth.guard';
+import { RoleGuard } from '@modules/auth/guards/role.guard';
 import { Controller, UseGuards } from '@nestjs/common';
-import { StudentService } from '../services/student.service';
-
 import { ApiTags } from '@nestjs/swagger';
 import { EntityController } from '@shared/controllers/entity.controller';
+import { EntityControllerOptions } from '@shared/types/controller-options';
+import { Roles } from '@shared/types/roles';
+import { ApiVersion } from '@shared/types/version';
+
 import {
   CreateStudentDto,
-  UpdateStudentDto,
   createStudentSchema,
+  UpdateStudentDto,
   updateStudentSchema,
 } from '../dtos/student.dto';
 import { Student } from '../entities/student.entity';
-import { EntityControllerOptions } from '@shared/types/controller-options';
-import { RoleGuard } from '@modules/auth/guards/role.guard';
-import { Roles } from '@shared/types/roles';
-import { JwtAuthGuard } from '@modules/auth/guards/jwt-auth.guard';
+import { StudentService } from '../services/student.service';
 
 const controllerOptions: EntityControllerOptions = {
   createSchema: createStudentSchema,
@@ -23,7 +24,7 @@ const controllerOptions: EntityControllerOptions = {
 };
 
 @ApiTags('students')
-@Controller('students')
+@Controller({ version: ApiVersion.V2, path: 'students' })
 @UseGuards(RoleGuard([Roles.hoa, Roles.hoe, Roles.acms]))
 @UseGuards(JwtAuthGuard)
 export class StudentController extends EntityController<Student>(

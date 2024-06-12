@@ -4,15 +4,18 @@ import {
   Controller,
   Delete,
   Get,
+  NotFoundException,
   Param,
   Post,
   Put,
 } from '@nestjs/common';
-
 import { ApiBearerAuth, ApiBody } from '@nestjs/swagger';
+import { IEntityService } from '@shared/types/service';
+import { DeleteResult } from 'mongodb';
+import { UpdateWriteOpResult } from 'mongoose';
+
 import { ZodValidationPipe } from '../pipes/zod.pipe';
 import { EntityControllerOptions } from '../types/controller-options';
-import { IEntityService } from '@shared/types/service';
 
 export const EntityController = <T>(
   controllerOptions: EntityControllerOptions,
@@ -42,8 +45,12 @@ export const EntityController = <T>(
     }
 
     @Get(':id')
-    findOne(@Param('id') id: string) {
-      return this.entityService.findOne(id);
+    async findOne(@Param('id') id: string) {
+      try {
+        return await this.entityService.findOne(id);
+      } catch (err) {
+        throw new BadRequestException('Unable to complete request.');
+      }
     }
 
     @ApiBody({ type: controllerOptions.updateDto })
@@ -53,21 +60,29 @@ export const EntityController = <T>(
       @Body(new ZodValidationPipe(controllerOptions.updateSchema))
       updateEntityDto,
     ) {
+      let result: UpdateWriteOpResult;
       try {
-        return this.entityService.update(id, updateEntityDto);
+        result = await this.entityService.update(id, updateEntityDto);
       } catch (err) {
         console.error(err);
         throw new BadRequestException('Unable to complete request.');
+      }
+      if (result.modifiedCount === 0) {
+        throw new NotFoundException('not_found');
       }
     }
 
     @Delete(':id')
     async delete(@Param('id') id: string) {
+      let result: DeleteResult;
       try {
-        return await this.entityService.delete(id);
+        result = await this.entityService.delete(id);
       } catch (err) {
         console.error(err);
         throw new BadRequestException('Unable to complete request.');
+      }
+      if (result.deletedCount === 0) {
+        throw new NotFoundException('not_found');
       }
     }
   }
