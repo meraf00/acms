@@ -1,13 +1,14 @@
 import { User } from '@modules/user/entities/user.entity';
 import { Controller, Get, Req, UseGuards } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import { ApiVersion } from '@shared/types/version';
 import { Request } from 'express';
 
 import { GoogleOauthGuard } from '../guards/google-oauth.guard';
 import { AuthService } from '../services/auth.service';
 
 @ApiTags('auth')
-@Controller('auth')
+@Controller({ version: ApiVersion.V2, path: 'auth' })
 export class AuthController {
   constructor(private authService: AuthService) {}
 
