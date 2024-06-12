@@ -51,11 +51,15 @@ export class ContestDeletionRequestController {
     @Body() body: UpdateContestDeletionApprovalDto,
     @Req() req: any,
   ) {
-    return this.contestDeletionRequestService.updateApproval(
-      'id',
-      body.approve,
-      req.user.id,
-    );
+    try {
+      return this.contestDeletionRequestService.updateApproval(
+        id,
+        body.approve,
+        req.user.id,
+      );
+    } catch (e) {
+      throw new BadRequestException('Unable to complete request.');
+    }
   }
 
   @Get()
