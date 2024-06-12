@@ -16,13 +16,13 @@ import {
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Roles } from '@shared/types/roles';
 import { ApiVersion } from '@shared/types/version';
+import { DeleteResult } from 'mongodb';
 
 import {
   CreateContestDeletionRequestDto,
   UpdateContestDeletionApprovalDto,
 } from '../dtos/contest-deletion-request.dto';
 import { ContestDeletionRequestService } from '../services/contest-deletion.service';
-import { DeleteResult } from 'mongodb';
 
 @ApiTags('contest-deletion-requests')
 @ApiBearerAuth()
