@@ -9,6 +9,7 @@ import {
   Req,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { ApiVersion } from '@shared/types/version';
 
 import {
   CreateContestDeletionRequestDto,
@@ -18,7 +19,7 @@ import { ContestDeletionRequestService } from '../services/contest-deletion.serv
 
 @ApiTags('contest-deletion-requests')
 @ApiBearerAuth()
-@Controller('contest-deletion-requests')
+@Controller({ version: ApiVersion.V2, path: 'contest-deletion-requests' })
 export class ContestDeletionRequestController {
   constructor(
     readonly contestDeletionRequestService: ContestDeletionRequestService,

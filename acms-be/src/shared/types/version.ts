@@ -1,3 +1,3 @@
 export const ApiVersion = {
-  V1: '1',
+  V2: '2.0',
 };

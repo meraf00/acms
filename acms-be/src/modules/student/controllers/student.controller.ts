@@ -5,6 +5,7 @@ import { ApiTags } from '@nestjs/swagger';
 import { EntityController } from '@shared/controllers/entity.controller';
 import { EntityControllerOptions } from '@shared/types/controller-options';
 import { Roles } from '@shared/types/roles';
+import { ApiVersion } from '@shared/types/version';
 
 import {
   CreateStudentDto,
@@ -23,7 +24,7 @@ const controllerOptions: EntityControllerOptions = {
 };
 
 @ApiTags('students')
-@Controller('students')
+@Controller({ version: ApiVersion.V2, path: 'students' })
 @UseGuards(RoleGuard([Roles.hoa, Roles.hoe, Roles.acms]))
 @UseGuards(JwtAuthGuard)
 export class StudentController extends EntityController<Student>(

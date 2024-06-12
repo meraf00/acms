@@ -5,6 +5,7 @@ import { ApiTags } from '@nestjs/swagger';
 import { EntityController } from '@shared/controllers/entity.controller';
 import { EntityControllerOptions } from '@shared/types/controller-options';
 import { Roles } from '@shared/types/roles';
+import { ApiVersion } from '@shared/types/version';
 
 import {
   CreateContestDto,
@@ -23,7 +24,7 @@ const controllerOptions: EntityControllerOptions = {
 };
 
 @ApiTags('contests')
-@Controller('contests')
+@Controller({ version: ApiVersion.V2, path: 'contests' })
 @UseGuards(RoleGuard([Roles.acms, Roles.hoa, Roles.hoe]))
 @UseGuards(JwtAuthGuard)
 export class ContestController extends EntityController<Contest>(

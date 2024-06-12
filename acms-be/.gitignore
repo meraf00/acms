@@ -1,5 +1,5 @@
 .env
-oauth-client.json
+oauth-client*.json
 
 # compiled output
 /dist
