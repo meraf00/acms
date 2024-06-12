@@ -45,8 +45,12 @@ export const EntityController = <T>(
     }
 
     @Get(':id')
-    findOne(@Param('id') id: string) {
-      return this.entityService.findOne(id);
+    async findOne(@Param('id') id: string) {
+      try {
+        return await this.entityService.findOne(id);
+      } catch (err) {
+        throw new BadRequestException('Unable to complete request.');
+      }
     }
 
     @ApiBody({ type: controllerOptions.updateDto })
