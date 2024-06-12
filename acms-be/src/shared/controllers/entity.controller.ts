@@ -4,6 +4,7 @@ import {
   Controller,
   Delete,
   Get,
+  NotFoundException,
   Param,
   Post,
   Put,
@@ -64,7 +65,10 @@ export const EntityController = <T>(
     @Delete(':id')
     async delete(@Param('id') id: string) {
       try {
-        return await this.entityService.delete(id);
+        const result = await this.entityService.delete(id);
+        if (result.deletedCount === 0) {
+          throw new NotFoundException('not_found');
+        }
       } catch (err) {
         console.error(err);
         throw new BadRequestException('Unable to complete request.');
