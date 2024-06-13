@@ -1,4 +1,4 @@
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/core/utils';
 import { Button } from '@components/ui/button';
 import { ScrollArea } from '@components/ui/scroll-area';
 import {
@@ -13,7 +13,7 @@ import {
 export function Sidebar({ className, playlists }: any) {
   return (
     <div className={cn('pb-12', className)}>
-      <ScrollArea className="h-screen px-2">
+      <ScrollArea className="h-screen">
         <div className="space-y-4 py-4">
           <div className="px-4 py-2">
             <h2 className="mb-2 px-2 text-lg font-semibold tracking-tight">
@@ -35,7 +35,7 @@ export function Sidebar({ className, playlists }: any) {
                 className="w-full justify-start"
               >
                 <Activity className="mr-2 h-4 w-4" />
-                Ongoing contests
+                Ongoing
               </Button>
 
               <Button
@@ -44,7 +44,7 @@ export function Sidebar({ className, playlists }: any) {
                 className="w-full justify-start"
               >
                 <Timer className="mr-2 h-4 w-4" />
-                Upcoming contests
+                Upcoming
               </Button>
 
               <Button

@@ -1,6 +1,6 @@
 'use client';
 
-import { useAppSelector } from '@/lib/hooks';
+import { useAppSelector } from '@/lib/core/hooks';
 import { redirect } from 'next/navigation';
 import React, { useEffect } from 'react';
 
