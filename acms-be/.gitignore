@@ -2,6 +2,8 @@
 .env.prod
 oauth-client*.json
 
+app.yaml
+
 # compiled output
 /dist
 /node_modules
