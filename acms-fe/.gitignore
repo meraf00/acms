@@ -3,6 +3,9 @@
 acms.production.json
 acms.json
 
+.env
+.env.prod
+
 # dependencies
 /node_modules
 /.pnp
