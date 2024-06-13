@@ -3,7 +3,7 @@ import { Quicksand } from 'next/font/google';
 import './globals.css';
 import Providers from './providers';
 import { ModeToggle } from '@/components/ui/mode-toggle';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/core/utils';
 
 const quicksand = Quicksand({ subsets: ['latin'] });
 

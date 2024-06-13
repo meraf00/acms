@@ -1,8 +1,8 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-import { siteConfig } from '@/config';
-import { cn } from '@/lib/utils';
+import { siteConfig } from '@/lib/core/config';
+import { cn } from '@/lib/core/utils';
 import { buttonVariants } from '@/components/ui/button';
 import { Icons } from '@/components/ui/icons';
 import { BackgroundBeams } from '@/components/ui/background-beams';
@@ -22,7 +22,7 @@ export default function LoginPage() {
           alt="ACMS logo"
         ></Image>
         <Link
-          href={siteConfig.links.google}
+          href={siteConfig.links.google ?? ''}
           className={cn(buttonVariants({ variant: 'outline' }))}
         >
           <Icons.google className="h-4 w-4 mr-5" /> Continue with A2SV email

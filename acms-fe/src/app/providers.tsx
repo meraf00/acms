@@ -1,6 +1,6 @@
 'use client';
 
-import { AppStore, makeStore } from '@/lib/store';
+import { AppStore, makeStore } from '@/lib/core/store';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useEffect, useRef, useState } from 'react';
 import { Provider } from 'react-redux';
