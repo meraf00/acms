@@ -10,7 +10,10 @@ import { User } from '../../user/entities/user.entity';
 
 export type JwtPayload = {
   sub: string;
+  name: string;
   email: string;
+  role: string;
+  picture: string;
 };
 
 @Injectable()

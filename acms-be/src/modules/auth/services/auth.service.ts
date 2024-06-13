@@ -35,6 +35,9 @@ export class AuthService {
 
     return this.generateJwt({
       sub: userExists.email,
+      name: userExists.name,
+      role: userExists.role,
+      picture: userExists.picture,
       email: userExists.email,
     });
   }
@@ -49,6 +52,9 @@ export class AuthService {
       return this.generateJwt({
         sub: newUser.email,
         email: newUser.email,
+        role: newUser.role,
+        name: newUser.name,
+        picture: newUser.picture,
       });
     } catch (e) {
       throw new InternalServerErrorException();
