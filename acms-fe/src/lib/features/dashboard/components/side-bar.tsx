@@ -1,7 +1,7 @@
 'use client';
 
 import { cn } from '@/lib/core/utils';
-import { Button, buttonVariants } from '@components/ui/button';
+import { buttonVariants } from '@components/ui/button';
 import { ScrollArea } from '@components/ui/scroll-area';
 import {
   Database,
