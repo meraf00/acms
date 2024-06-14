@@ -14,7 +14,7 @@ import {
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
-export function Sidebar({ className, playlists }: any) {
+export function Sidebar({ className }: any) {
   const pathname = usePathname();
 
   const activateOn = (path: string) => {
@@ -101,33 +101,8 @@ export function Sidebar({ className, playlists }: any) {
               </Link>
             </div>
           </div>
-
-          {/* 
-        <div className="py-2">
-          <h2 className="relative px-6 text-lg font-semibold tracking-tight">
-            Playlists
-          </h2>
-          <ScrollArea className="h-[300px] px-2">
-            <div className="space-y-1 p-2">
-              {playlists?.map((playlist: any, i: number) => (
-                <Button
-                  key={i}
-                  variant="ghost"
-                  size="sm"
-                  className="w-full justify-start font-normal"
-                >
-                  <Database className="mr-2 h-4 w-4" />
-                  {playlist}
-                </Button>
-              ))}
-            </div>
-          </ScrollArea>
-        </div>
-        */}
         </div>
       </ScrollArea>
     </div>
   );
 }
-
-<Sidebar />;
