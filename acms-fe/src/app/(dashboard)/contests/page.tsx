@@ -2,7 +2,8 @@
 
 import { Skeleton } from '@/components/ui/skeleton';
 import AuthGuard from '@/lib/features/auth/components/auth-guard';
-import { ContestCard } from '@/lib/features/contest/components/contest-card';
+import { ContestsTable } from '@/lib/features/contest/components/contest-table';
+
 import { useGetContests } from '@/lib/features/hooks';
 import React from 'react';
 
@@ -17,17 +18,7 @@ export function ContestsPage() {
         </div>
       )}
       {error && <div>Error: {error.message}</div>}
-      {data && (
-        <ContestCard
-          contest={{
-            id: '12345',
-            name: 'A2SV Contest #2',
-            startingTime: new Date(),
-            endingTime: new Date(),
-            students: [],
-          }}
-        />
-      )}
+      {data && <ContestsTable contests={data} />}
     </div>
   );
 }
