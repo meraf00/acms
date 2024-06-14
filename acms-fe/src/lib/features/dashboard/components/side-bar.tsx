@@ -1,5 +1,7 @@
+'use client';
+
 import { cn } from '@/lib/core/utils';
-import { Button } from '@components/ui/button';
+import { Button, buttonVariants } from '@components/ui/button';
 import { ScrollArea } from '@components/ui/scroll-area';
 import {
   Database,
@@ -9,8 +11,26 @@ import {
   Activity,
   Timer,
 } from 'lucide-react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 export function Sidebar({ className, playlists }: any) {
+  const pathname = usePathname();
+
+  const activateOn = (path: string) => {
+    if (pathname === path) {
+      return cn(
+        buttonVariants({ variant: 'secondary', size: 'sm' }),
+        'w-full justify-start'
+      );
+    } else {
+      return cn(
+        buttonVariants({ variant: 'ghost', size: 'sm' }),
+        'w-full justify-start'
+      );
+    }
+  };
+
   return (
     <div className={cn('pb-12', className)}>
       <ScrollArea className="h-screen">
@@ -20,41 +40,34 @@ export function Sidebar({ className, playlists }: any) {
               Contests
             </h2>
             <div className="space-y-1">
-              <Button
-                variant="secondary"
-                size="sm"
-                className="w-full justify-start"
-              >
+              <Link href="/contests" className={activateOn('/contests')}>
                 <Database className="mr-2 h-4 w-4" />
                 Contests
-              </Button>
+              </Link>
 
-              <Button
-                variant="ghost"
-                size="sm"
-                className="w-full justify-start"
+              <Link
+                href="/contests/ongoing"
+                className={activateOn('/contests/ongoing')}
               >
                 <Activity className="mr-2 h-4 w-4" />
                 Ongoing
-              </Button>
+              </Link>
 
-              <Button
-                variant="ghost"
-                size="sm"
-                className="w-full justify-start"
+              <Link
+                href="/contests/upcoming"
+                className={activateOn('/contests/upcoming')}
               >
                 <Timer className="mr-2 h-4 w-4" />
                 Upcoming
-              </Button>
+              </Link>
 
-              <Button
-                variant="ghost"
-                size="sm"
-                className="w-full justify-start"
+              <Link
+                href="/contests/add"
+                className={activateOn('/contests/add')}
               >
                 <Plus className="mr-2 h-4 w-4" />
                 Add contest
-              </Button>
+              </Link>
             </div>
           </div>
 
@@ -63,22 +76,17 @@ export function Sidebar({ className, playlists }: any) {
               Students
             </h2>
             <div className="space-y-1">
-              <Button
-                variant="ghost"
-                size="sm"
-                className="w-full justify-start"
-              >
+              <Link href="/students" className={activateOn('/students')}>
                 <GraduationCap className="mr-2 h-4 w-4" />
                 Students
-              </Button>
-              <Button
-                variant="ghost"
-                size="sm"
-                className="w-full justify-start"
+              </Link>
+              <Link
+                href="/students/add"
+                className={activateOn('/students/add')}
               >
                 <Plus className="mr-2 h-4 w-4" />
                 Add student
-              </Button>
+              </Link>
             </div>
           </div>
 
@@ -87,14 +95,10 @@ export function Sidebar({ className, playlists }: any) {
               Issue
             </h2>
             <div className="space-y-1">
-              <Button
-                variant="ghost"
-                size="sm"
-                className="w-full justify-start"
-              >
+              <Link href="/issues" className={activateOn('/issues')}>
                 <Bug className="mr-2 h-4 w-4" />
                 Report issue
-              </Button>
+              </Link>
             </div>
           </div>
 
