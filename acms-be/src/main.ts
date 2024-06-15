@@ -3,13 +3,20 @@ import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { TransformInterceptor } from '@shared/interceptors/response-interceptor';
 import { ApiVersion } from '@shared/types/version';
+import cookieParser from 'cookie-parser';
 
 import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  app.enableCors();
+  app.use(cookieParser());
+
+  app.enableCors({
+    origin: [process.env.FRONTEND_URL!],
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  });
 
   app.setGlobalPrefix('api');
 

@@ -6,7 +6,12 @@ import { Model } from 'mongoose';
 import { Contest } from '../entities/contest.entity';
 
 @Injectable()
-export class ContestService extends EntityService<Contest>(['students']) {
+export class ContestService extends EntityService<Contest>({
+  path: 'students',
+  populate: {
+    path: 'profile',
+  },
+}) {
   constructor(
     @InjectModel(Contest.name) private readonly contestModel: Model<Contest>,
   ) {

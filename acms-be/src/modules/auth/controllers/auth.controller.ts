@@ -32,11 +32,12 @@ export class AuthController {
   async googleAuthCallback(@Req() req: Request, @Res() res: Response) {
     const token = await this.authService.signIn(req.user as unknown as User);
 
-    const authUrl = this.configService.get<string>('FRONTEND_AUTH_URL');
+    const frontendUrl = this.configService.get<string>('FRONTEND_URL')!;
 
-    return res.redirect(
-      HttpStatus.PERMANENT_REDIRECT,
-      `${authUrl}/?t=${token}`,
-    );
+    res.cookie('access_token', token, {
+      httpOnly: true,
+    });
+
+    return res.redirect(HttpStatus.PERMANENT_REDIRECT, frontendUrl);
   }
 }
