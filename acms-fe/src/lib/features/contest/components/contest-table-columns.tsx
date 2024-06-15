@@ -10,6 +10,7 @@ import {
 } from '@radix-ui/react-dropdown-menu';
 import { Button } from '@/components/ui/button';
 import { CaretSortIcon, DotsHorizontalIcon } from '@radix-ui/react-icons';
+import Link from 'next/link';
 
 export const columns: ColumnDef<Contest>[] = [
   {
@@ -50,7 +51,9 @@ export const columns: ColumnDef<Contest>[] = [
     cell: ({ row }) => {
       return (
         <div className="capitalize">
-          {row.getValue('name')}
+          <Link href={`/contests/${row.original._id}`}>
+            {row.getValue('name')}
+          </Link>
           <span className="text-sm px-2">{`(${row.original.id})`}</span>
         </div>
       );

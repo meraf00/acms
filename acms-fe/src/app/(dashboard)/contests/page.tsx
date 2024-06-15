@@ -1,5 +1,6 @@
 'use client';
 
+import Loading from '@/components/ui/loading';
 import { Skeleton } from '@/components/ui/skeleton';
 import AuthGuard from '@/lib/features/auth/components/auth-guard';
 import { ContestsTable } from '@/lib/features/contest/components/contest-table';
@@ -13,24 +14,12 @@ export function ContestsPage() {
   return (
     <div>
       {isLoading && (
-        <div className="flex w-full h-full items-center justify-center">
-          <ContestSkeleton />
+        <div className="flex w-full h-screen items-center justify-center">
+          <Loading />
         </div>
       )}
       {error && <div>Error: {error.message}</div>}
       {data && <ContestsTable contests={data} />}
-    </div>
-  );
-}
-
-function ContestSkeleton() {
-  return (
-    <div className="flex items-center space-x-4">
-      <Skeleton className="h-12 w-12 rounded-full" />
-      <div className="space-y-2">
-        <Skeleton className="h-4 w-[250px]" />
-        <Skeleton className="h-4 w-[200px]" />
-      </div>
     </div>
   );
 }
