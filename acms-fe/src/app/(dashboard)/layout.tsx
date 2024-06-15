@@ -29,7 +29,7 @@ function DashboardLayout({
           )}
         </div>
 
-        <main className="px-16 py-6">{children}</main>
+        <main className="px-16 py-6 mt-14">{children}</main>
       </div>
     </div>
   );
