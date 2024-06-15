@@ -29,14 +29,15 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { Contest } from '../types/contest';
-import { columns } from './contest-table-columns';
 
-export interface ContestTableProps {
-  contests: Contest[];
+import { columns } from './contestants-table-columns';
+import { Student } from '../../student/types/student';
+
+export interface ContestantsTableProps {
+  contestants: Student[];
 }
 
-export function ContestsTable({ contests }: ContestTableProps) {
+export function ContestantsTable({ contestants }: ContestantsTableProps) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -47,7 +48,7 @@ export function ContestsTable({ contests }: ContestTableProps) {
   const [rowSelection, setRowSelection] = React.useState({});
 
   const table = useReactTable({
-    data: contests,
+    data: contestants,
     columns,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
@@ -69,7 +70,7 @@ export function ContestsTable({ contests }: ContestTableProps) {
     <div className="w-full">
       <div className="flex items-center py-4">
         <Input
-          placeholder="Filter contests..."
+          placeholder="Filter users..."
           value={(table.getColumn('name')?.getFilterValue() as string) ?? ''}
           onChange={(event) =>
             table.getColumn('name')?.setFilterValue(event.target.value)
