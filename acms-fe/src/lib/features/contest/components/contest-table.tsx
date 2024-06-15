@@ -159,22 +159,24 @@ export function ContestsTable({ contests }: ContestTableProps) {
           {table.getFilteredRowModel().rows.length} row(s) selected.
         </div>
         <div className="space-x-2">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
-          >
-            Previous
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
-          >
-            Next
-          </Button>
+          {table.getCanPreviousPage() && (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => table.previousPage()}
+            >
+              Previous
+            </Button>
+          )}
+          {table.getCanNextPage() && (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => table.nextPage()}
+            >
+              Next
+            </Button>
+          )}
         </div>
       </div>
     </div>

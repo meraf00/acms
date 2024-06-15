@@ -13,31 +13,29 @@ export default function Auth() {
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.auth.user);
 
-  const token = params.get('t');
+  // useEffect(() => {
+  //   if (!token) return;
 
-  useEffect(() => {
-    if (!token) return;
+  //   dispatch(logout());
 
-    dispatch(logout());
+  //   const decoded: any = jwtDecode(token);
 
-    const decoded: any = jwtDecode(token);
+  //   dispatch(
+  //     login({
+  //       token,
+  //       user: {
+  //         email: decoded.email,
+  //         name: decoded.name,
+  //         picture: decoded.picture,
+  //         role: decoded.role,
+  //       },
+  //     })
+  //   );
+  // }, [dispatch, token]);
 
-    dispatch(
-      login({
-        token,
-        user: {
-          email: decoded.email,
-          name: decoded.name,
-          picture: decoded.picture,
-          role: decoded.role,
-        },
-      })
-    );
-  }, [dispatch, token]);
+  // if (!token) return redirect('/auth/login');
 
-  if (!token) return redirect('/auth/login');
-
-  if (user) return redirect('/');
+  // if (user) return redirect('/');
 
   return (
     <div className=" flex flex-col justify-center items-center h-screen w-full relative">

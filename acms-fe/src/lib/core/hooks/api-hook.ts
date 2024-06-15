@@ -1,21 +1,21 @@
-'use client';
-
-import { useEffect, useRef } from 'react';
 import { siteConfig } from '../config';
-import { useAppSelector } from './state-hooks';
 import axios from 'axios';
 
 export const useApi = () => {
-  const token = useAppSelector((state) => state.auth.token);
   const api = axios.create({
     baseURL: siteConfig.api.baseUrl,
   });
 
-  api.defaults.headers['Authorization'] = `Bearer ${token}`;
+  axios.defaults.withCredentials = true;
 
-  useEffect(() => {
-    api.defaults.headers['Authorization'] = `Bearer ${token}`;
-  }, [api.defaults.headers, token]);
+  api.interceptors.response.use(
+    (response) => response,
+    (error) => {
+      if (error.response.status === 401) {
+        window.location.href = '/auth/login';
+      }
+    }
+  );
 
   return api;
 };
