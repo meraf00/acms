@@ -9,6 +9,7 @@ import {
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { ApiTags } from '@nestjs/swagger';
+import { ClientConfig } from '@shared/config';
 import { ApiVersion } from '@shared/types/version';
 import { Request, Response } from 'express';
 
@@ -32,12 +33,13 @@ export class AuthController {
   async googleAuthCallback(@Req() req: Request, @Res() res: Response) {
     const token = await this.authService.signIn(req.user as unknown as User);
 
-    const frontendUrl = this.configService.get<string>('FRONTEND_URL')!;
+    const clientSuccessUrl =
+      this.configService.get<ClientConfig>('client')!.authSuccessUrl;
 
     res.cookie('access_token', token, {
       httpOnly: true,
     });
 
-    return res.redirect(HttpStatus.PERMANENT_REDIRECT, frontendUrl);
+    return res.redirect(HttpStatus.PERMANENT_REDIRECT, clientSuccessUrl);
   }
 }
