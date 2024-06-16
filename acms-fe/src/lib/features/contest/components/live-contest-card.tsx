@@ -44,14 +44,14 @@ export default function LiveContestCard({ contest }: LiveContestCardProps) {
 
       <CardFooter className="flex gap-5">
         <Link
-          href=""
+          href={`https://codeforces.com/gym/${contest.id}`}
           target="_blank"
           className={cn('w-full', buttonVariants({ variant: 'link' }))}
         >
           <ExternalLinkIcon className="mr-2 h-4 w-4" /> Open contest
         </Link>
         <Link
-          href="/monitoring"
+          href={`/monitoring/${contest._id}`}
           className={cn(buttonVariants({ variant: 'default' }), 'w-full')}
         >
           <Monitor className="mr-2 h-4 w-4" /> Start monitoring

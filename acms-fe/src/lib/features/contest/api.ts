@@ -20,3 +20,10 @@ export const getContest = async (
   const { data } = await client.get(`/contests/${id}`);
   return data.data;
 };
+
+export const getActiveContests = async (
+  client: AxiosInstance
+): Promise<Contest[]> => {
+  const { data } = await client.get('/active-contests');
+  return data.data;
+};

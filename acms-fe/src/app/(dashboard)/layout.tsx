@@ -19,7 +19,7 @@ function DashboardLayout({
         <Sidebar className="mr-15" />
       </div>
 
-      <div className="flex absolute right-7 top-7">
+      <div className="flex absolute right-7 top-7 z-50">
         {user && (
           <UserNav
             email={user!.email}
@@ -29,7 +29,7 @@ function DashboardLayout({
         )}
       </div>
 
-      <ScrollArea className="relative w-4/5 h-screen overflow-auto no-">
+      <ScrollArea className="relative w-4/5 h-screen overflow-auto">
         <main className="px-16 py-6 mt-14">{children}</main>
       </ScrollArea>
     </div>

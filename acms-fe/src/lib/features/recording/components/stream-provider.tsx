@@ -1,11 +1,14 @@
 import { ReactNode, createContext, useContext, useState } from 'react';
+import { Contest } from '../../contest/types/contest';
 
 interface StreamContextInterface {
   cameraStream: MediaStream | null;
   screenStream: MediaStream | null;
   isRecording: boolean;
   hasPermission: boolean | null;
-  startRecording: () => void;
+  trackedContest: Contest | null;
+  startRecording: (contest: Contest) => void;
+  stopRecording: () => void;
 }
 
 const StreamContext = createContext<StreamContextInterface>({
@@ -13,7 +16,9 @@ const StreamContext = createContext<StreamContextInterface>({
   screenStream: null,
   isRecording: false,
   hasPermission: null,
+  trackedContest: null,
   startRecording: () => {},
+  stopRecording: () => {},
 });
 
 export const useStreamContext = () => {
@@ -31,8 +36,9 @@ export default function StreamProvider({ children }: { children: ReactNode }) {
   const [cameraStream, setCameraStream] = useState<MediaStream | null>(null);
   const [isRecording, setIsRecording] = useState(false);
   const [hasPermission, setHasPermission] = useState<boolean | null>(null);
+  const [trackedContest, setTrackedContest] = useState<Contest | null>(null);
 
-  const startRecording = async () => {
+  const startRecording = async (contest: Contest) => {
     try {
       let camera = await getCamera();
       setCameraStream((prev) => {
@@ -69,6 +75,27 @@ export default function StreamProvider({ children }: { children: ReactNode }) {
 
     setIsRecording(true);
     setHasPermission(true);
+    setTrackedContest(contest);
+  };
+
+  const stopRecording = () => {
+    setCameraStream((prev) => {
+      if (prev) {
+        prev.getTracks().forEach((track) => {
+          track.stop();
+        });
+      }
+      return null;
+    });
+    setScreenStream((prev) => {
+      if (prev) {
+        prev.getTracks().forEach((track) => {
+          track.stop();
+        });
+      }
+      return null;
+    });
+    setIsRecording(false);
   };
 
   return (
@@ -78,7 +105,9 @@ export default function StreamProvider({ children }: { children: ReactNode }) {
         screenStream,
         isRecording,
         hasPermission,
+        trackedContest,
         startRecording,
+        stopRecording,
       }}
     >
       {children}
