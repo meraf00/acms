@@ -6,7 +6,12 @@ import { Model } from 'mongoose';
 import { Contest } from '../entities/contest.entity';
 
 @Injectable()
-export class ContestService extends EntityService<Contest>(['students']) {
+export class ContestService extends EntityService<Contest>({
+  path: 'students',
+  populate: {
+    path: 'profile',
+  },
+}) {
   constructor(
     @InjectModel(Contest.name) private readonly contestModel: Model<Contest>,
   ) {
@@ -14,11 +19,19 @@ export class ContestService extends EntityService<Contest>(['students']) {
   }
 
   async getActiveContests() {
-    const now = new Date();
+    const now = Date.now();
 
-    return await this.contestModel.find({
-      startTime: { $lte: now },
-      endTime: { $gte: now },
-    });
+    return await this.contestModel
+      .find({
+        startingTime: { $lte: now },
+        endingTime: { $gte: now },
+      })
+      .populate({
+        path: 'students',
+        populate: {
+          path: 'profile',
+        },
+      })
+      .exec();
   }
 }

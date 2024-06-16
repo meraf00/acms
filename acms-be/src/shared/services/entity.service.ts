@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { IEntityService } from '@shared/types/service';
+import { PathDef } from '@shared/types/service-option';
 import { Model } from 'mongoose';
 
-export const EntityService = <T>(populateFields: string[] = []) => {
+export const EntityService = <T>(populateFields: string[] | PathDef = []) => {
   @Injectable()
   class EntityServiceHost implements IEntityService<T> {
     constructor(readonly entityModel: Model<T>) {}
@@ -12,14 +13,24 @@ export const EntityService = <T>(populateFields: string[] = []) => {
     }
 
     async findAll(): Promise<T[]> {
-      return await this.entityModel.find().populate(populateFields).exec();
+      try {
+        return await this.entityModel.find().populate(populateFields).exec();
+      } catch (e) {
+        console.log(e);
+      }
+      return [];
     }
 
     async findOne(id: string): Promise<T | null> {
-      return await this.entityModel
-        .findOne({ _id: id })
-        .populate(populateFields)
-        .exec();
+      try {
+        return await this.entityModel
+          .findOne({ _id: id })
+          .populate(populateFields)
+          .exec();
+      } catch (e) {
+        console.log(e);
+      }
+      return null;
     }
 
     async update(id: string, data: any) {

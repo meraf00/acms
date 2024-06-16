@@ -6,7 +6,7 @@ import { Model } from 'mongoose';
 import { Student } from '../entities/student.entity';
 
 @Injectable()
-export class StudentService extends EntityService<Student>([]) {
+export class StudentService extends EntityService<Student>(['profile']) {
   constructor(
     @InjectModel(Student.name) private readonly studentModel: Model<Student>,
   ) {

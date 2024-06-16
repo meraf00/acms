@@ -28,12 +28,18 @@ export interface OAuthConfig {
   javascript_origins: string[];
 }
 
+export interface ClientConfig {
+  url: string;
+  authSuccessUrl: string;
+}
+
 export interface ACMSConfiguration {
   port: number;
   database: DatabaseConfig;
   jwt: JwtConfig;
   oauth: OAuthConfig;
   imageKit: ImageKitConfig;
+  client: ClientConfig;
 }
 
 const envSchema = z
@@ -58,6 +64,10 @@ const envSchema = z
     IMAGEKIT_URL_PRESIGNED_URL_TTL: z
       .string()
       .transform((val) => parseInt(val, 10)),
+
+    //  Frontend
+    CLIENT_URL: z.string(),
+    AUTH_SUCCESS_URL: z.string(),
   })
   .required();
 
@@ -86,6 +96,11 @@ export default (): ACMSConfiguration => {
       privateKey: parsedEnv.IMAGEKIT_PRIVATE_KEY,
       urlEndpoint: parsedEnv.IMAGEKIT_URL_ENDPOINT,
       presignedExpire: parsedEnv.IMAGEKIT_URL_PRESIGNED_URL_TTL,
+    },
+
+    client: {
+      url: parsedEnv.CLIENT_URL,
+      authSuccessUrl: parsedEnv.AUTH_SUCCESS_URL,
     },
   };
 };
