@@ -1,3 +1,4 @@
+import { nextui } from '@nextui-org/theme';
 import type { Config } from 'tailwindcss';
 
 const defaultTheme = require('tailwindcss/defaultTheme');
@@ -14,6 +15,7 @@ const config = {
     './components/**/*.{ts,tsx}',
     './app/**/*.{ts,tsx}',
     './src/**/*.{ts,tsx}',
+    './node_modules/@nextui-org/theme/dist/components/(date-picker|button|ripple|spinner|calendar|date-input|popover).js',
   ],
   prefix: '',
   theme: {
@@ -81,7 +83,7 @@ const config = {
       },
     },
   },
-  plugins: [require('tailwindcss-animate'), addVariablesForColors],
+  plugins: [require('tailwindcss-animate'), addVariablesForColors, nextui()],
 } satisfies Config;
 
 function addVariablesForColors({ addBase, theme }: any) {
