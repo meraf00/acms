@@ -19,11 +19,19 @@ export class ContestService extends EntityService<Contest>({
   }
 
   async getActiveContests() {
-    const now = new Date();
+    const now = Date.now();
 
-    return await this.contestModel.find({
-      startTime: { $lte: now },
-      endTime: { $gte: now },
-    });
+    return await this.contestModel
+      .find({
+        startingTime: { $lte: now },
+        endingTime: { $gte: now },
+      })
+      .populate({
+        path: 'students',
+        populate: {
+          path: 'profile',
+        },
+      })
+      .exec();
   }
 }
