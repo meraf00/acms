@@ -9,8 +9,8 @@ import { buttonVariants } from '@/components/ui/button';
 import { Icons } from '@/components/ui/icons';
 import { BackgroundBeams } from '@/components/ui/background-beams';
 import { useTheme } from 'next-themes';
-import DarkLogo from '../../../../public/logos/acms-high-resolution-logo-white-transparent.svg';
-import LightLogo from '../../../../public/logos/acms-high-resolution-logo-transparent.svg';
+import DarkLogo from '@public/logos/acms-high-resolution-logo-white-transparent.svg';
+import LightLogo from '@public/logos/acms-high-resolution-logo-transparent.svg';
 
 export default function LoginPage() {
   const theme = useTheme();
