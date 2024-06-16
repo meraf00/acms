@@ -50,9 +50,12 @@ export default function LiveContestCard({ contest }: LiveContestCardProps) {
         >
           <ExternalLinkIcon className="mr-2 h-4 w-4" /> Open contest
         </Link>
-        <Button className="w-full">
+        <Link
+          href="/monitoring"
+          className={cn(buttonVariants({ variant: 'default' }), 'w-full')}
+        >
           <Monitor className="mr-2 h-4 w-4" /> Start monitoring
-        </Button>
+        </Link>
       </CardFooter>
     </Card>
   );

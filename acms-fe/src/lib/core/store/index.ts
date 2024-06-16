@@ -2,10 +2,12 @@
 
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import authReducer from '@features/auth/store/slice';
+import monitoringReducer from '@features/recording/store/slice';
 import { localStorageMiddleware, reHydrateStore } from './middlewares';
 
 const rootReducer = combineReducers({
   auth: authReducer,
+  monitoring: monitoringReducer,
 });
 
 export const makeStore = () =>

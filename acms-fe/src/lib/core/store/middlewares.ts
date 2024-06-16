@@ -18,9 +18,14 @@ export const reHydrateStore = () => {
 export const localStorageMiddleware: Middleware<{}, any> = (storeApi) => {
   return (next) => (action) => {
     const result = next(action);
+
     const state = storeApi.getState();
 
-    localStorage.setItem(stateCacheKey, JSON.stringify(state));
+    const serialized = {
+      auth: state.auth,
+    };
+
+    localStorage.setItem(stateCacheKey, JSON.stringify(serialized));
     return result;
   };
 };

@@ -1,41 +1,19 @@
 'use client';
 
-import { useAppDispatch, useAppSelector } from '@/lib/core/hooks';
-import { login, logout } from '@/lib/features/auth/store/slice';
-import { redirect, useSearchParams } from 'next/navigation';
-import { jwtDecode } from 'jwt-decode';
-import { useEffect } from 'react';
 import { BackgroundBeams } from '@/components/ui/background-beams';
 import Image from 'next/image';
+import { useUser } from '@/lib/features/auth/hooks/useUser';
+import { useEffect } from 'react';
+import { redirect } from 'next/navigation';
 
-export default function Auth() {
-  const params = useSearchParams();
-  const dispatch = useAppDispatch();
-  const user = useAppSelector((state) => state.auth.user);
+export default function AuthSuccess() {
+  const user = useUser();
 
-  // useEffect(() => {
-  //   if (!token) return;
-
-  //   dispatch(logout());
-
-  //   const decoded: any = jwtDecode(token);
-
-  //   dispatch(
-  //     login({
-  //       token,
-  //       user: {
-  //         email: decoded.email,
-  //         name: decoded.name,
-  //         picture: decoded.picture,
-  //         role: decoded.role,
-  //       },
-  //     })
-  //   );
-  // }, [dispatch, token]);
-
-  // if (!token) return redirect('/auth/login');
-
-  // if (user) return redirect('/');
+  useEffect(() => {
+    if (user) {
+      redirect('/');
+    }
+  }, [user]);
 
   return (
     <div className=" flex flex-col justify-center items-center h-screen w-full relative">

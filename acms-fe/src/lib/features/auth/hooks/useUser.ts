@@ -13,10 +13,15 @@ export const useUser = () => {
     if (currentUser) return;
 
     const getMe = async () => {
-      const { data } = await client.get('/auth/me');
-      const user = data.data;
+      const response = await client.get('/users/me');
 
-      dispatch(login({ user }));
+      if (response.status === 200) {
+        const user = response.data.data;
+
+        dispatch(login({ user }));
+      } else {
+        dispatch(login({ user: null }));
+      }
     };
 
     getMe();

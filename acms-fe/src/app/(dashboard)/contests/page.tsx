@@ -1,7 +1,6 @@
 'use client';
 
 import Loading from '@/components/ui/loading';
-import { Skeleton } from '@/components/ui/skeleton';
 import AuthGuard from '@/lib/features/auth/components/auth-guard';
 import { ContestsTable } from '@/lib/features/contest/components/contest-table';
 
