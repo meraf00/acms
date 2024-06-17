@@ -33,6 +33,23 @@ export interface ClientConfig {
   authSuccessUrl: string;
 }
 
+export interface StorageConfig {
+  bucketName: string;
+  region: string;
+  type: 's3' | 'gcs';
+
+  gcs: {
+    projectId: string;
+    keyFilename: string;
+  };
+
+  s3: {
+    accessKeyId: string;
+    secretAccessKey: string;
+    endpoint: string;
+  };
+}
+
 export interface ACMSConfiguration {
   port: number;
   database: DatabaseConfig;
@@ -40,6 +57,7 @@ export interface ACMSConfiguration {
   oauth: OAuthConfig;
   imageKit: ImageKitConfig;
   client: ClientConfig;
+  storage: StorageConfig;
 }
 
 const envSchema = z
@@ -68,8 +86,35 @@ const envSchema = z
     //  Frontend
     CLIENT_URL: z.string(),
     AUTH_SUCCESS_URL: z.string(),
+
+    //   Storage
+    STORAGE_BUCKET_NAME: z.string(),
+    STORAGE_REGION: z.string(),
+    STORAGE_TYPE: z.enum(['s3', 'gcs']),
+
+    STORAGE_GCS_PROJECT_ID: z.string().optional(),
+    STORAGE_GCS_KEY_FILENAME: z.string().optional(),
+
+    STORAGE_S3_ACCESS_KEY_ID: z.string().optional(),
+    STORAGE_S3_SECRET_ACCESS_KEY: z.string().optional(),
+    STORAGE_S3_ENDPOINT: z.string().optional(),
   })
-  .required();
+  .required()
+  .refine((data) => {
+    if (data.STORAGE_TYPE === 'gcs') {
+      return data.STORAGE_GCS_PROJECT_ID && data.STORAGE_GCS_KEY_FILENAME;
+    }
+
+    if (data.STORAGE_TYPE === 's3') {
+      return (
+        data.STORAGE_S3_ACCESS_KEY_ID &&
+        data.STORAGE_S3_SECRET_ACCESS_KEY &&
+        data.STORAGE_S3_ENDPOINT
+      );
+    }
+
+    return false;
+  });
 
 export default (): ACMSConfiguration => {
   const env = process.env;
@@ -101,6 +146,23 @@ export default (): ACMSConfiguration => {
     client: {
       url: parsedEnv.CLIENT_URL,
       authSuccessUrl: parsedEnv.AUTH_SUCCESS_URL,
+    },
+
+    storage: {
+      bucketName: parsedEnv.STORAGE_BUCKET_NAME,
+      region: parsedEnv.STORAGE_REGION,
+      type: parsedEnv.STORAGE_TYPE,
+
+      gcs: {
+        projectId: parsedEnv.STORAGE_GCS_PROJECT_ID,
+        keyFilename: parsedEnv.STORAGE_GCS_KEY_FILENAME,
+      },
+
+      s3: {
+        accessKeyId: parsedEnv.STORAGE_S3_ACCESS_KEY_ID,
+        secretAccessKey: parsedEnv.STORAGE_S3_SECRET_ACCESS_KEY,
+        endpoint: parsedEnv.STORAGE_S3_ENDPOINT,
+      },
     },
   };
 };
