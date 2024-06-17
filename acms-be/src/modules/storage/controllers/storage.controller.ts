@@ -1,11 +1,18 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { JwtAuthGuard } from '@modules/auth/guards/jwt-auth.guard';
+import { Body, Controller, Post, UseGuards } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { ApiBody } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiTags } from '@nestjs/swagger';
 import { StorageConfig } from '@shared/config';
+import { ZodValidationPipe } from '@shared/pipes/zod.pipe';
+import { ApiVersion } from '@shared/types/version';
 
+import { PresignedUrlDto, presignedUrlSchema } from '../dtos/presigned-url.dto';
 import { StorageService } from '../services/storage.service';
 
-@Controller('storage')
+@ApiTags('storage')
+@ApiBearerAuth()
+@Controller({ version: ApiVersion.V2, path: 'storage' })
+@UseGuards(JwtAuthGuard)
 export class StorageController {
   private readonly bucketName: string;
 
@@ -17,43 +24,27 @@ export class StorageController {
       this.configService.get<StorageConfig>('storage')!.bucketName;
   }
 
-  @ApiBody({
-    schema: {
-      type: 'object',
-      properties: {
-        fileName: {
-          type: 'string',
-          description: 'Name of the file',
-        },
-        contentType: {
-          type: 'string',
-          description: 'Content type of the file',
-        },
-      },
-    },
-  })
-  @Post('upload-url')
+  @ApiBody({ type: PresignedUrlDto })
+  @Post('presigned-upload-url')
   async presignedUpload(
-    @Body('fileName') fileName: string,
-    @Body('contentType') contentType: string,
+    @Body(new ZodValidationPipe(presignedUrlSchema)) dto: PresignedUrlDto,
   ) {
     return await this.storageService.generatePresignedUploadUrl({
       bucketName: this.bucketName,
-      originalName: fileName,
-      contentType: contentType,
+      originalName: dto.fileName,
+      contentType: dto.contentType,
     });
   }
 
-  @Post('download-url')
+  @Post('presigned-download-url')
   async getPresignedDownloadUrl(
-    @Body('fileName') fileName: string,
-    @Body('contentType') contentType: string,
+    @Body(new ZodValidationPipe(presignedUrlSchema)) dto: PresignedUrlDto,
   ) {
     return await this.storageService.generatePresignedDownloadUrl({
       bucketName: this.bucketName,
-      objectName: fileName,
-      originalName: fileName,
-      contentType: contentType,
+      objectName: dto.fileName,
+      originalName: dto.fileName,
+      contentType: dto.contentType,
     });
   }
 }

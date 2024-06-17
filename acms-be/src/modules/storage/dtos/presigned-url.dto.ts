@@ -1,14 +1,14 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { z } from 'zod';
 
-export const createUploadPresignedUrlSchema = z
+export const presignedUrlSchema = z
   .object({
     fileName: z.string(),
     contentType: z.string(),
   })
   .required();
 
-export class CreateContestDto {
+export class PresignedUrlDto {
   @ApiProperty({
     type: String,
     example: 'screenshot.jpeg',
