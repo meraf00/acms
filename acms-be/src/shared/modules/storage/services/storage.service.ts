@@ -9,13 +9,22 @@ import { FileInfo, S3 } from '../types';
 export class StorageService {
   constructor(private readonly s3: S3) {}
 
+  normalizeFileName(fileName: string) {
+    const ext = extname(fileName);
+
+    const nameWithoutExtension = fileName.slice(
+      0,
+      Math.min(10, fileName.length - ext.length),
+    );
+
+    return `${nameWithoutExtension}-${Date.now()}-${randomUUID()}${ext}`;
+  }
+
   async upload(
     file: Express.Multer.File,
     bucketName: string,
   ): Promise<FileInfo> {
-    const ext = extname(file.originalname);
-
-    const normalizedFileName = `${randomUUID()}${ext}`;
+    const normalizedFileName = this.normalizeFileName(file.originalname);
 
     await this.s3.putObject(bucketName, normalizedFileName, file.buffer);
 
@@ -30,7 +39,7 @@ export class StorageService {
   async download(fileInfo: FileInfo, response: Response): Promise<any> {
     const result = await this.s3.getObject(
       fileInfo.bucketName,
-      fileInfo.objectName,
+      fileInfo.objectName!,
     );
 
     response.setHeader('Content-Type', fileInfo.contentType);
@@ -45,27 +54,20 @@ export class StorageService {
   async generatePresignedDownloadUrl(fileInfo: FileInfo) {
     return await this.s3.presignedGetObject(
       fileInfo.bucketName,
-      fileInfo.objectName,
+      fileInfo.objectName!,
       fileInfo.contentType,
-      +process.env.PRESIGNED_URL_EXPIRATION!,
+      60480,
     );
   }
 
   async generatePresignedUploadUrl(fileInfo: FileInfo) {
-    const ext = extname(fileInfo.originalName);
-
-    const nameWithoutExtension = fileInfo.originalName.slice(
-      0,
-      Math.min(10, fileInfo.originalName.length - ext.length),
-    );
-
-    const normalizedFileName = `${nameWithoutExtension}-${Date.now()}-${randomUUID()}${ext}`;
+    const normalizedFileName = this.normalizeFileName(fileInfo.originalName);
 
     return await this.s3.presignedPutObject(
       fileInfo.bucketName,
       normalizedFileName,
       fileInfo.contentType,
-      +process.env.PRESIGNED_URL_EXPIRATION!,
+      60480,
     );
   }
 }

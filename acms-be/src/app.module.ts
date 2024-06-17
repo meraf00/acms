@@ -7,6 +7,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import config, { DatabaseConfig } from '@shared/config';
+import { StorageModule } from '@shared/modules/storage/storage.module';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -26,6 +27,7 @@ import { AppService } from './app.service';
     ContestModule,
     StudentModule,
     ImageKitModule,
+    StorageModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -35,7 +35,6 @@ export interface ClientConfig {
 
 export interface StorageConfig {
   bucketName: string;
-  region: string;
   type: 's3' | 'gcs';
 
   gcs: {
@@ -89,28 +88,47 @@ const envSchema = z
 
     //   Storage
     STORAGE_BUCKET_NAME: z.string(),
-    STORAGE_REGION: z.string(),
     STORAGE_TYPE: z.enum(['s3', 'gcs']),
 
-    STORAGE_GCS_PROJECT_ID: z.string().optional(),
-    STORAGE_GCS_KEY_FILENAME: z.string().optional(),
+    STORAGE_GCS_PROJECT_ID: z.string().optional().default(''),
+    STORAGE_GCS_KEY_FILENAME: z.string().optional().default(''),
 
-    STORAGE_S3_ACCESS_KEY_ID: z.string().optional(),
-    STORAGE_S3_SECRET_ACCESS_KEY: z.string().optional(),
-    STORAGE_S3_ENDPOINT: z.string().optional(),
+    STORAGE_S3_ACCESS_KEY_ID: z.string().optional().default(''),
+    STORAGE_S3_SECRET_ACCESS_KEY: z.string().optional().default(''),
+    STORAGE_S3_ENDPOINT: z.string().optional().default(''),
   })
   .required()
-  .refine((data) => {
+  .superRefine((data, ctx) => {
     if (data.STORAGE_TYPE === 'gcs') {
-      return data.STORAGE_GCS_PROJECT_ID && data.STORAGE_GCS_KEY_FILENAME;
+      const valid =
+        data.STORAGE_GCS_PROJECT_ID && data.STORAGE_GCS_KEY_FILENAME;
+
+      if (!valid) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message:
+            'STORAGE_GCS_PROJECT_ID and STORAGE_GCS_KEY_FILENAME are required for `gcs` STORAGE_TYPE!',
+        });
+      }
+
+      return valid;
     }
 
     if (data.STORAGE_TYPE === 's3') {
-      return (
+      const valid =
         data.STORAGE_S3_ACCESS_KEY_ID &&
         data.STORAGE_S3_SECRET_ACCESS_KEY &&
-        data.STORAGE_S3_ENDPOINT
-      );
+        data.STORAGE_S3_ENDPOINT;
+
+      if (!valid) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message:
+            'STORAGE_S3_ACCESS_KEY_ID, STORAGE_S3_SECRET_ACCESS_KEY, and STORAGE_S3_ENDPOINT are required for `s3` STORAGE_TYPE!',
+        });
+      }
+
+      return valid;
     }
 
     return false;
@@ -150,7 +168,6 @@ export default (): ACMSConfiguration => {
 
     storage: {
       bucketName: parsedEnv.STORAGE_BUCKET_NAME,
-      region: parsedEnv.STORAGE_REGION,
       type: parsedEnv.STORAGE_TYPE,
 
       gcs: {
