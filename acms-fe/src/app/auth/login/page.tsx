@@ -16,12 +16,12 @@ export default function LoginPage() {
   const theme = useTheme();
 
   return (
-    <div className="container relative flex flex-col-reverse md:flex-row justify-center h-screen gap-y-16">
-      <div className="w-full -z-10 p-5 flex justify-center md:w-1/2 md:h-full md:flex-col-reverse md:justify-start">
+    <div className="container relative flex flex-col-reverse md:flex-row justify-center h-screen gap-y-16 bg-muted dark:bg-background">
+      <div className="w-full z-10 p-5 flex justify-center md:w-1/2 md:h-full md:flex-col-reverse md:justify-start">
         <BackgroundBeams />
         <div className="text-sm dark:text-gray-400">Powered by A2SV.</div>
       </div>
-      <div className="w-full flex flex-col gap-10 justify-center items-center md:w-1/2">
+      <div className="w-full flex flex-col gap-10 justify-center items-center md:w-1/2 z-30">
         <Image
           className="block dark:hidden"
           src={LightLogo}
