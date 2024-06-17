@@ -47,6 +47,8 @@ export interface StorageConfig {
     secretAccessKey: string;
     endpoint: string;
   };
+
+  presignedUrlTTL?: number;
 }
 
 export interface ACMSConfiguration {
@@ -96,6 +98,8 @@ const envSchema = z
     STORAGE_S3_ACCESS_KEY_ID: z.string().optional().default(''),
     STORAGE_S3_SECRET_ACCESS_KEY: z.string().optional().default(''),
     STORAGE_S3_ENDPOINT: z.string().optional().default(''),
+
+    STORAGE_PRESIGNED_URL_TTL: z.string().transform((val) => parseInt(val, 10)),
   })
   .required()
   .superRefine((data, ctx) => {
@@ -180,6 +184,8 @@ export default (): ACMSConfiguration => {
         secretAccessKey: parsedEnv.STORAGE_S3_SECRET_ACCESS_KEY,
         endpoint: parsedEnv.STORAGE_S3_ENDPOINT,
       },
+
+      presignedUrlTTL: parsedEnv.STORAGE_PRESIGNED_URL_TTL,
     },
   };
 };
