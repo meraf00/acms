@@ -1,4 +1,6 @@
 import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { StorageConfig } from '@shared/config';
 import { randomUUID } from 'crypto';
 import { Response } from 'express';
 import { extname } from 'path';
@@ -8,7 +10,15 @@ import { S3 } from './s3.service';
 
 @Injectable()
 export class StorageService {
-  constructor(private readonly s3: S3) {}
+  private readonly presignedUrlTTL: number;
+
+  constructor(
+    private readonly s3: S3,
+    private readonly configService: ConfigService,
+  ) {
+    this.presignedUrlTTL =
+      this.configService.get<StorageConfig>('storage')!.presignedUrlTTL;
+  }
 
   normalizeFileName(fileName: string) {
     const ext = extname(fileName);
@@ -57,7 +67,7 @@ export class StorageService {
       fileInfo.bucketName,
       fileInfo.objectName!,
       fileInfo.contentType,
-      60480,
+      this.presignedUrlTTL,
     );
   }
 
@@ -68,7 +78,7 @@ export class StorageService {
       fileInfo.bucketName,
       normalizedFileName,
       fileInfo.contentType,
-      60480,
+      this.presignedUrlTTL,
     );
   }
 }

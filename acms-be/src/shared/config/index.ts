@@ -41,7 +41,7 @@ export interface StorageConfig {
     endpoint: string;
   };
 
-  presignedUrlTTL?: number;
+  presignedUrlTTL: number;
 }
 
 export interface ACMSConfiguration {
