@@ -10,13 +10,6 @@ export interface JwtConfig {
   expiration: string;
 }
 
-export interface ImageKitConfig {
-  publicKey: string;
-  privateKey: string;
-  urlEndpoint: string;
-  presignedExpire: number;
-}
-
 export interface OAuthConfig {
   client_id: string;
   project_id: string;
@@ -56,7 +49,6 @@ export interface ACMSConfiguration {
   database: DatabaseConfig;
   jwt: JwtConfig;
   oauth: OAuthConfig;
-  imageKit: ImageKitConfig;
   client: ClientConfig;
   storage: StorageConfig;
 }
@@ -75,14 +67,6 @@ const envSchema = z
 
     //   OAuth
     OAUTH_CLIENT_SECRET_FILEPATH: z.string(),
-
-    //   IMAGE-KIT
-    IMAGEKIT_PUBLIC_KEY: z.string(),
-    IMAGEKIT_PRIVATE_KEY: z.string(),
-    IMAGEKIT_URL_ENDPOINT: z.string(),
-    IMAGEKIT_URL_PRESIGNED_URL_TTL: z
-      .string()
-      .transform((val) => parseInt(val, 10)),
 
     //  Frontend
     CLIENT_URL: z.string(),
@@ -158,12 +142,6 @@ export default (): ACMSConfiguration => {
     },
 
     oauth: oauth.web,
-    imageKit: {
-      publicKey: parsedEnv.IMAGEKIT_PUBLIC_KEY,
-      privateKey: parsedEnv.IMAGEKIT_PRIVATE_KEY,
-      urlEndpoint: parsedEnv.IMAGEKIT_URL_ENDPOINT,
-      presignedExpire: parsedEnv.IMAGEKIT_URL_PRESIGNED_URL_TTL,
-    },
 
     client: {
       url: parsedEnv.CLIENT_URL,

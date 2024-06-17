@@ -13,10 +13,4 @@ env_variables:
 
   OAUTH_CLIENT_SECRET_FILEPATH: 'path/to/oauth-client.json'
 
-  # ImageKit
-  IMAGEKIT_PUBLIC_KEY: 'public_abc'
-  IMAGEKIT_PRIVATE_KEY: 'private_abc'
-  IMAGEKIT_URL_ENDPOINT: 'https://ik.imagekit.io/abcd'
-  IMAGEKIT_URL_PRESIGNED_URL_TTL: 600 # seconds
-
 service: default

@@ -1,6 +1,5 @@
 import { AuthModule } from '@modules/auth/auth.module';
 import { ContestModule } from '@modules/contest/contest.module';
-import { ImageKitModule } from '@modules/image-kit/image-kit.module';
 import { StudentModule } from '@modules/student/student.module';
 import { UserModule } from '@modules/user/user.module';
 import { Module } from '@nestjs/common';
@@ -26,7 +25,6 @@ import { AppService } from './app.service';
     AuthModule,
     ContestModule,
     StudentModule,
-    ImageKitModule,
     StorageModule,
   ],
   controllers: [AppController],
