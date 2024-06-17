@@ -3,7 +3,8 @@ import { randomUUID } from 'crypto';
 import { Response } from 'express';
 import { extname } from 'path';
 
-import { FileInfo, S3 } from '../types';
+import { FileInfo } from '../types';
+import { S3 } from './s3.service';
 
 @Injectable()
 export class StorageService {
@@ -20,7 +21,7 @@ export class StorageService {
     return `${nameWithoutExtension}-${Date.now()}-${randomUUID()}${ext}`;
   }
 
-  async upload(
+  async bufferedUpload(
     file: Express.Multer.File,
     bucketName: string,
   ): Promise<FileInfo> {
@@ -36,7 +37,7 @@ export class StorageService {
     };
   }
 
-  async download(fileInfo: FileInfo, response: Response): Promise<any> {
+  async bufferedDownload(fileInfo: FileInfo, response: Response): Promise<any> {
     const result = await this.s3.getObject(
       fileInfo.bucketName,
       fileInfo.objectName!,

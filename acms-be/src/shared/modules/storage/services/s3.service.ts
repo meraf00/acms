@@ -11,15 +11,12 @@ import { ConfigService } from '@nestjs/config';
 import { StorageConfig } from '@shared/config';
 
 import { FileNotFoundException } from '../exceptions';
-import { S3 } from '../types';
 
 @Injectable()
-export class GoogleCloudStorageS3 extends S3 {
+export class S3 {
   private readonly s3: S3Client;
 
   constructor(private readonly configService: ConfigService) {
-    super();
-
     const storage = this.configService.get<StorageConfig>('storage')!;
 
     this.s3 = new S3Client({
