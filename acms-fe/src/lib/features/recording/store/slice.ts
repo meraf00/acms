@@ -1,31 +1,34 @@
 'use client';
 
 import { createSlice } from '@reduxjs/toolkit';
-
-import { Monitoring, MonitoringState } from './types';
+import {
+  MAX_INTERVAL,
+  MIN_INTERVAL,
+  Monitoring,
+  MonitoringState,
+} from './types';
 
 export const monitoringInitialState: MonitoringState = {
-  hasPermission: null,
-  isRecording: false,
+  capturedCount: 0,
+  captureInterval: Math.floor(
+    Math.random() * (MAX_INTERVAL - MIN_INTERVAL) + MIN_INTERVAL
+  ),
 };
 
 const monitorSlice = createSlice({
   name: Monitoring,
   initialState: monitoringInitialState,
   reducers: {
-    updateStream(state, { payload }: { payload: Partial<MonitoringState> }) {
-      const { isRecording, hasPermission } = payload;
-      state.isRecording = isRecording ?? state.isRecording;
-      state.hasPermission = hasPermission ?? state.hasPermission;
+    incrementCapturedCount(state) {
+      state.capturedCount += 1;
     },
 
-    close(state) {
-      state.hasPermission = null;
-      state.isRecording = false;
+    setCaptureRate(state, action) {
+      state.captureInterval = action.payload;
     },
   },
 });
 
-export const { updateStream, close } = monitorSlice.actions;
+export const { incrementCapturedCount, setCaptureRate } = monitorSlice.actions;
 
 export default monitorSlice.reducer;
