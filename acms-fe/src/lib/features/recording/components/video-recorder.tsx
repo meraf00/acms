@@ -10,29 +10,32 @@ export interface VideoRecorderProps {
   deniedIcon?: React.ReactNode;
 }
 
-export default function VideoRecorder({
-  stream,
-  hasPermission,
-  allowedIcon = <VideoOffIcon className="text-destructive opacity-80" />,
-  deniedIcon = <VideoIcon className="opacity-50" />,
-}: VideoRecorderProps) {
-  const videoRef = useRef<HTMLVideoElement>(null);
+export const VideoRecorder = React.forwardRef(function (
+  props: VideoRecorderProps,
+  ref: any
+) {
+  const {
+    stream,
+    hasPermission,
+    allowedIcon = <VideoOffIcon className="text-destructive opacity-80" />,
+    deniedIcon = <VideoIcon className="opacity-50" />,
+  } = props;
 
   useEffect(() => {
     const startStream = async () => {
       if (stream) {
         try {
-          await videoRef.current?.play();
+          await ref?.current?.play();
         } catch (e) {
           console.error('Error playing video', e);
         }
       }
     };
-    if (videoRef.current) {
-      videoRef.current.srcObject = stream;
+    if (ref?.current) {
+      ref.current.srcObject = stream;
       startStream();
     }
-  }, [stream]);
+  }, [stream, ref]);
 
   return (
     <div className="relative border rounded-lg overflow-clip flex items-center justify-center aspect-video w-full">
@@ -40,9 +43,11 @@ export default function VideoRecorder({
         {hasPermission ? allowedIcon : deniedIcon}
       </div>
 
-      <video ref={videoRef} muted className="w-full">
+      <video ref={ref} muted className="w-full">
         Your browser does not support the video tag.
       </video>
     </div>
   );
-}
+});
+
+VideoRecorder.displayName = 'VideoRecorder';
