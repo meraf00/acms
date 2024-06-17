@@ -1,16 +1,6 @@
 runtime: nodejs22
 
 env_variables:
-  # Frontend
-  FRONTEND_AUTH_URL: 'http://localhost:3000/login'
-
-  # Database
-  MONGODB_URI: 'mongodb:localhost:27017/database_name'
-
-  # JWT
-  JWT_SECRET: 'abc123'
-  JWT_EXPIRATION: '30s'
-
-  OAUTH_CLIENT_SECRET_FILEPATH: 'path/to/oauth-client.json'
+  # ... same as .env.example
 
 service: default
