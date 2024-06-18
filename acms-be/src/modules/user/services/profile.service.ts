@@ -3,13 +3,13 @@ import { InjectModel } from '@nestjs/mongoose';
 import { EntityService } from '@shared/services/entity.service';
 import { Model } from 'mongoose';
 
-import { Student } from '../entities/student.entity';
+import { Profile } from '../entities/profile.entity';
 
 @Injectable()
-export class StudentService extends EntityService<Student>(['profile']) {
+export class ProfileService extends EntityService<Profile>(['profile']) {
   constructor(
-    @InjectModel(Student.name) private readonly studentModel: Model<Student>,
+    @InjectModel(Profile.name) private readonly profileModel: Model<Profile>,
   ) {
-    super(studentModel);
+    super(profileModel);
   }
 }

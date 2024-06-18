@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { z } from 'zod';
 
-export const createStudentSchema = z
+export const createProfileSchema = z
   .object({
     group: z.string(),
     codeforcesHandle: z.string(),
@@ -9,9 +9,9 @@ export const createStudentSchema = z
   })
   .required();
 
-export const updateStudentSchema = createStudentSchema.partial();
+export const updateProfileSchema = createProfileSchema.partial();
 
-export class CreateStudentDto {
+export class CreateProfileDto {
   @ApiProperty()
   group: string;
 
@@ -22,7 +22,7 @@ export class CreateStudentDto {
   profile: string;
 }
 
-export class UpdateStudentDto {
+export class UpdateProfileDto {
   @ApiProperty({ required: false })
   group: string;
 

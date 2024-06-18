@@ -2,7 +2,6 @@ import { AuthModule } from '@modules/auth/auth.module';
 import { ContestModule } from '@modules/contest/contest.module';
 import { MonitoringModule } from '@modules/monitoring/monitoring.module';
 import { StorageModule } from '@modules/storage/storage.module';
-import { StudentModule } from '@modules/student/student.module';
 import { UserModule } from '@modules/user/user.module';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
@@ -27,7 +26,7 @@ import { AppService } from './app.service';
     UserModule,
     AuthModule,
     ContestModule,
-    StudentModule,
+
     StorageModule,
     MonitoringModule,
   ],

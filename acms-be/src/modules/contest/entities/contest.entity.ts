@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument, Types } from 'mongoose';
 
-import { Student } from '../../student/entities/student.entity';
+import { User } from '../../user/entities/user.entity';
 
 export type ContestDocument = HydratedDocument<Contest>;
 
@@ -19,8 +19,8 @@ export class Contest {
   @Prop({ required: true })
   endingTime: Date;
 
-  @Prop({ type: [Types.ObjectId], required: true, ref: Student.name })
-  students: Student[];
+  @Prop({ type: [Types.ObjectId], required: true, ref: User.name })
+  students: User[];
 }
 
 export const ContestSchema = SchemaFactory.createForClass(Contest);
