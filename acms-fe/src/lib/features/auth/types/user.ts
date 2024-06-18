@@ -1,3 +1,4 @@
+import { Profile } from '../../user/types/profile';
 import { Role } from './role';
 
 export interface User {
@@ -8,4 +9,6 @@ export interface User {
   email: string;
 
   role: Role;
+
+  profile: Profile;
 }

@@ -10,12 +10,12 @@ import {
 import { Button } from '@/components/ui/button';
 import { CaretSortIcon, DotsHorizontalIcon } from '@radix-ui/react-icons';
 import Link from 'next/link';
-import { Student } from '../../student/types/student';
+import { User } from '../../auth/types/user';
 
-export const columns: ColumnDef<Student>[] = [
+export const columns: ColumnDef<User>[] = [
   {
     id: 'name',
-    accessorKey: 'profile.name',
+    accessorKey: 'name',
     header: ({ column }) => {
       return (
         <Button
@@ -31,7 +31,7 @@ export const columns: ColumnDef<Student>[] = [
       return (
         <div className="capitalize px-5">
           <Link href={`/students/${row.original._id}`}>
-            {row.original.profile.name}
+            {row.original.name}
           </Link>
         </div>
       );
@@ -40,7 +40,7 @@ export const columns: ColumnDef<Student>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: 'codeforcesHandle',
+    accessorKey: 'profile.codeforcesHandle',
     header: ({ column }) => {
       return (
         <Button
@@ -53,11 +53,13 @@ export const columns: ColumnDef<Student>[] = [
       );
     },
     cell: ({ row }) => {
-      return <div className="px-5">{row.getValue('codeforcesHandle')}</div>;
+      return (
+        <div className="px-5">{row.original.profile.codeforcesHandle}</div>
+      );
     },
   },
   {
-    accessorKey: 'group',
+    accessorKey: 'profile.group',
     header: ({ column }) => (
       <Button
         variant="ghost"
@@ -68,15 +70,15 @@ export const columns: ColumnDef<Student>[] = [
       </Button>
     ),
     cell: ({ row }) => {
-      return <div className="capitalize px-5">{row.getValue('group')}</div>;
+      return (
+        <div className="capitalize px-5">{row.original.profile.group}</div>
+      );
     },
   },
   {
     id: 'actions',
     enableHiding: true,
     cell: ({ row }) => {
-      const contest = row.original;
-
       const contestUrl = `https://codeforces.com/gym/{contest.id}`;
 
       return (

@@ -17,7 +17,7 @@ export default function Monitor() {
   const { data: contest } = useGetContest(contestId as string);
   const cameraRef = useRef<HTMLVideoElement>(null);
   const screenRef = useRef<HTMLVideoElement>(null);
-  const upload = useUpload();
+  const upload = useUpload(contestId as string);
 
   const {
     screenStream,

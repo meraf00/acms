@@ -31,10 +31,10 @@ import {
 } from '@/components/ui/table';
 
 import { columns } from './contestants-table-columns';
-import { Student } from '../../student/types/student';
+import { User } from '../../auth/types/user';
 
 export interface ContestantsTableProps {
-  contestants: Student[];
+  contestants: User[];
 }
 
 export function ContestantsTable({ contestants }: ContestantsTableProps) {
