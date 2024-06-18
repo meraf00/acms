@@ -20,7 +20,7 @@ export class User {
   @Prop({ type: String, required: true, default: [Roles.student] })
   role: string;
 
-  @Prop({ type: Types.ObjectId, required: true, ref: Profile.name })
+  @Prop({ type: Types.ObjectId, ref: Profile.name })
   profile: Profile;
 }
 
