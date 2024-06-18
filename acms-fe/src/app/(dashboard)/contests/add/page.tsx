@@ -8,7 +8,9 @@ export default function AddContest() {
         Add contest
       </h1>
 
-      <ContestForm />
+      <div className="h-screen">
+        <ContestForm />
+      </div>
     </div>
   );
 }

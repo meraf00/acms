@@ -15,7 +15,12 @@ function DashboardLayout({
 
   return (
     <div className="relative flex h-screen overflow-hidden">
-      <div className="sticky h-screen top-0 w-1/5 dark:bg-stone-800 bg-stone-400 bg-opacity-5 dark:bg-opacity-5">
+      <div
+        className="sticky h-screen top-0 w-1/5 
+      dark:border-r dark:border-gray-600/25 border-r 
+      border-gray-600/25 border-dashed 
+      bg-opacity-5 dark:bg-opacity-5"
+      >
         <Sidebar className="mr-15" />
       </div>
 
