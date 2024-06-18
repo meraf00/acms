@@ -87,6 +87,15 @@ export class StorageService {
     );
   }
 
+  async generatePresignedDownloadUrlForFileInfo(fileInfo: FileInfo) {
+    return await this.s3.presignedGetObject(
+      fileInfo.bucketName,
+      fileInfo.objectName!,
+      fileInfo.contentType,
+      this.presignedUrlTTL,
+    );
+  }
+
   async generatePresignedUploadUrl(fileInfo: FileInfo) {
     const normalizedFileName = this.normalizeFileName(fileInfo.originalName);
 

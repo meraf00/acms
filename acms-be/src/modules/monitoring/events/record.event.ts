@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const RecordUploaded = 'monitoring.record.upload';
+export const RecordUploaded = 'monitoring.record.uploaded';
 
 export const recordingUploadedEvent = z
   .object({

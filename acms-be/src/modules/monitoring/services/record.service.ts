@@ -1,4 +1,5 @@
 import { ContestService } from '@modules/contest/services/contest.service';
+import { StorageService } from '@modules/storage/services/storage.service';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
@@ -10,6 +11,7 @@ export class RecordService {
   constructor(
     @InjectModel(Record.name) private readonly recordModel: Model<Record>,
     private readonly contestService: ContestService,
+    private readonly storageService: StorageService,
   ) {}
 
   async add(contest: string, fileId: string, user: string) {
@@ -52,5 +54,19 @@ export class RecordService {
       })
       .populate(['files'])
       .exec();
+  }
+
+  async getRecordImages(contestId: string, userId: string) {
+    const records = await this.filterBy(contestId, userId);
+
+    return await Promise.all(
+      records.flatMap((record) => {
+        return record.files.map((file) => {
+          return this.storageService.generatePresignedDownloadUrlForFileInfo(
+            file,
+          );
+        });
+      }),
+    );
   }
 }
