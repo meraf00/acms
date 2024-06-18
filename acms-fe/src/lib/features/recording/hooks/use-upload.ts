@@ -37,6 +37,7 @@ export const useUpload = (contestId: string) => {
     const { presignedUrl, confirmationToken } = response.data.data;
 
     console.log(`Uploading ${prefix}...`);
+
     const uploadResponse = await retirableReq(async () => {
       const response = await fetch(presignedUrl, {
         method: 'PUT',

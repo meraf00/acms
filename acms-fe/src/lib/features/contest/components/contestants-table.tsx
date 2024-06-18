@@ -34,10 +34,14 @@ import { columns } from './contestants-table-columns';
 import { User } from '../../auth/types/user';
 
 export interface ContestantsTableProps {
+  contestId: string;
   contestants: User[];
 }
 
-export function ContestantsTable({ contestants }: ContestantsTableProps) {
+export function ContestantsTable({
+  contestId,
+  contestants,
+}: ContestantsTableProps) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -49,7 +53,7 @@ export function ContestantsTable({ contestants }: ContestantsTableProps) {
 
   const table = useReactTable({
     data: contestants,
-    columns,
+    columns: columns(contestId),
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),

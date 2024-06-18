@@ -2,6 +2,7 @@
 
 import { Button } from '@/components/ui/button';
 import { toast } from '@/components/ui/use-toast';
+import { useAppSelector } from '@/lib/core/hooks';
 import { useGetContest } from '@/lib/features/hooks';
 import { useStreamContext } from '@/lib/features/recording/components/stream-provider';
 import { VideoRecorder } from '@/lib/features/recording/components/video-recorder';
@@ -18,6 +19,9 @@ export default function Monitor() {
   const cameraRef = useRef<HTMLVideoElement>(null);
   const screenRef = useRef<HTMLVideoElement>(null);
   const upload = useUpload(contestId as string);
+  const captureInterval = useAppSelector(
+    (state) => state.monitoring.captureInterval
+  );
 
   const {
     screenStream,
@@ -53,6 +57,15 @@ export default function Monitor() {
     if (contest) startRecording(contest);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isRecording, contest]);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      upload(cameraRef.current, screenRef.current);
+    }, captureInterval);
+
+    return () => clearTimeout(timer);
+  }, [upload, captureInterval]);
+  console.log(captureInterval);
 
   return (
     <>

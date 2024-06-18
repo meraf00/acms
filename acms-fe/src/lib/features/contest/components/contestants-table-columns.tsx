@@ -1,4 +1,3 @@
-import { Checkbox } from '@radix-ui/react-checkbox';
 import { ColumnDef } from '@tanstack/react-table';
 import {
   DropdownMenu,
@@ -12,7 +11,7 @@ import { CaretSortIcon, DotsHorizontalIcon } from '@radix-ui/react-icons';
 import Link from 'next/link';
 import { User } from '../../auth/types/user';
 
-export const columns: ColumnDef<User>[] = [
+export const columns = (contestId: string): ColumnDef<User>[] => [
   {
     id: 'name',
     accessorKey: 'name',
@@ -30,7 +29,7 @@ export const columns: ColumnDef<User>[] = [
     cell: ({ row }) => {
       return (
         <div className="capitalize px-5">
-          <Link href={`/students/${row.original._id}`}>
+          <Link href={`/contests/${contestId}/students/${row.original._id}`}>
             {row.original.name}
           </Link>
         </div>
@@ -79,7 +78,7 @@ export const columns: ColumnDef<User>[] = [
     id: 'actions',
     enableHiding: true,
     cell: ({ row }) => {
-      const contestUrl = `https://codeforces.com/gym/{contest.id}`;
+      const contestUrl = `https://codeforces.com/gym/${contestId}`;
 
       return (
         <DropdownMenu>

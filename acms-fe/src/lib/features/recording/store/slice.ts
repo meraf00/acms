@@ -12,7 +12,7 @@ export const monitoringInitialState: MonitoringState = {
   capturedScreenCount: 0,
   capturedCameraCount: 0,
   captureInterval: Math.floor(
-    Math.random() * (MAX_INTERVAL - MIN_INTERVAL) + MIN_INTERVAL
+    (Math.random() * (MAX_INTERVAL - MIN_INTERVAL) + MIN_INTERVAL) * 6000
   ),
 };
 
@@ -28,7 +28,7 @@ const monitorSlice = createSlice({
       state.capturedScreenCount += 1;
     },
 
-    setCaptureRate(state, action) {
+    setCaptureRate(state, action: { payload: number }) {
       state.captureInterval = action.payload;
     },
   },
