@@ -1,3 +1,7 @@
+import {
+  Profile,
+  ProfileDocument,
+} from '@modules/user/entities/profile.entity';
 import { User, UserDocument } from '@modules/user/entities/user.entity';
 import {
   BadRequestException,
@@ -16,6 +20,7 @@ export class AuthService {
   constructor(
     private jwtService: JwtService,
     @InjectModel(User.name) private userModel: Model<UserDocument>,
+    @InjectModel(Profile.name) private profileModel: Model<ProfileDocument>,
   ) {}
 
   generateJwt(payload: any) {
@@ -44,9 +49,15 @@ export class AuthService {
 
   async registerUser(user: RegisterUserDto) {
     try {
+      const profile = await this.profileModel.create({
+        group: '',
+        codeforcesHandle: '',
+      });
+
       const newUser = await this.userModel.create({
         ...user,
         role: Roles.student,
+        profile: profile._id,
       });
 
       return this.generateJwt({
