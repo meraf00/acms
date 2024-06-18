@@ -1,18 +1,23 @@
+import { ContestService } from '@modules/contest/services/contest.service';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
-import { AddRecordDto } from '../dtos/record.dto';
 import { Record } from '../entities/record.entity';
 
 @Injectable()
 export class RecordService {
   constructor(
     @InjectModel(Record.name) private readonly recordModel: Model<Record>,
+    private readonly contestService: ContestService,
   ) {}
 
-  async add(recordDto: AddRecordDto) {
-    const { contest, user, fileId } = recordDto;
+  async add(contest: string, fileId: string, user: string) {
+    const isActive = await this.contestService.isActive(contest);
+
+    if (!isActive) {
+      throw new Error('Contest is not active');
+    }
 
     await this.recordModel.updateOne(
       {

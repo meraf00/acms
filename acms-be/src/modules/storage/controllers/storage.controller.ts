@@ -1,12 +1,25 @@
 import { JwtAuthGuard } from '@modules/auth/guards/jwt-auth.guard';
-import { Body, Controller, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  NotFoundException,
+  Param,
+  Post,
+  Req,
+  UseGuards,
+} from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { ApiBearerAuth, ApiBody, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { StorageConfig } from '@shared/config';
 import { ZodValidationPipe } from '@shared/pipes/zod.pipe';
 import { ApiVersion } from '@shared/types/version';
 
-import { PresignedUrlDto, presignedUrlSchema } from '../dtos/presigned-url.dto';
+import {
+  PresignedUrlDto,
+  PresignedUrlResponse,
+  presignedUrlSchema,
+} from '../dtos/presigned-url.dto';
 import { StorageService } from '../services/storage.service';
 
 @ApiTags('storage')
@@ -25,26 +38,50 @@ export class StorageController {
   }
 
   @ApiBody({ type: PresignedUrlDto })
+  @ApiResponse({ type: PresignedUrlResponse })
   @Post('presigned-upload-url')
   async presignedUpload(
-    @Body(new ZodValidationPipe(presignedUrlSchema)) dto: PresignedUrlDto,
+    @Body(new ZodValidationPipe(presignedUrlSchema)) dto: PresignedUrlDto<any>,
+    @Req() request: any,
   ) {
-    return await this.storageService.generatePresignedUploadUrl({
-      bucketName: this.bucketName,
-      originalName: dto.fileName,
+    const { fileName, presignedUrl } =
+      await this.storageService.generatePresignedUploadUrl({
+        bucketName: this.bucketName,
+        originalName: dto.fileName,
+        contentType: dto.contentType,
+      });
+
+    const confirmationToken =
+      await this.storageService.generateConfirmUploadToken(
+        {
+          bucketName: this.bucketName,
+          objectName: fileName,
+          contentType: dto.contentType,
+          originalName: dto.fileName,
+        },
+        dto.action,
+        { user: request.user.id, ...dto.extra },
+      );
+
+    return {
+      presignedUrl,
+      fileName,
       contentType: dto.contentType,
-    });
+      confirmationToken,
+    };
   }
 
-  @Post('presigned-download-url')
-  async getPresignedDownloadUrl(
-    @Body(new ZodValidationPipe(presignedUrlSchema)) dto: PresignedUrlDto,
-  ) {
-    return await this.storageService.generatePresignedDownloadUrl({
-      bucketName: this.bucketName,
-      objectName: dto.fileName,
-      originalName: dto.fileName,
-      contentType: dto.contentType,
-    });
+  @Post('confirm-upload')
+  async confirmUpload(@Body('token') token: string) {
+    return await this.storageService.confirmUpload(token);
+  }
+
+  @Get('presigned-download-url/:id')
+  async getPresignedDownloadUrl(@Param('id') id: string) {
+    try {
+      return await this.storageService.generatePresignedDownloadUrl(id);
+    } catch (error) {
+      throw new NotFoundException();
+    }
   }
 }

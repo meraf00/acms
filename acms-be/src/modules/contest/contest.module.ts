@@ -28,5 +28,6 @@ import { ContestDeletionRequestService } from './services/contest-deletion.servi
     ContestDeletionRequestController,
   ],
   providers: [ContestService, ContestDeletionRequestService],
+  exports: [ContestService],
 })
 export class ContestModule {}

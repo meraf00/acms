@@ -34,4 +34,14 @@ export class ContestService extends EntityService<Contest>({
       })
       .exec();
   }
+
+  async isActive(contestId: string) {
+    const now = Date.now();
+
+    return await this.contestModel.exists({
+      _id: contestId,
+      startingTime: { $lte: now },
+      endingTime: { $gte: now },
+    });
+  }
 }

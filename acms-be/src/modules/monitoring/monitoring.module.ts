@@ -1,3 +1,4 @@
+import { ContestModule } from '@modules/contest/contest.module';
 import { UploadedFileSchema } from '@modules/storage/entities/file.entity';
 import { Module, UploadedFile } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
@@ -15,6 +16,7 @@ import { RecordService } from './services/record.service';
         schema: UploadedFileSchema,
       },
     ]),
+    ContestModule,
   ],
   controllers: [RecordController],
   providers: [RecordService],

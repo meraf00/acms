@@ -6,6 +6,7 @@ import { StudentModule } from '@modules/student/student.module';
 import { UserModule } from '@modules/user/user.module';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { EventEmitterModule } from '@nestjs/event-emitter';
 import { MongooseModule } from '@nestjs/mongoose';
 import config, { DatabaseConfig } from '@shared/config';
 
@@ -15,6 +16,7 @@ import { AppService } from './app.service';
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true, load: [config] }),
+    EventEmitterModule.forRoot(),
 
     MongooseModule.forRootAsync({
       inject: [ConfigService],

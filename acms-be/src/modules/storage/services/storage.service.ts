@@ -1,11 +1,17 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { EventEmitter2 } from '@nestjs/event-emitter';
+import { JwtService } from '@nestjs/jwt';
+import { InjectModel } from '@nestjs/mongoose';
 import { StorageConfig } from '@shared/config';
 import { randomUUID } from 'crypto';
 import { Response } from 'express';
+import { Model } from 'mongoose';
 import { extname } from 'path';
 
+import { UploadedFile } from '../entities/file.entity';
 import { FileInfo } from '../types';
+import { DecodedToken } from '../types/confirmation';
 import { S3 } from './s3.service';
 
 @Injectable()
@@ -15,6 +21,10 @@ export class StorageService {
   constructor(
     private readonly s3: S3,
     private readonly configService: ConfigService,
+    @InjectModel(UploadedFile.name)
+    private readonly uploadedFileModel: Model<UploadedFile>,
+    private readonly jwtService: JwtService,
+    private eventEmitter: EventEmitter2,
   ) {
     this.presignedUrlTTL =
       this.configService.get<StorageConfig>('storage')!.presignedUrlTTL;
@@ -62,7 +72,13 @@ export class StorageService {
     return result;
   }
 
-  async generatePresignedDownloadUrl(fileInfo: FileInfo) {
+  async generatePresignedDownloadUrl(fileId: string) {
+    const fileInfo = await this.uploadedFileModel.findById(fileId);
+
+    if (!fileInfo) {
+      throw new Error('File not found');
+    }
+
     return await this.s3.presignedGetObject(
       fileInfo.bucketName,
       fileInfo.objectName!,
@@ -74,11 +90,45 @@ export class StorageService {
   async generatePresignedUploadUrl(fileInfo: FileInfo) {
     const normalizedFileName = this.normalizeFileName(fileInfo.originalName);
 
-    return await this.s3.presignedPutObject(
-      fileInfo.bucketName,
-      normalizedFileName,
-      fileInfo.contentType,
-      this.presignedUrlTTL,
-    );
+    return {
+      fileName: normalizedFileName,
+      presignedUrl: await this.s3.presignedPutObject(
+        fileInfo.bucketName,
+        normalizedFileName,
+        fileInfo.contentType,
+        this.presignedUrlTTL,
+      ),
+    };
+  }
+
+  async generateConfirmUploadToken(
+    fileInfo: FileInfo,
+    action: string,
+    extra: any = {},
+  ) {
+    return await this.jwtService.signAsync({
+      fileInfo,
+      action,
+      extra,
+    });
+  }
+
+  async confirmUpload(token: string) {
+    const data = await this.jwtService.verifyAsync<DecodedToken>(token);
+
+    if (!data) {
+      throw new Error('Invalid token');
+    }
+
+    const { fileInfo, action, extra } = data;
+
+    const result = await this.uploadedFileModel.create(fileInfo);
+
+    const fileId = result._id;
+
+    this.eventEmitter.emitAsync(action, {
+      fileId,
+      extra,
+    });
   }
 }
