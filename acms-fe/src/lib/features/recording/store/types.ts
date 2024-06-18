@@ -6,7 +6,8 @@ export type Minutes = number;
 
 export interface MonitoringState {
   captureInterval: Minutes;
-  capturedCount: number;
+  capturedScreenCount: number;
+  capturedCameraCount: number;
 }
 
 export const MAX_INTERVAL = 15;

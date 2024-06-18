@@ -9,7 +9,8 @@ import {
 } from './types';
 
 export const monitoringInitialState: MonitoringState = {
-  capturedCount: 0,
+  capturedScreenCount: 0,
+  capturedCameraCount: 0,
   captureInterval: Math.floor(
     Math.random() * (MAX_INTERVAL - MIN_INTERVAL) + MIN_INTERVAL
   ),
@@ -19,8 +20,12 @@ const monitorSlice = createSlice({
   name: Monitoring,
   initialState: monitoringInitialState,
   reducers: {
-    incrementCapturedCount(state) {
-      state.capturedCount += 1;
+    incrementCapturedScreenCount(state) {
+      state.capturedScreenCount += 1;
+    },
+
+    incrementCapturedCameraCount(state) {
+      state.capturedScreenCount += 1;
     },
 
     setCaptureRate(state, action) {
@@ -29,6 +34,10 @@ const monitorSlice = createSlice({
   },
 });
 
-export const { incrementCapturedCount, setCaptureRate } = monitorSlice.actions;
+export const {
+  incrementCapturedScreenCount,
+  incrementCapturedCameraCount,
+  setCaptureRate,
+} = monitorSlice.actions;
 
 export default monitorSlice.reducer;
