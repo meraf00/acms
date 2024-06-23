@@ -54,14 +54,6 @@ export function Sidebar({ className }: any) {
               </Link>
 
               <Link
-                href="/contests/upcoming"
-                className={activateOn('/contests/upcoming')}
-              >
-                <Timer className="mr-2 h-4 w-4" />
-                Upcoming
-              </Link>
-
-              <Link
                 href="/contests/add"
                 className={activateOn('/contests/add')}
               >

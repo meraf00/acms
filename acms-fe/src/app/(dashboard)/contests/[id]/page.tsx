@@ -77,7 +77,14 @@ export default function Contest() {
             </Accordion>
           </div>
         </div>
-        <div>{data && <ContestantsTable contestants={data.students} />}</div>
+        <div>
+          {data && (
+            <ContestantsTable
+              contestId={data._id}
+              contestants={data.students}
+            />
+          )}
+        </div>
       </>
     );
   }

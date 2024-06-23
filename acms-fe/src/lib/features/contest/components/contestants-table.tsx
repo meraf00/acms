@@ -31,13 +31,17 @@ import {
 } from '@/components/ui/table';
 
 import { columns } from './contestants-table-columns';
-import { Student } from '../../student/types/student';
+import { User } from '../../auth/types/user';
 
 export interface ContestantsTableProps {
-  contestants: Student[];
+  contestId: string;
+  contestants: User[];
 }
 
-export function ContestantsTable({ contestants }: ContestantsTableProps) {
+export function ContestantsTable({
+  contestId,
+  contestants,
+}: ContestantsTableProps) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -49,7 +53,7 @@ export function ContestantsTable({ contestants }: ContestantsTableProps) {
 
   const table = useReactTable({
     data: contestants,
-    columns,
+    columns: columns(contestId),
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),
@@ -144,7 +148,7 @@ export function ContestantsTable({ contestants }: ContestantsTableProps) {
             ) : (
               <TableRow>
                 <TableCell
-                  colSpan={columns.length}
+                  colSpan={table.getAllColumns().length}
                   className="h-24 text-center"
                 >
                   No results.

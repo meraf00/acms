@@ -1,8 +1,14 @@
 'use client';
 
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useApi } from '@lib/core/hooks';
-import { getActiveContests, getContest, getContests } from './api';
+import {
+  CreateContestParams,
+  createContest,
+  getActiveContests,
+  getContest,
+  getContests,
+} from './api';
 import { siteConfig } from '@/lib/core/config';
 
 const QUERY_KEY = ['contests'];
@@ -36,4 +42,30 @@ export const useGetActiveContests = () => {
     queryFn: () => getActiveContests(client),
     staleTime,
   });
+};
+
+export const useCreateContest = ({
+  onSuccess,
+  onError,
+}: {
+  onSuccess?: (data: any) => void;
+  onError?: (error: any) => void;
+}) => {
+  const client = useApi();
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation({
+    mutationFn: (newContest: CreateContestParams) => {
+      return createContest(client, newContest);
+    },
+
+    onSuccess: async (data) => {
+      onSuccess && onSuccess(data);
+      await queryClient.invalidateQueries({ queryKey: QUERY_KEY });
+    },
+
+    onError: onError,
+  });
+
+  return mutation;
 };

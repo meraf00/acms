@@ -1,4 +1,5 @@
-import { Controller, Get, VERSION_NEUTRAL } from '@nestjs/common';
+import { Controller, Get, Res, VERSION_NEUTRAL } from '@nestjs/common';
+import { Response } from 'express';
 
 import { AppService } from './app.service';
 
@@ -9,5 +10,10 @@ export class AppController {
   @Get()
   getHello(): string {
     return this.appService.getHello();
+  }
+
+  @Get('/health')
+  getHealth(@Res() res: Response) {
+    return res.send();
   }
 }

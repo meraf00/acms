@@ -1,18 +1,27 @@
 'use client';
 
+import { Button } from '@/components/ui/button';
 import { toast } from '@/components/ui/use-toast';
+import { useAppSelector } from '@/lib/core/hooks';
 import { useGetContest } from '@/lib/features/hooks';
 import { useStreamContext } from '@/lib/features/recording/components/stream-provider';
-import VideoRecorder from '@/lib/features/recording/components/video-recorder';
+import { VideoRecorder } from '@/lib/features/recording/components/video-recorder';
+import { useUpload } from '@/lib/features/recording/hooks/use-upload';
 
 import { ScreenShareIcon, ScreenShareOffIcon } from 'lucide-react';
 import { useParams } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
 export default function Monitor() {
   const params = useParams();
   const { id: contestId } = params;
   const { data: contest } = useGetContest(contestId as string);
+  const cameraRef = useRef<HTMLVideoElement>(null);
+  const screenRef = useRef<HTMLVideoElement>(null);
+  const upload = useUpload(contestId as string);
+  const captureInterval = useAppSelector(
+    (state) => state.monitoring.captureInterval
+  );
 
   const {
     screenStream,
@@ -49,6 +58,15 @@ export default function Monitor() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isRecording, contest]);
 
+  useEffect(() => {
+    const timer = setInterval(() => {
+      upload(cameraRef.current, screenRef.current);
+    }, captureInterval);
+
+    return () => clearTimeout(timer);
+  }, [upload, captureInterval]);
+  console.log(captureInterval);
+
   return (
     <>
       <h1 className="font-bold text-2xl mb-10 flex gap-2 items-start">
@@ -57,10 +75,15 @@ export default function Monitor() {
 
       <div className="flex in gap-5 flex-wrap">
         <div className="lg:w-[48%]">
-          <VideoRecorder stream={cameraStream} hasPermission={hasPermission} />
+          <VideoRecorder
+            ref={cameraRef}
+            stream={cameraStream}
+            hasPermission={hasPermission}
+          />
         </div>
         <div className="lg:w-[48%]">
           <VideoRecorder
+            ref={screenRef}
             stream={screenStream}
             hasPermission={hasPermission}
             allowedIcon={
@@ -71,6 +94,10 @@ export default function Monitor() {
             }
           />
         </div>
+
+        <Button
+          onClick={() => upload(cameraRef.current, screenRef.current)}
+        ></Button>
       </div>
     </>
   );

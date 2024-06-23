@@ -5,6 +5,14 @@ export interface GetContestParams {
   id?: string;
 }
 
+export interface CreateContestParams {
+  id: string;
+  name: string;
+  students: string[];
+  startingTime: string;
+  endingTime: string;
+}
+
 export const getContests = async (
   client: AxiosInstance
 ): Promise<Contest[]> => {
@@ -26,4 +34,13 @@ export const getActiveContests = async (
 ): Promise<Contest[]> => {
   const { data } = await client.get('/active-contests');
   return data.data;
+};
+
+export const createContest = async (
+  client: AxiosInstance,
+  params: CreateContestParams
+) => {
+  const result = await client.post('/contests', params);
+  console.log(result);
+  return result.data.data;
 };
