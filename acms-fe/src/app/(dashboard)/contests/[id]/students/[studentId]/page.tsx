@@ -27,6 +27,8 @@ export default function Student() {
   const [current, setCurrent] = React.useState(0);
   const [count, setCount] = React.useState(0);
 
+  console.log(current, count);
+
   React.useEffect(() => {
     if (!api) {
       return;
@@ -57,10 +59,10 @@ export default function Student() {
           ))} */}
 
         <div className="w-[90%]">
-          <Carousel setApi={setApi} className="w-full bg-background relative">
-            <CarouselContent>
-              {images &&
-                images.map((image, index) => (
+          {count != 0 && images && (
+            <Carousel setApi={setApi} className="w-full bg-background relative">
+              <CarouselContent>
+                {images.map((image, index) => (
                   <CarouselItem key={index} className="w-full">
                     <Card className="overflow-clip">
                       <CardContent className="overflow-clip dark:bg-background">
@@ -74,13 +76,23 @@ export default function Student() {
                     </Card>
                   </CarouselItem>
                 ))}
-            </CarouselContent>
-            <CarouselPrevious />
-            <CarouselNext />
-          </Carousel>
-          <div className="py-2 text-center text-sm text-muted-foreground">
-            Image {current} of {count}
-          </div>
+              </CarouselContent>
+              <CarouselPrevious />
+              <CarouselNext />
+            </Carousel>
+          )}
+          {count == 0 && (
+            <div className="flex w-full items-center justify-center">
+              <h1 className="font-bold text-2xl mb-10 flex gap-2 items-start opacity-50">
+                No images found
+              </h1>
+            </div>
+          )}
+          {count != 0 && (
+            <div className="py-2 text-center text-sm text-muted-foreground">
+              Image {current} of {count}
+            </div>
+          )}
         </div>
       </div>
     </>

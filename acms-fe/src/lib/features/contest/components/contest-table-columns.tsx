@@ -50,7 +50,7 @@ export const columns: ColumnDef<Contest>[] = [
     },
     cell: ({ row }) => {
       return (
-        <div className="capitalize">
+        <div className="capitalize max-w-64 text-ellipsis">
           <Link href={`/contests/${row.original._id}`}>
             {row.getValue('name')}
           </Link>
