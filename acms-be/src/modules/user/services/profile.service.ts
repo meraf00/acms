@@ -6,7 +6,7 @@ import { Model } from 'mongoose';
 import { Profile } from '../entities/profile.entity';
 
 @Injectable()
-export class ProfileService extends EntityService<Profile>(['profile']) {
+export class ProfileService extends EntityService<Profile>() {
   constructor(
     @InjectModel(Profile.name) private readonly profileModel: Model<Profile>,
   ) {

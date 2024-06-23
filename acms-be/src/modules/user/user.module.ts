@@ -6,6 +6,7 @@ import { UserController } from './controllers/user.controller';
 import { Profile, ProfileSchema } from './entities/profile.entity';
 import { User, UserSchema } from './entities/user.entity';
 import { ProfileService } from './services/profile.service';
+import { UserService } from './services/user.service';
 
 @Module({
   imports: [
@@ -15,7 +16,7 @@ import { ProfileService } from './services/profile.service';
     ]),
   ],
   controllers: [UserController, ProfileController],
-  providers: [ProfileService],
-  exports: [MongooseModule],
+  providers: [ProfileService, UserService],
+  exports: [MongooseModule, UserService],
 })
 export class UserModule {}
