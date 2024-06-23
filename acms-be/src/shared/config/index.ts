@@ -44,6 +44,12 @@ export interface StorageConfig {
   presignedUrlTTL: number;
 }
 
+export interface CodeforcesConfig {
+  handle: string;
+  apiKey: string;
+  secret: string;
+}
+
 export interface ACMSConfiguration {
   port: number;
   database: DatabaseConfig;
@@ -51,6 +57,7 @@ export interface ACMSConfiguration {
   oauth: OAuthConfig;
   client: ClientConfig;
   storage: StorageConfig;
+  codeforces: CodeforcesConfig;
 }
 
 const envSchema = z
@@ -84,6 +91,11 @@ const envSchema = z
     STORAGE_S3_ENDPOINT: z.string().optional().default(''),
 
     STORAGE_PRESIGNED_URL_TTL: z.string().transform((val) => parseInt(val, 10)),
+
+    //  Codeforces
+    CODEFORCES_HANDLE: z.string(),
+    CODEFORCES_API_KEY: z.string(),
+    CODEFORCES_API_SECRET: z.string(),
   })
   .required()
   .superRefine((data, ctx) => {
@@ -164,6 +176,12 @@ export default (): ACMSConfiguration => {
       },
 
       presignedUrlTTL: parsedEnv.STORAGE_PRESIGNED_URL_TTL,
+    },
+
+    codeforces: {
+      handle: parsedEnv.CODEFORCES_HANDLE,
+      apiKey: parsedEnv.CODEFORCES_API_KEY,
+      secret: parsedEnv.CODEFORCES_API_SECRET,
     },
   };
 };
