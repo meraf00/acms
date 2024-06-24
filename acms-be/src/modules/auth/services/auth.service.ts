@@ -1,3 +1,4 @@
+import { MailService } from '@modules/mail/services/mail.service';
 import {
   Profile,
   ProfileDocument,
@@ -13,7 +14,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Roles } from '@shared/types/roles';
 import { Model } from 'mongoose';
 
-import { RegisterUserDto } from '../dtos/requests.dto';
+import { UserDto } from '../dtos/requests.dto';
 
 @Injectable()
 export class AuthService {
@@ -21,6 +22,7 @@ export class AuthService {
     private jwtService: JwtService,
     @InjectModel(User.name) private userModel: Model<UserDocument>,
     @InjectModel(Profile.name) private profileModel: Model<ProfileDocument>,
+    private readonly mailService: MailService,
   ) {}
 
   generateJwt(payload: any) {
@@ -47,7 +49,7 @@ export class AuthService {
     });
   }
 
-  async registerUser(user: RegisterUserDto) {
+  async registerUser(user: UserDto) {
     try {
       const profile = await this.profileModel.create({
         group: '',
@@ -80,5 +82,39 @@ export class AuthService {
     }
 
     return user;
+  }
+
+  async sendEmailToken(email: string) {
+    const userExists = await this.findUserByEmail(email);
+
+    if (!userExists) {
+      throw new BadRequestException('auth_user_not_found');
+    }
+
+    const token = this.jwtService.sign(
+      {
+        sub: userExists.email,
+        name: userExists.name,
+        role: userExists.role,
+        picture: userExists.picture,
+        email: userExists.email,
+      },
+      {
+        expiresIn: '5m',
+      },
+    );
+
+    await this.mailService.sendEmailToken(email, {
+      name: userExists.name,
+      loginLink: `${process.env.CLIENT_URL}/auth/otp/${token}`,
+      year: new Date().getFullYear(),
+    });
+  }
+
+  async verifyEmailToken(token: string) {
+    const decoded = this.jwtService.verify(token);
+    if (decoded) {
+      return decoded;
+    }
   }
 }
