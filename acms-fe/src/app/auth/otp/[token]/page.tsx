@@ -7,7 +7,6 @@ import { redirect, useParams } from 'next/navigation';
 import { siteConfig } from '@/lib/core/config';
 
 export default function OTP() {
-  
   const params = useParams();
 
   const token = params['token'] as string;
