@@ -9,7 +9,7 @@ import {
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { ApiTags } from '@nestjs/swagger';
-import { ClientConfig } from '@shared/config';
+import { ClientConfig, JwtConfig } from '@shared/config';
 import { ApiVersion } from '@shared/types/version';
 import { Request, Response } from 'express';
 
@@ -38,6 +38,7 @@ export class AuthController {
 
     res.cookie('access_token', token, {
       httpOnly: true,
+      maxAge: this.configService.get<JwtConfig>('jwt')!.expirationMs,
     });
 
     return res.redirect(HttpStatus.PERMANENT_REDIRECT, clientSuccessUrl);

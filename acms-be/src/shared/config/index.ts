@@ -8,6 +8,7 @@ export interface DatabaseConfig {
 export interface JwtConfig {
   secret: string;
   expiration: string;
+  expirationMs: number;
 }
 
 export interface OAuthConfig {
@@ -71,6 +72,7 @@ const envSchema = z
     //   JWT
     JWT_SECRET: z.string(),
     JWT_EXPIRATION: z.string(),
+    COOKIE_MAX_AGE: z.string().transform((val) => parseInt(val, 10)),
 
     //   OAuth
     OAUTH_CLIENT_SECRET_FILEPATH: z.string(),
@@ -151,6 +153,7 @@ export default (): ACMSConfiguration => {
     jwt: {
       secret: parsedEnv.JWT_SECRET,
       expiration: parsedEnv.JWT_EXPIRATION,
+      expirationMs: parsedEnv.COOKIE_MAX_AGE,
     },
 
     oauth: oauth.web,
