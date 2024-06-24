@@ -45,6 +45,16 @@ export interface StorageConfig {
   presignedUrlTTL: number;
 }
 
+export interface EmailConfig {
+  host: string;
+  port: number;
+  user: string;
+  clientId: string;
+  clientSecret: string;
+  refreshToken: string;
+  accessToken: string;
+}
+
 export interface CodeforcesConfig {
   handle: string;
   apiKey: string;
@@ -58,6 +68,7 @@ export interface ACMSConfiguration {
   oauth: OAuthConfig;
   client: ClientConfig;
   storage: StorageConfig;
+  email: EmailConfig;
   codeforces: CodeforcesConfig;
 }
 
@@ -93,6 +104,15 @@ const envSchema = z
     STORAGE_S3_ENDPOINT: z.string().optional().default(''),
 
     STORAGE_PRESIGNED_URL_TTL: z.string().transform((val) => parseInt(val, 10)),
+
+    //  Email
+    EMAIL_HOST: z.string(),
+    EMAIL_PORT: z.string().transform((val) => parseInt(val, 10)),
+    EMAIL_USER: z.string(),
+    EMAIL_CLIENT_ID: z.string(),
+    EMAIL_CLIENT_SECRET: z.string(),
+    EMAIL_REFRESH_TOKEN: z.string(),
+    EMAIL_ACCESS_TOKEN: z.string(),
 
     //  Codeforces
     CODEFORCES_HANDLE: z.string(),
@@ -179,6 +199,16 @@ export default (): ACMSConfiguration => {
       },
 
       presignedUrlTTL: parsedEnv.STORAGE_PRESIGNED_URL_TTL,
+    },
+
+    email: {
+      host: parsedEnv.EMAIL_HOST,
+      port: parsedEnv.EMAIL_PORT,
+      user: parsedEnv.EMAIL_USER,
+      clientId: parsedEnv.EMAIL_CLIENT_ID,
+      clientSecret: parsedEnv.EMAIL_CLIENT_SECRET,
+      refreshToken: parsedEnv.EMAIL_REFRESH_TOKEN,
+      accessToken: parsedEnv.EMAIL_ACCESS_TOKEN,
     },
 
     codeforces: {
