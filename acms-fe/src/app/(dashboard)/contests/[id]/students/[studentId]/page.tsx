@@ -27,8 +27,6 @@ export default function Student() {
   const [current, setCurrent] = React.useState(0);
   const [count, setCount] = React.useState(0);
 
-  console.log(current, count);
-
   React.useEffect(() => {
     if (!api) {
       return;
@@ -57,10 +55,6 @@ export default function Student() {
             <Loading />
           </div>
         )}
-        {/* {images &&
-          images.map((image, i) => (
-            <Image key={i} src={image} alt={image} width={1280} height={720} />
-          ))} */}
 
         <div className="w-[90%]">
           {images?.length ? (
