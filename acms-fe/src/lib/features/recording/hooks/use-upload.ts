@@ -7,7 +7,11 @@ import { extractImageBlob } from './photo-util';
 import { useApi, useAppDispatch, useAppSelector } from '@/lib/core/hooks';
 import { MonitoringEvent } from '../events/recording.event';
 
-export const useUpload = (contestId: string) => {
+export const useUpload = (
+  contestId: string,
+  contestName: string,
+  userName: string
+) => {
   const client = useApi();
 
   const screenCount = useAppSelector(
@@ -19,9 +23,13 @@ export const useUpload = (contestId: string) => {
   const dispatch = useAppDispatch();
 
   async function uploadBlob(blob: Blob, prefix: string, count: number) {
-    const fileData = new File([blob], `${prefix}-${count}.jpg`, {
-      type: 'image/jpeg',
-    });
+    const fileData = new File(
+      [blob],
+      `${contestName}-${userName}-${prefix}-${count}.jpg`,
+      {
+        type: 'image/jpeg',
+      }
+    );
 
     const response = await client.post('/storage/presigned-upload-url', {
       fileName: fileData.name,
