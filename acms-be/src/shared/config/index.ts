@@ -8,6 +8,7 @@ export interface DatabaseConfig {
 export interface JwtConfig {
   secret: string;
   expiration: string;
+  expirationMs: number;
 }
 
 export interface OAuthConfig {
@@ -44,6 +45,21 @@ export interface StorageConfig {
   presignedUrlTTL: number;
 }
 
+export interface EmailConfig {
+  host: string;
+  port: number;
+  user: string;
+  clientId: string;
+  clientSecret: string;
+  refreshToken: string;
+  accessToken: string;
+}
+
+export interface TelegramConfig {
+  bot_token: string;
+  receiver_chat_id: string;
+}
+
 export interface CodeforcesConfig {
   handle: string;
   apiKey: string;
@@ -57,6 +73,8 @@ export interface ACMSConfiguration {
   oauth: OAuthConfig;
   client: ClientConfig;
   storage: StorageConfig;
+  email: EmailConfig;
+  telegram: TelegramConfig;
   codeforces: CodeforcesConfig;
 }
 
@@ -71,6 +89,7 @@ const envSchema = z
     //   JWT
     JWT_SECRET: z.string(),
     JWT_EXPIRATION: z.string(),
+    COOKIE_MAX_AGE: z.string().transform((val) => parseInt(val, 10)),
 
     //   OAuth
     OAUTH_CLIENT_SECRET_FILEPATH: z.string(),
@@ -91,6 +110,19 @@ const envSchema = z
     STORAGE_S3_ENDPOINT: z.string().optional().default(''),
 
     STORAGE_PRESIGNED_URL_TTL: z.string().transform((val) => parseInt(val, 10)),
+
+    //  Email
+    EMAIL_HOST: z.string(),
+    EMAIL_PORT: z.string().transform((val) => parseInt(val, 10)),
+    EMAIL_USER: z.string(),
+    EMAIL_CLIENT_ID: z.string(),
+    EMAIL_CLIENT_SECRET: z.string(),
+    EMAIL_REFRESH_TOKEN: z.string(),
+    EMAIL_ACCESS_TOKEN: z.string(),
+
+    //  Telegram
+    TELEGRAM_BOT_TOKEN: z.string(),
+    RECEIVER_CHAT_ID: z.string(),
 
     //  Codeforces
     CODEFORCES_HANDLE: z.string(),
@@ -151,6 +183,7 @@ export default (): ACMSConfiguration => {
     jwt: {
       secret: parsedEnv.JWT_SECRET,
       expiration: parsedEnv.JWT_EXPIRATION,
+      expirationMs: parsedEnv.COOKIE_MAX_AGE,
     },
 
     oauth: oauth.web,
@@ -176,6 +209,21 @@ export default (): ACMSConfiguration => {
       },
 
       presignedUrlTTL: parsedEnv.STORAGE_PRESIGNED_URL_TTL,
+    },
+
+    email: {
+      host: parsedEnv.EMAIL_HOST,
+      port: parsedEnv.EMAIL_PORT,
+      user: parsedEnv.EMAIL_USER,
+      clientId: parsedEnv.EMAIL_CLIENT_ID,
+      clientSecret: parsedEnv.EMAIL_CLIENT_SECRET,
+      refreshToken: parsedEnv.EMAIL_REFRESH_TOKEN,
+      accessToken: parsedEnv.EMAIL_ACCESS_TOKEN,
+    },
+
+    telegram: {
+      bot_token: parsedEnv.TELEGRAM_BOT_TOKEN,
+      receiver_chat_id: parsedEnv.RECEIVER_CHAT_ID,
     },
 
     codeforces: {

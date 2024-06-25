@@ -1,18 +1,23 @@
 import { User } from '@modules/user/entities/user.entity';
 import {
+  Body,
   Controller,
   Get,
   HttpStatus,
+  Param,
+  Post,
   Req,
   Res,
+  UnauthorizedException,
   UseGuards,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { ApiTags } from '@nestjs/swagger';
-import { ClientConfig } from '@shared/config';
+import { ApiBody, ApiTags } from '@nestjs/swagger';
+import { ClientConfig, JwtConfig } from '@shared/config';
 import { ApiVersion } from '@shared/types/version';
 import { Request, Response } from 'express';
 
+import { UserDto } from '../dtos/requests.dto';
 import { GoogleOauthGuard } from '../guards/google-oauth.guard';
 import { AuthService } from '../services/auth.service';
 
@@ -38,8 +43,45 @@ export class AuthController {
 
     res.cookie('access_token', token, {
       httpOnly: true,
+      maxAge: this.configService.get<JwtConfig>('jwt')!.expirationMs,
     });
 
     return res.redirect(HttpStatus.PERMANENT_REDIRECT, clientSuccessUrl);
+  }
+
+  @ApiBody({ type: UserDto })
+  @Post('email')
+  async emailAuthRequest(@Body() dto: UserDto) {
+    const email = dto.email as string;
+
+    await this.authService.sendEmailToken(email);
+  }
+
+  @Get('otp/:token')
+  async emailAuth(@Param('token') token: string, @Res() res: Response) {
+    try {
+      const decoded = await this.authService.verifyEmailToken(token);
+      const newToken = await this.authService.signIn(
+        decoded as unknown as User,
+      );
+      const clientSuccessUrl =
+        this.configService.get<ClientConfig>('client')!.authSuccessUrl;
+
+      res.cookie('access_token', newToken, {
+        httpOnly: true,
+        maxAge: this.configService.get<JwtConfig>('jwt')!.expirationMs,
+      });
+
+      return res.redirect(HttpStatus.PERMANENT_REDIRECT, clientSuccessUrl);
+    } catch (e) {
+      console.log(e);
+      throw new UnauthorizedException('auth_invalid_token');
+    }
+  }
+
+  @Post('logout')
+  async logout(@Res() res: Response) {
+    res.clearCookie('access_token');
+    return res.sendStatus(HttpStatus.OK);
   }
 }

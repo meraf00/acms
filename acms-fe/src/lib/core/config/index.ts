@@ -6,5 +6,6 @@ export const siteConfig = {
   },
   links: {
     google: process.env.NEXT_PUBLIC_GOOGLE_AUTH_URL,
+    otp: process.env.NEXT_PUBLIC_OTP_AUTH_URL,
   },
 };

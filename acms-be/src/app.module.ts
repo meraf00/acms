@@ -1,5 +1,7 @@
 import { AuthModule } from '@modules/auth/auth.module';
 import { ContestModule } from '@modules/contest/contest.module';
+import { IssueModule } from '@modules/issues/issue.module';
+import { MailModule } from '@modules/mail/mail.module';
 import { MonitoringModule } from '@modules/monitoring/monitoring.module';
 import { StorageModule } from '@modules/storage/storage.module';
 import { UserModule } from '@modules/user/user.module';
@@ -29,6 +31,8 @@ import { AppService } from './app.service';
 
     StorageModule,
     MonitoringModule,
+    MailModule,
+    IssueModule,
   ],
   controllers: [AppController],
   providers: [AppService],

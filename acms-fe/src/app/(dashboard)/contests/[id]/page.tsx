@@ -26,31 +26,46 @@ export default function Contest() {
     );
 
   if (data) {
-    const startTime = new Date(data.startingTime).toLocaleTimeString('en-US', {
-      weekday: 'short',
-      day: '2-digit',
-      month: 'short',
-      hour12: true,
-      hour: 'numeric',
-      minute: 'numeric',
-      year: 'numeric',
-    });
-    const endTime = new Date(data.endingTime).toLocaleTimeString('en-US', {
-      weekday: 'short',
-      day: '2-digit',
-      month: 'short',
-      hour12: true,
-      hour: 'numeric',
-      minute: 'numeric',
-      year: 'numeric',
+    const startTime = new Date(data.contest.startingTime).toLocaleTimeString(
+      'en-US',
+      {
+        weekday: 'short',
+        day: '2-digit',
+        month: 'short',
+        hour12: true,
+        hour: 'numeric',
+        minute: 'numeric',
+        year: 'numeric',
+      }
+    );
+    const endTime = new Date(data.contest.endingTime).toLocaleTimeString(
+      'en-US',
+      {
+        weekday: 'short',
+        day: '2-digit',
+        month: 'short',
+        hour12: true,
+        hour: 'numeric',
+        minute: 'numeric',
+        year: 'numeric',
+      }
+    );
+
+    const participated = data.record.map((r: any) => r.user);
+    const students = data.contest.students;
+    students.map((user) => {
+      user.participated = participated.includes(user._id);
     });
 
     return (
       <>
         <div className="flex justify-between w-full">
           <h1 className="font-bold text-2xl mb-10 flex gap-2 items-start">
-            {data.name}
-            <Link href={`http://codeforces.com/gym/${data.id}`} target="_blank">
+            {data.contest.name}
+            <Link
+              href={`http://codeforces.com/gym/${data.contest.id}`}
+              target="_blank"
+            >
               <ExternalLink className="h-4 w-4" />
             </Link>
           </h1>
@@ -80,8 +95,8 @@ export default function Contest() {
         <div>
           {data && (
             <ContestantsTable
-              contestId={data._id}
-              contestants={data.students}
+              contestId={data.contest._id}
+              contestants={students}
             />
           )}
         </div>

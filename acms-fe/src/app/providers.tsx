@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Provider } from 'react-redux';
 import { ThemeProvider } from '@components/theme-provider';
 import StreamProvider from '@/lib/features/recording/components/stream-provider';
+import { TooltipProvider } from '@/components/ui/tooltip';
 
 export default function Providers({ children }: { children: React.ReactNode }) {
   const [queryClient] = useState(() => new QueryClient());
@@ -27,7 +28,9 @@ export default function Providers({ children }: { children: React.ReactNode }) {
           enableSystem
           disableTransitionOnChange
         >
-          <StreamProvider>{children}</StreamProvider>
+          <StreamProvider>
+            <TooltipProvider>{children}</TooltipProvider>
+          </StreamProvider>
         </ThemeProvider>
       </Provider>
     </QueryClientProvider>

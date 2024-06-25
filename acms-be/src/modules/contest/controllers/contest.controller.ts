@@ -1,6 +1,13 @@
 import { JwtAuthGuard } from '@modules/auth/guards/jwt-auth.guard';
 import { RoleGuard } from '@modules/auth/guards/role.guard';
-import { Controller, UseGuards } from '@nestjs/common';
+import { RecordService } from '@modules/monitoring/services/record.service';
+import {
+  BadRequestException,
+  Controller,
+  Get,
+  Param,
+  UseGuards,
+} from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { EntityController } from '@shared/controllers/entity.controller';
 import { EntityControllerOptions } from '@shared/types/controller-options';
@@ -30,7 +37,23 @@ const controllerOptions: EntityControllerOptions = {
 export class ContestController extends EntityController<Contest>(
   controllerOptions,
 ) {
-  constructor(private readonly contestService: ContestService) {
+  constructor(
+    private readonly contestService: ContestService,
+    private readonly recordService: RecordService,
+  ) {
     super(contestService);
+  }
+
+  @Get(':id/records')
+  async findWithRecordDetail(@Param('id') id: string) {
+    try {
+      return {
+        contest: await this.entityService.findOne(id),
+        record: await this.recordService.filterBy(id, null),
+      };
+    } catch (err) {
+      console.log(err);
+      throw new BadRequestException('Unable to complete request.');
+    }
   }
 }

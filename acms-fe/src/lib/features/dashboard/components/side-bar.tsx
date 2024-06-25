@@ -13,9 +13,12 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useUser } from '../../auth/hooks/useUser';
+import { Roles } from '../../auth/types/role';
 
 export function Sidebar({ className }: any) {
   const pathname = usePathname();
+  const user = useUser();
 
   const activateOn = (path: string) => {
     if (pathname === path) {
@@ -40,10 +43,12 @@ export function Sidebar({ className }: any) {
               Contests
             </h2>
             <div className="space-y-1">
-              <Link href="/contests" className={activateOn('/contests')}>
-                <Database className="mr-2 h-4 w-4" />
-                Contests
-              </Link>
+              {user?.role !== Roles.student ? (
+                <Link href="/contests" className={activateOn('/contests')}>
+                  <Database className="mr-2 h-4 w-4" />
+                  Contests
+                </Link>
+              ) : null}
 
               <Link
                 href="/contests/ongoing"
@@ -53,34 +58,38 @@ export function Sidebar({ className }: any) {
                 Ongoing
               </Link>
 
-              <Link
-                href="/contests/add"
-                className={activateOn('/contests/add')}
-              >
-                <Plus className="mr-2 h-4 w-4" />
-                Add contest
-              </Link>
+              {user?.role !== Roles.student ? (
+                <Link
+                  href="/contests/add"
+                  className={activateOn('/contests/add')}
+                >
+                  <Plus className="mr-2 h-4 w-4" />
+                  Add contest
+                </Link>
+              ) : null}
             </div>
           </div>
 
-          <div className="px-4 py-2">
-            <h2 className="mb-2 px-2 text-lg font-semibold tracking-tight">
-              Students
-            </h2>
-            <div className="space-y-1">
-              <Link href="/students" className={activateOn('/students')}>
-                <GraduationCap className="mr-2 h-4 w-4" />
+          {user?.role !== Roles.student ? (
+            <div className="px-4 py-2">
+              <h2 className="mb-2 px-2 text-lg font-semibold tracking-tight">
                 Students
-              </Link>
-              <Link
+              </h2>
+              <div className="space-y-1">
+                <Link href="/students" className={activateOn('/students')}>
+                  <GraduationCap className="mr-2 h-4 w-4" />
+                  Students
+                </Link>
+                {/* <Link
                 href="/students/add"
                 className={activateOn('/students/add')}
               >
                 <Plus className="mr-2 h-4 w-4" />
                 Add student
-              </Link>
+              </Link> */}
+              </div>
             </div>
-          </div>
+          ) : null}
 
           <div className="px-4 py-2">
             <h2 className="mb-2 px-2 text-lg font-semibold tracking-tight">

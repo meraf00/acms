@@ -10,6 +10,7 @@ import { Button } from '@/components/ui/button';
 import { CaretSortIcon, DotsHorizontalIcon } from '@radix-ui/react-icons';
 import Link from 'next/link';
 import { User } from '../../auth/types/user';
+import { cn } from '@/lib/core/utils';
 
 export const columns = (contestId: string): ColumnDef<User>[] => [
   {
@@ -71,6 +72,32 @@ export const columns = (contestId: string): ColumnDef<User>[] => [
     cell: ({ row }) => {
       return (
         <div className="capitalize px-5">{row.original.profile.group}</div>
+      );
+    },
+  },
+  {
+    id: 'participation',
+    accessorKey: 'participated',
+    header: ({ column }) => (
+      <Button
+        variant="ghost"
+        onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+      >
+        Participated
+        <CaretSortIcon className="ml-2 h-4 w-4" />
+      </Button>
+    ),
+    cell: ({ row }) => {
+      const participated = (row.original as unknown as any).participated;
+      return (
+        <div
+          className={cn(
+            'capitalize px-5 font-bold',
+            participated ? 'text-green-600' : 'text-destructive'
+          )}
+        >
+          {participated ? 'Yes' : 'No'}
+        </div>
       );
     },
   },

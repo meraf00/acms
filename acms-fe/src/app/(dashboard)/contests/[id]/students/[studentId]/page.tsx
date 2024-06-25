@@ -27,20 +27,22 @@ export default function Student() {
   const [current, setCurrent] = React.useState(0);
   const [count, setCount] = React.useState(0);
 
-  console.log(current, count);
-
   React.useEffect(() => {
     if (!api) {
       return;
     }
 
-    setCount(api.scrollSnapList().length);
-    setCurrent(api.selectedScrollSnap() + 1);
+    setCount(images?.length ?? 0);
+    if (!images || images?.length === 0) {
+      setCurrent(api.selectedScrollSnap());
+    } else {
+      setCurrent(api.selectedScrollSnap());
+    }
 
     api.on('select', () => {
       setCurrent(api.selectedScrollSnap() + 1);
     });
-  }, [api]);
+  }, [api, images]);
 
   return (
     <>
@@ -53,44 +55,42 @@ export default function Student() {
             <Loading />
           </div>
         )}
-        {/* {images &&
-          images.map((image, i) => (
-            <Image key={i} src={image} alt={image} width={1280} height={720} />
-          ))} */}
 
         <div className="w-[90%]">
-          {count != 0 && images && (
-            <Carousel setApi={setApi} className="w-full bg-background relative">
-              <CarouselContent>
-                {images.map((image, index) => (
-                  <CarouselItem key={index} className="w-full">
-                    <Card className="overflow-clip">
-                      <CardContent className="overflow-clip dark:bg-background">
-                        <Image
-                          src={image}
-                          alt={image}
-                          width={1280}
-                          height={720}
-                        />
-                      </CardContent>
-                    </Card>
-                  </CarouselItem>
-                ))}
-              </CarouselContent>
-              <CarouselPrevious />
-              <CarouselNext />
-            </Carousel>
-          )}
-          {count == 0 && (
+          {images?.length ? (
+            <>
+              <Carousel
+                setApi={setApi}
+                className="w-full bg-background relative"
+              >
+                <CarouselContent>
+                  {images.map((image, index) => (
+                    <CarouselItem key={index} className="w-full">
+                      <Card className="overflow-clip">
+                        <CardContent className="overflow-clip dark:bg-background">
+                          <Image
+                            src={image}
+                            alt={image}
+                            width={1280}
+                            height={720}
+                          />
+                        </CardContent>
+                      </Card>
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+                <CarouselPrevious />
+                <CarouselNext />
+              </Carousel>
+              <div className="py-2 text-center text-sm text-muted-foreground">
+                Image {current} of {count}
+              </div>
+            </>
+          ) : (
             <div className="flex w-full items-center justify-center">
               <h1 className="font-bold text-2xl mb-10 flex gap-2 items-start opacity-50">
                 No images found
               </h1>
-            </div>
-          )}
-          {count != 0 && (
-            <div className="py-2 text-center text-sm text-muted-foreground">
-              Image {current} of {count}
             </div>
           )}
         </div>
