@@ -7,7 +7,7 @@ import { ContestsTable } from '@/lib/features/contest/components/contest-table';
 import { useGetContests } from '@/lib/features/hooks';
 import React from 'react';
 
-export function ContestsPage() {
+function ContestsPage() {
   const { data, isLoading, error } = useGetContests();
 
   return (

@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { useParams } from 'next/navigation';
-import { useGetContest } from '@/lib/features/hooks';
+import { useGetContestWithRecord } from '@/lib/features/hooks';
 import Loading from '@/components/ui/loading';
 import { CalendarSearch, ExternalLink, TimerIcon } from 'lucide-react';
 import Link from 'next/link';
@@ -16,7 +16,7 @@ import { ContestantsTable } from '@/lib/features/contest/components/contestants-
 
 export default function Contest() {
   const { id } = useParams();
-  const { data, isLoading, error } = useGetContest(id as string);
+  const { data, isLoading, error } = useGetContestWithRecord(id as string);
 
   if (isLoading)
     return (

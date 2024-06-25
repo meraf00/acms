@@ -24,6 +24,16 @@ export const getContests = async (
 export const getContest = async (
   client: AxiosInstance,
   params: GetContestParams
+): Promise<Contest | null> => {
+  const { id } = params;
+  const result = await client.get(`/contests/${id}`);
+  if (result?.data) return result.data.data;
+  return null;
+};
+
+export const getContestWithRecord = async (
+  client: AxiosInstance,
+  params: GetContestParams
 ): Promise<{ contest: Contest; record: any } | null> => {
   const { id } = params;
   const result = await client.get(`/contests/${id}/records`);
