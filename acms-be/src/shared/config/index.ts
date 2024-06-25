@@ -55,6 +55,11 @@ export interface EmailConfig {
   accessToken: string;
 }
 
+export interface TelegramConfig {
+  bot_token: string;
+  receiver_chat_id: string;
+}
+
 export interface CodeforcesConfig {
   handle: string;
   apiKey: string;
@@ -69,6 +74,7 @@ export interface ACMSConfiguration {
   client: ClientConfig;
   storage: StorageConfig;
   email: EmailConfig;
+  telegram: TelegramConfig;
   codeforces: CodeforcesConfig;
 }
 
@@ -113,6 +119,10 @@ const envSchema = z
     EMAIL_CLIENT_SECRET: z.string(),
     EMAIL_REFRESH_TOKEN: z.string(),
     EMAIL_ACCESS_TOKEN: z.string(),
+
+    //  Telegram
+    TELEGRAM_BOT_TOKEN: z.string(),
+    RECEIVER_CHAT_ID: z.string(),
 
     //  Codeforces
     CODEFORCES_HANDLE: z.string(),
@@ -209,6 +219,11 @@ export default (): ACMSConfiguration => {
       clientSecret: parsedEnv.EMAIL_CLIENT_SECRET,
       refreshToken: parsedEnv.EMAIL_REFRESH_TOKEN,
       accessToken: parsedEnv.EMAIL_ACCESS_TOKEN,
+    },
+
+    telegram: {
+      bot_token: parsedEnv.TELEGRAM_BOT_TOKEN,
+      receiver_chat_id: parsedEnv.RECEIVER_CHAT_ID,
     },
 
     codeforces: {
