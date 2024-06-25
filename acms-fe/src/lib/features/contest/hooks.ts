@@ -7,6 +7,7 @@ import {
   createContest,
   getActiveContests,
   getContest,
+  getContestWithRecord,
   getContests,
 } from './api';
 import { siteConfig } from '@/lib/core/config';
@@ -30,6 +31,15 @@ export const useGetContest = (id: string) => {
   return useQuery({
     queryKey: [...QUERY_KEY, id],
     queryFn: () => getContest(client, { id }),
+    staleTime,
+  });
+};
+export const useGetContestWithRecord = (id: string) => {
+  const client = useApi();
+
+  return useQuery({
+    queryKey: [...QUERY_KEY, id],
+    queryFn: () => getContestWithRecord(client, { id }),
     staleTime,
   });
 };
