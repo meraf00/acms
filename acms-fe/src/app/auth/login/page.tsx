@@ -23,7 +23,16 @@ export default function LoginPage() {
     <div className="container relative flex flex-col-reverse md:flex-row justify-center h-screen gap-y-16 bg-muted dark:bg-background dark:saturate-200">
       <div className="w-full z-10 p-5 flex justify-center md:w-1/2 md:h-full md:flex-col-reverse md:justify-start">
         <BackgroundBeams />
-        <div className="text-sm dark:text-gray-400">Built at A2SV.</div>
+        <div className="text-sm dark:text-gray-400 z-30">
+          Built at{' '}
+          <Link
+            href="https://a2sv.org/"
+            className="font-semibold hover:text-primary dark:hover:text-foreground transition-colors duration-300"
+          >
+            A2SV
+          </Link>
+          .
+        </div>
       </div>
       <div className="w-full flex flex-col gap-10 justify-center items-center md:w-1/2 z-30">
         <Image

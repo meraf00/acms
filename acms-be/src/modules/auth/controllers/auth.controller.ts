@@ -78,4 +78,10 @@ export class AuthController {
       throw new UnauthorizedException('auth_invalid_token');
     }
   }
+
+  @Post('logout')
+  async logout(@Res() res: Response) {
+    res.clearCookie('access_token');
+    return res.sendStatus(HttpStatus.OK);
+  }
 }

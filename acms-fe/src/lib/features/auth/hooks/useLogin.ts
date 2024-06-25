@@ -1,6 +1,7 @@
 import { useApi } from '@/lib/core/hooks';
 import { useMutation } from '@tanstack/react-query';
 import { SendLoginEmailParams, sendLoginLink } from '../api';
+import { redirect } from 'next/navigation';
 
 export const useLogin = ({
   onSuccess,
@@ -24,4 +25,17 @@ export const useLogin = ({
   });
 
   return mutation;
+};
+
+export const useLogout = () => {
+  const client = useApi();
+
+  return useMutation({
+    mutationFn: () => {
+      return client.post('/auth/logout');
+    },
+    onSuccess: () => {
+      redirect('/auth/login');
+    },
+  });
 };
