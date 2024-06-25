@@ -14,6 +14,11 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { ExternalLinkIcon, Monitor } from 'lucide-react';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@radix-ui/react-tooltip';
 
 export interface LiveContestCardProps {
   contest: Contest;
@@ -36,27 +41,36 @@ export default function LiveContestCard({ contest }: LiveContestCardProps) {
   }
 
   return (
-    <Card className={cn('w-[380px]', 'bg-background')}>
-      <CardHeader>
-        <CardTitle>{contest.name}</CardTitle>
-        <CardDescription>{timeRef}</CardDescription>
-      </CardHeader>
+    <Tooltip>
+      <TooltipTrigger>
+        <Card className={cn('w-[380px]', 'bg-background')}>
+          <CardHeader>
+            <CardTitle className="text-ellipsis w-full text-nowrap overflow-hidden">
+              {contest.name}
+            </CardTitle>
+            <CardDescription>{timeRef}</CardDescription>
+          </CardHeader>
 
-      <CardFooter className="flex gap-5">
-        <Link
-          href={`https://codeforces.com/gym/${contest.id}`}
-          target="_blank"
-          className={cn('w-full', buttonVariants({ variant: 'link' }))}
-        >
-          <ExternalLinkIcon className="mr-2 h-4 w-4" /> Open contest
-        </Link>
-        <Link
-          href={`/monitoring/${contest._id}`}
-          className={cn(buttonVariants({ variant: 'default' }), 'w-full')}
-        >
-          <Monitor className="mr-2 h-4 w-4" /> Start monitoring
-        </Link>
-      </CardFooter>
-    </Card>
+          <CardFooter className="flex gap-5">
+            <Link
+              href={`https://codeforces.com/gym/${contest.id}`}
+              target="_blank"
+              className={cn('w-full', buttonVariants({ variant: 'link' }))}
+            >
+              <ExternalLinkIcon className="mr-2 h-4 w-4" /> Open contest
+            </Link>
+            <Link
+              href={`/monitoring/${contest._id}`}
+              className={cn(buttonVariants({ variant: 'default' }), 'w-full')}
+            >
+              <Monitor className="mr-2 h-4 w-4" /> Start monitoring
+            </Link>
+          </CardFooter>
+        </Card>
+      </TooltipTrigger>
+      <TooltipContent className="text-sm bg-background text-muted-foreground ">
+        {contest.name}
+      </TooltipContent>
+    </Tooltip>
   );
 }
