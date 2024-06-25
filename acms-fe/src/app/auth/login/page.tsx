@@ -42,7 +42,7 @@ export default function LoginPage() {
         />
 
         <div className="flex flex-col gap-5 lg:w-[18rem]">
-          {page ? (
+          {!page ? (
             <Link
               href={siteConfig.links.google ?? ''}
               className={cn(buttonVariants({ variant: 'outline' }))}
