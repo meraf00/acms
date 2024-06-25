@@ -4,6 +4,7 @@ import { cookies } from 'next/headers';
 import Success from '@/components/success';
 import { siteConfig } from '@/lib/core/config';
 import { redirect } from 'next/navigation';
+import { Suspense } from 'react';
 
 async function setAccessTokenCookie(authToken: string) {
   'use server';
@@ -22,5 +23,9 @@ async function setAccessTokenCookie(authToken: string) {
 }
 
 export default async function AuthSuccess() {
-  return <Success setAccessTokenCookie={setAccessTokenCookie} />;
+  return (
+    <Suspense>
+      <Success setAccessTokenCookie={setAccessTokenCookie} />
+    </Suspense>
+  );
 }
