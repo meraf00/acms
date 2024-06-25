@@ -1,31 +1,26 @@
-'use client';
+'use server';
 
-import { BackgroundBeams } from '@/components/ui/background-beams';
-import Image from 'next/image';
-import { useUser } from '@/lib/features/auth/hooks/useUser';
-import { useEffect } from 'react';
+import { cookies } from 'next/headers';
+import Success from '@/components/success';
+import { siteConfig } from '@/lib/core/config';
 import { redirect } from 'next/navigation';
 
-export default function AuthSuccess() {
-  const user = useUser();
+async function setAccessTokenCookie(authToken: string) {
+  'use server';
 
-  useEffect(() => {
-    if (user) {
-      redirect('/');
-    }
-  }, [user]);
+  cookies().set({
+    name: 'access_token',
+    value: authToken,
+    httpOnly: true,
+    secure: true,
+    sameSite: 'none',
+    maxAge: siteConfig.api.cookieMaxAge,
+    path: '/',
+  });
 
-  return (
-    <div className=" flex flex-col justify-center items-center h-screen w-full relative">
-      <BackgroundBeams />
-      <Image
-        className="animate-pulse"
-        src="/logos/acms-high-resolution-logo-white-transparent.svg"
-        width={200}
-        height={200}
-        alt="ACMS logo"
-      />
-      <span className="animate-pulse">Logging in</span>
-    </div>
-  );
+  redirect('/');
+}
+
+export default async function AuthSuccess() {
+  return <Success setAccessTokenCookie={setAccessTokenCookie} />;
 }

@@ -71,7 +71,7 @@ export default function Monitor() {
 
     return () => clearTimeout(timer);
   }, [upload, captureInterval]);
-  console.log(captureInterval);
+  // console.log(captureInterval);
 
   return (
     <>
