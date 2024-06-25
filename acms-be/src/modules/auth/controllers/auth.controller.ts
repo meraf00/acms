@@ -13,7 +13,7 @@ import {
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { ApiBody, ApiTags } from '@nestjs/swagger';
-import { ClientConfig, JwtConfig } from '@shared/config';
+import { ClientConfig } from '@shared/config';
 import { ApiVersion } from '@shared/types/version';
 import { Request, Response } from 'express';
 
@@ -39,12 +39,16 @@ export class AuthController {
     const token = await this.authService.signIn(req.user as unknown as User);
 
     const clientSuccessUrl =
-      this.configService.get<ClientConfig>('client')!.authSuccessUrl;
+      this.configService.get<ClientConfig>('client')!.authSuccessUrl +
+      '?t=' +
+      token;
 
-    res.cookie('access_token', token, {
-      httpOnly: true,
-      maxAge: this.configService.get<JwtConfig>('jwt')!.expirationMs,
-    });
+    // res.cookie('access_token', token, {
+    //   httpOnly: true,
+    //   // secure: true,
+    //   sameSite: 'lax',
+    //   maxAge: this.configService.get<JwtConfig>('jwt')!.expirationMs,
+    // });
 
     return res.redirect(HttpStatus.PERMANENT_REDIRECT, clientSuccessUrl);
   }
@@ -65,12 +69,14 @@ export class AuthController {
         decoded as unknown as User,
       );
       const clientSuccessUrl =
-        this.configService.get<ClientConfig>('client')!.authSuccessUrl;
+        this.configService.get<ClientConfig>('client')!.authSuccessUrl +
+        '?t=' +
+        newToken;
 
-      res.cookie('access_token', newToken, {
-        httpOnly: true,
-        maxAge: this.configService.get<JwtConfig>('jwt')!.expirationMs,
-      });
+      // res.cookie('access_token', newToken, {
+      //   httpOnly: true,
+      //   maxAge: this.configService.get<JwtConfig>('jwt')!.expirationMs,
+      // });
 
       return res.redirect(HttpStatus.PERMANENT_REDIRECT, clientSuccessUrl);
     } catch (e) {

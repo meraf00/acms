@@ -44,7 +44,7 @@ export const useUpload = (
 
     const { presignedUrl, confirmationToken } = response.data.data;
 
-    console.log(`Uploading ${prefix}...`);
+    // console.log(`Uploading ${prefix}...`);
 
     const uploadResponse = await retirableReq(async () => {
       const response = await fetch(presignedUrl, {
@@ -62,7 +62,7 @@ export const useUpload = (
 
     if (r.status !== 201) return;
 
-    console.log('Upload successful!');
+    // console.log('Upload successful!');
     return true;
   }
 
