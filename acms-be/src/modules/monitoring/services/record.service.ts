@@ -46,7 +46,24 @@ export class RecordService {
     );
   }
 
-  async filterBy(contestId: string, userId: string) {
+  async filterBy(contestId: string | null, userId: string | null) {
+    if (!contestId && !userId) {
+      throw new Error('Invalid contest or user id');
+    } else if (!contestId) {
+      return await this.recordModel
+        .find({
+          user: userId,
+        })
+        .populate(['files'])
+        .exec();
+    } else if (!userId) {
+      return await this.recordModel
+        .find({
+          contest: contestId,
+        })
+        .populate(['files'])
+        .exec();
+    }
     return await this.recordModel
       .find({
         contest: contestId,
