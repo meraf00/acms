@@ -16,31 +16,34 @@ export interface CreateContestParams {
 export const getContests = async (
   client: AxiosInstance
 ): Promise<Contest[]> => {
-  const { data } = await client.get('/contests');
-  return data.data;
+  const result = await client.get('/contests');
+  if (result?.data) return result.data.data;
+  return [];
 };
 
 export const getContest = async (
   client: AxiosInstance,
   params: GetContestParams
-): Promise<Contest> => {
+): Promise<Contest | null> => {
   const { id } = params;
-  const { data } = await client.get(`/contests/${id}`);
-  return data.data;
+  const result = await client.get(`/contests/${id}`);
+  if (result?.data) return result.data.data;
+  return null;
 };
 
 export const getActiveContests = async (
   client: AxiosInstance
 ): Promise<Contest[]> => {
-  const { data } = await client.get('/active-contests');
-  return data.data;
+  const result = await client.get('/active-contests');
+  if (result?.data) return result.data.data;
+  return [];
 };
 
 export const createContest = async (
   client: AxiosInstance,
   params: CreateContestParams
-) => {
+): Promise<Contest | null> => {
   const result = await client.post('/contests', params);
-  console.log(result);
-  return result.data.data;
+  if (result?.data) return result.data.data;
+  return null;
 };
