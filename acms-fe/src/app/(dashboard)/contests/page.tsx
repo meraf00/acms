@@ -23,4 +23,7 @@ function ContestsPage() {
   );
 }
 
-export default AuthGuard({ Component: ContestsPage, allowedRoles: ['hoe'] });
+export default AuthGuard({
+  Component: ContestsPage,
+  allowedRoles: ['hoe', 'hoa', 'acms'],
+});
