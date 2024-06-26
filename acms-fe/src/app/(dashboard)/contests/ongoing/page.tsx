@@ -13,12 +13,11 @@ export default function ActiveContests() {
         Active contests
       </h1>
       <div className="flex w-full overflow-auto gap-5 no-scrollbar">
-        {isLoading && (
-          <div className="flex w-full h-[80vh] items-center justify-center">
+        {isLoading ? (
+          <div className="flex w-full h-[70vh] items-center justify-center">
             <Loading />
           </div>
-        )}
-        {contests ? (
+        ) : contests ? (
           contests.map((contest) => (
             <LiveContestCard key={contest._id} contest={contest} />
           ))
