@@ -12,13 +12,18 @@ export default function EditContest() {
   const { data, isLoading, error } = useGetContest(params.id as string);
 
   return (
-    <div className="min">
-      <h1 className="font-bold text-2xl mb-10 flex gap-2 items-start">
+    <div className="">
+      <h1
+        className={cn(
+          'font-bold text-2xl mb-10 flex gap-2 items-start',
+          isLoading ? 'animate-pulse' : ''
+        )}
+      >
         Edit contest
       </h1>
 
       <div className={cn('h-screen', isLoading ? 'animate-pulse' : '')}>
-        <ContestForm contest={data ?? undefined} />
+        {data && <ContestForm contest={data} />}
       </div>
     </div>
   );
