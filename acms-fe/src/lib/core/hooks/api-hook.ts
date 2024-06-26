@@ -6,7 +6,11 @@ export const useApi = () => {
     baseURL: siteConfig.api.baseUrl,
   });
 
-  axios.defaults.withCredentials = true;
+  // axios.defaults.withCredentials = true;
+
+  axios.defaults.headers.common = {
+    Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+  };
 
   api.interceptors.response.use(
     (response) => response,
