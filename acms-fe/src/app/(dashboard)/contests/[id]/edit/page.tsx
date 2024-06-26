@@ -1,3 +1,5 @@
+'use client';
+
 import { cn } from '@/lib/core/utils';
 import { ContestForm } from '@/lib/features/contest/components/contest-form';
 import { useGetContest } from '@/lib/features/hooks';
