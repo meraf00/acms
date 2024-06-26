@@ -52,6 +52,7 @@ export const useUpload = (
         body: fileData,
         mode: 'no-cors',
       });
+      console.log(response);
       return response;
     });
 
