@@ -64,7 +64,7 @@ export const updateContest = async (
   client: AxiosInstance,
   params: CreateContestParams
 ): Promise<Contest | null> => {
-  const result = await client.post('/contests', params);
+  const result = await client.put('/contests', params);
   if (result?.status == 200 && result?.data) return result.data.data;
   throw new Error(result.data.message || 'Failed to update contest');
 };
