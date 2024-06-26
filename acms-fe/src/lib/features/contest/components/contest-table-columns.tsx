@@ -11,6 +11,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { CaretSortIcon, DotsHorizontalIcon } from '@radix-ui/react-icons';
 import Link from 'next/link';
+import { Edit } from 'lucide-react';
 
 export const columns: ColumnDef<Contest>[] = [
   {
@@ -147,6 +148,12 @@ export const columns: ColumnDef<Contest>[] = [
               }
             >
               Copy contest invitation link
+            </DropdownMenuItem>
+            <DropdownMenuItem className="cursor-pointer flex items-center">
+              <Link href={`/contests/${row.original.id}/edit`}>
+                <Edit className="w-4 h-4" />
+                Edit
+              </Link>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
