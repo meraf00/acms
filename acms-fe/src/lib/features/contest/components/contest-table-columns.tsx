@@ -150,7 +150,10 @@ export const columns: ColumnDef<Contest>[] = [
               Copy contest invitation link
             </DropdownMenuItem>
             <DropdownMenuItem className="cursor-pointer flex items-center">
-              <Link href={`/contests/${row.original.id}/edit`}>
+              <Link
+                href={`/contests/${row.original._id}/edit`}
+                className="flex items-center gap-2"
+              >
                 <Edit className="w-4 h-4" />
                 Edit
               </Link>
