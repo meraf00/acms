@@ -43,13 +43,6 @@ export class AuthController {
       '?t=' +
       token;
 
-    // res.cookie('access_token', token, {
-    //   httpOnly: true,
-    //   // secure: true,
-    //   sameSite: 'lax',
-    //   maxAge: this.configService.get<JwtConfig>('jwt')!.expirationMs,
-    // });
-
     return res.redirect(HttpStatus.PERMANENT_REDIRECT, clientSuccessUrl);
   }
 
@@ -72,11 +65,6 @@ export class AuthController {
         this.configService.get<ClientConfig>('client')!.authSuccessUrl +
         '?t=' +
         newToken;
-
-      // res.cookie('access_token', newToken, {
-      //   httpOnly: true,
-      //   maxAge: this.configService.get<JwtConfig>('jwt')!.expirationMs,
-      // });
 
       return res.redirect(HttpStatus.PERMANENT_REDIRECT, clientSuccessUrl);
     } catch (e) {

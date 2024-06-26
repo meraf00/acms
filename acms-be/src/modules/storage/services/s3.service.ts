@@ -24,6 +24,7 @@ export class S3 {
         accessKeyId: storage.s3.accessKeyId,
         secretAccessKey: storage.s3.secretAccessKey,
       },
+      region: 'asia-south1',
       endpoint: storage.s3.endpoint,
       forcePathStyle: true,
     });

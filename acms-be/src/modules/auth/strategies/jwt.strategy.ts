@@ -39,14 +39,13 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
   }
 
   async validate(payload: JwtPayload) {
-    console.log(payload);
     const user = await this.userModel
       .findOne({ email: payload.email })
       .populate('profile')
       .exec();
-    console.log(user);
+
     if (!user) throw new UnauthorizedException('auth_error');
-    console.log('adjhfj');
+
     return user;
   }
 }
