@@ -14,6 +14,7 @@ import {
   DropdownMenuTrigger,
 } from '@components/ui/dropdown-menu';
 import { useLogout } from '../../auth/hooks/useLogin';
+import { redirect } from 'next/dist/server/api-utils';
 
 export interface UserNavProps {
   avatarImage?: string;
@@ -60,7 +61,13 @@ export function UserNav({ avatarImage, fallback, email, name }: UserNavProps) {
           </DropdownMenuItem> 
           </DropdownMenuGroup>*/}
           <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={() => logout.mutate()}>
+          <DropdownMenuItem
+            onClick={() => {
+              localStorage.clear();
+              logout.mutate();
+              redirect('/auth/login');
+            }}
+          >
             <LogOut className="mr-2 h-4 w-4" />
             <span>Log out</span>
           </DropdownMenuItem>
