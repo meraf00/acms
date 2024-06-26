@@ -83,9 +83,11 @@ export const useCreateContest = ({
 };
 
 export const useUpdateContest = ({
+  id,
   onSuccess,
   onError,
 }: {
+  id: string;
   onSuccess?: (data: any) => void;
   onError?: (error: any) => void;
 }) => {
@@ -94,7 +96,10 @@ export const useUpdateContest = ({
 
   const mutation = useMutation({
     mutationFn: async (newContest: CreateContestParams) => {
-      return await updateContest(client, newContest);
+      return await updateContest(client, {
+        data: newContest,
+        id: id,
+      });
     },
 
     onSuccess: async (data) => {

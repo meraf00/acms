@@ -55,7 +55,7 @@ export function ContestForm({ contest }: ContestFormProps) {
       invitationLink: contest?.invitationLink ?? '',
       contestants:
         contest?.students
-          .map((s: User) => s.profile.codeforcesHandle)
+          ?.map((s: User) => s.profile.codeforcesHandle)
           .join(', ') ?? '',
     },
   });
@@ -82,6 +82,7 @@ export function ContestForm({ contest }: ContestFormProps) {
   });
 
   const updateContest = useUpdateContest({
+    id: contest?._id ?? '',
     onSuccess: () => {
       toast({
         title: 'Success',

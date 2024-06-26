@@ -25,7 +25,7 @@ export default function Contest() {
       </div>
     );
 
-  if (data) {
+  if (data && data.contest) {
     const startTime = new Date(data.contest.startingTime).toLocaleTimeString(
       'en-US',
       {
