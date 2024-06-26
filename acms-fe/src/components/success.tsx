@@ -18,6 +18,8 @@ export default function Success({ setAccessTokenCookie }: any) {
   const [show, setShow] = React.useState(false);
 
   useEffect(() => {
+    localStorage.setItem('access_token', searchParams.get('t')!);
+
     if (ref.current) {
       ref.current.click();
     }
@@ -29,7 +31,7 @@ export default function Success({ setAccessTokenCookie }: any) {
     return () => {
       clearTimeout(timeout);
     };
-  }, [setShow]);
+  }, [setShow, searchParams]);
 
   return (
     <div className=" flex flex-col justify-center items-center h-screen w-full relative gap-4">
