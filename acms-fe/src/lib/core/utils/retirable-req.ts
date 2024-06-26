@@ -21,6 +21,7 @@ export const retirableReq = async (
     ) {
       console.log('No internet connection');
     }
+    console.log(error);
 
     console.log('...Retrying...');
 
