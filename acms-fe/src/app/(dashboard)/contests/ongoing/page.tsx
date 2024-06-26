@@ -17,7 +17,7 @@ export default function ActiveContests() {
           <div className="flex w-full h-[70vh] items-center justify-center">
             <Loading />
           </div>
-        ) : contests ? (
+        ) : contests && contests.length ? (
           contests.map((contest) => (
             <LiveContestCard key={contest._id} contest={contest} />
           ))

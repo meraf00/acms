@@ -102,6 +102,7 @@ export default function Monitor() {
         </div>
 
         <Button
+          className="hidden"
           onClick={() => upload(cameraRef.current, screenRef.current)}
         ></Button>
       </div>
