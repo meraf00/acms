@@ -18,10 +18,17 @@ export default function ActiveContests() {
             <Loading />
           </div>
         )}
-        {contests &&
+        {contests ? (
           contests.map((contest) => (
             <LiveContestCard key={contest._id} contest={contest} />
-          ))}
+          ))
+        ) : (
+          <div className="flex w-full items-center">
+            <h1 className="font-bold text-2xl mb-10 flex gap-2 items-start opacity-50">
+              There are no active contests
+            </h1>
+          </div>
+        )}
       </div>
     </>
   );

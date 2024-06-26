@@ -140,7 +140,14 @@ export const columns: ColumnDef<Contest>[] = [
               Copy contest URL
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>View contest details</DropdownMenuItem>
+            <DropdownMenuItem
+              className="cursor-pointer"
+              onClick={() =>
+                navigator.clipboard.writeText(contest.invitationLink)
+              }
+            >
+              Copy contest invitation link
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );

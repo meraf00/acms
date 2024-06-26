@@ -1,11 +1,10 @@
 'use client';
 
-import Image, { StaticImageData } from 'next/image';
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import { Contest } from '../types/contest';
 import Link from 'next/link';
 import { cn } from '@/lib/core/utils';
-import { Button, buttonVariants } from '@/components/ui/button';
+import { buttonVariants } from '@/components/ui/button';
 import {
   Card,
   CardDescription,
@@ -53,7 +52,7 @@ export default function LiveContestCard({ contest }: LiveContestCardProps) {
 
           <CardFooter className="flex gap-5">
             <Link
-              href={`https://codeforces.com/gym/${contest.id}`}
+              href={contest.invitationLink}
               target="_blank"
               className={cn('w-full', buttonVariants({ variant: 'link' }))}
             >

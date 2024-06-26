@@ -89,7 +89,7 @@ export default function Student() {
             ) : (
               <div className="flex w-full items-center justify-center">
                 <h1 className="font-bold text-2xl mb-10 flex gap-2 items-start opacity-50">
-                  No images found
+                  There was no recording found for this student
                 </h1>
               </div>
             )}
