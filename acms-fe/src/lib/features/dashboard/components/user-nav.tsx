@@ -14,7 +14,7 @@ import {
   DropdownMenuTrigger,
 } from '@components/ui/dropdown-menu';
 import { useLogout } from '../../auth/hooks/useLogin';
-import { redirect } from 'next/dist/server/api-utils';
+import { redirect } from 'next/navigation';
 
 export interface UserNavProps {
   avatarImage?: string;

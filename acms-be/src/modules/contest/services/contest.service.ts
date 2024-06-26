@@ -49,6 +49,42 @@ export class ContestService extends EntityService<Contest>({
     return await this.contestModel.create(data);
   }
 
+  async update(id: string, data: any) {
+    const studentIds: string[] = data.students;
+
+    let isCodeforcesHandle = false;
+
+    for (const sid of studentIds) {
+      if (!Types.ObjectId.isValid(sid)) {
+        isCodeforcesHandle = true;
+        break;
+      }
+    }
+
+    if (isCodeforcesHandle) {
+      // If studentIds are not ObjectIds, then they are codeforces handles
+      const users = await this.userService.findAll();
+      const oldContest = await this.contestModel.findOne({ _id: id });
+      if (!oldContest) {
+        throw new Error('Contest not found');
+      }
+      data.students = users
+        .filter((user: UserDocument) => {
+          return (
+            studentIds.includes(user.profile.codeforcesHandle) &&
+            !oldContest.students.includes(user.id)
+          );
+        })
+        .map((user: UserDocument) => user.id);
+    }
+
+    if (data.students.length !== studentIds.length) {
+      throw new Error('Some students are not registered');
+    }
+
+    return await this.contestModel.updateOne({ _id: id }, data).exec();
+  }
+
   async getActiveContests() {
     const now = Date.now();
 

@@ -1,5 +1,5 @@
+import { ContestForm } from '@/lib/features/contest/components/contest-form';
 import React from 'react';
-import { ContestForm } from './contest-form';
 
 export default function AddContest() {
   return (

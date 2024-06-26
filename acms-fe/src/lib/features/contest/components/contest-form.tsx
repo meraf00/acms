@@ -111,7 +111,6 @@ export function ContestForm({ contest }: ContestFormProps) {
     const contestants = data.contestants.split(',').map((c) => c.trim());
 
     if (contest) {
-      console.log(contest);
       updateContest.mutate({
         id: contest.id,
         name: data.name,
@@ -122,7 +121,6 @@ export function ContestForm({ contest }: ContestFormProps) {
       });
       return;
     }
-    console.log('bbb');
     createContest.mutate({
       id: data.id!,
       name: data.name,
