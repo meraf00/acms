@@ -15,7 +15,7 @@ export const useUser = () => {
     const getMe = async () => {
       const response = await client.get('/users/me');
 
-      if (response.status === 200) {
+      if (response && response.status === 200) {
         const user = response.data.data;
 
         dispatch(login({ user }));
