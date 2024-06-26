@@ -15,6 +15,7 @@ export const useApi = () => {
     axios.defaults.headers.common = {
       Authorization: `Bearer ${localStorage.getItem('access_token')}`,
     };
+    console.log('useApi', localStorage.getItem('access_token'));
   }, [api]);
 
   api.interceptors.response.use(
