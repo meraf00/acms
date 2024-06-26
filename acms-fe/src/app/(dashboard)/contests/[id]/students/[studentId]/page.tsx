@@ -50,51 +50,51 @@ export default function Student() {
         Student images
       </h1>
       <div className="flex w-full overflow-auto gap-5 no-scrollbar">
-        {isLoading && (
+        {isLoading ? (
           <div className="flex w-full h-screen items-center justify-center">
             <Loading />
           </div>
-        )}
-
-        <div className="w-[90%]">
-          {images?.length ? (
-            <>
-              <Carousel
-                setApi={setApi}
-                className="w-full bg-background relative"
-              >
-                <CarouselContent>
-                  {images.map((image, index) => (
-                    <CarouselItem key={index} className="w-full">
-                      <Card className="overflow-clip">
-                        <CardContent className="overflow-clip dark:bg-background">
-                          <Image
-                            src={image}
-                            alt={image}
-                            width={1280}
-                            height={720}
-                            unoptimized={true}
-                          />
-                        </CardContent>
-                      </Card>
-                    </CarouselItem>
-                  ))}
-                </CarouselContent>
-                <CarouselPrevious />
-                <CarouselNext />
-              </Carousel>
-              <div className="py-2 text-center text-sm text-muted-foreground">
-                Image {current} of {count}
+        ) : (
+          <div className="w-[90%]">
+            {images?.length ? (
+              <>
+                <Carousel
+                  setApi={setApi}
+                  className="w-full bg-background relative"
+                >
+                  <CarouselContent>
+                    {images.map((image, index) => (
+                      <CarouselItem key={index} className="w-full">
+                        <Card className="overflow-clip">
+                          <CardContent className="overflow-clip dark:bg-background">
+                            <Image
+                              src={image}
+                              alt={image}
+                              width={1280}
+                              height={720}
+                              unoptimized={true}
+                            />
+                          </CardContent>
+                        </Card>
+                      </CarouselItem>
+                    ))}
+                  </CarouselContent>
+                  <CarouselPrevious />
+                  <CarouselNext />
+                </Carousel>
+                <div className="py-2 text-center text-sm text-muted-foreground">
+                  Image {current} of {count}
+                </div>
+              </>
+            ) : (
+              <div className="flex w-full items-center justify-center">
+                <h1 className="font-bold text-2xl mb-10 flex gap-2 items-start opacity-50">
+                  No images found
+                </h1>
               </div>
-            </>
-          ) : (
-            <div className="flex w-full items-center justify-center">
-              <h1 className="font-bold text-2xl mb-10 flex gap-2 items-start opacity-50">
-                No images found
-              </h1>
-            </div>
-          )}
-        </div>
+            )}
+          </div>
+        )}
       </div>
     </>
   );
