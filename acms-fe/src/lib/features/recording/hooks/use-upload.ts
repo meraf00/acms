@@ -50,6 +50,7 @@ export const useUpload = (
       const response = await fetch(presignedUrl, {
         method: 'PUT',
         body: fileData,
+        mode: 'no-cors',
       });
       return response;
     });
