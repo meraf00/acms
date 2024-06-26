@@ -15,18 +15,16 @@ export const useApi = () => {
     axios.defaults.headers.common = {
       Authorization: `Bearer ${localStorage.getItem('access_token')}`,
     };
-    console.log('useApi', localStorage.getItem('access_token'));
-  }, [api]);
 
-  api.interceptors.response.use(
-    (response) => response,
-    (error) => {
-      if (error.response?.status === 401) {
-        // window.location.href = '/auth/login';
-        console.log('Unauthorized');
+    api.interceptors.response.use(
+      (response) => response,
+      (error) => {
+        if (error.response?.status === 401) {
+          window.location.href = '/auth/login';
+        }
       }
-    }
-  );
+    );
+  }, [api]);
 
   return api;
 };
