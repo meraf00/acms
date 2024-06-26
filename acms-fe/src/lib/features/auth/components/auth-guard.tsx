@@ -17,8 +17,7 @@ export default function AuthGuard({ Component, allowedRoles }: AuthGuardProps) {
 
     useEffect(() => {
       if (user && allowedRoles && !allowedRoles.includes(user.role)) {
-        console.log(user, allowedRoles, !allowedRoles.includes(user.role));
-        // return redirect('/404');
+        return redirect('/404');
       }
 
       setIsMounted(true);
