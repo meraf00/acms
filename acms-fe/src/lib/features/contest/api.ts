@@ -8,6 +8,7 @@ export interface GetContestParams {
 export interface CreateContestParams {
   id: string;
   name: string;
+  invitationLink: string;
   students: string[];
   startingTime: string;
   endingTime: string;

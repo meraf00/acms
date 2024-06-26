@@ -5,6 +5,8 @@ export interface Contest {
 
   name: string;
 
+  invitationLink: string;
+
   startingTime: Date;
 
   endingTime: Date;

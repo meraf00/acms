@@ -27,6 +27,7 @@ const FormSchema = z.object({
   name: z.string().min(1, {
     message: "Contest name can't be empty.",
   }),
+  invitationLink: z.string().url(),
   timeRange: z.string(),
   contestants: z.string().refine(
     (value) => {
@@ -78,6 +79,7 @@ export function ContestForm() {
       id: data.id!,
       name: data.name,
       students: contestants,
+      invitationLink: data.invitationLink,
       startingTime: date.start.toAbsoluteString(),
       endingTime: date.end.toAbsoluteString(),
     });
@@ -114,6 +116,24 @@ export function ContestForm() {
               <FormLabel>Contest Id</FormLabel>
               <FormControl>
                 <Input placeholder="12345" {...field} aria-label="Contest Id" />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="invitationLink"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Invitation Link</FormLabel>
+              <FormControl>
+                <Input
+                  placeholder="https://codeforces..."
+                  {...field}
+                  aria-label="Contest Id"
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
