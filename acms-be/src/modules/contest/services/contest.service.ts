@@ -78,10 +78,6 @@ export class ContestService extends EntityService<Contest>({
         .map((user: UserDocument) => user.id);
     }
 
-    if (data.students.length !== studentIds.length) {
-      throw new Error('Some students are not registered');
-    }
-
     return await this.contestModel.updateOne({ _id: id }, data).exec();
   }
 
