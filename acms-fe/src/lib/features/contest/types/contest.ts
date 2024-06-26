@@ -7,9 +7,9 @@ export interface Contest {
 
   invitationLink: string;
 
-  startingTime: Date;
+  startingTime: Date | string;
 
-  endingTime: Date;
+  endingTime: Date | string;
 
   students: any[];
 }

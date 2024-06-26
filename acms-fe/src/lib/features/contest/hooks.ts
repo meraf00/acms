@@ -9,6 +9,7 @@ import {
   getContest,
   getContestWithRecord,
   getContests,
+  updateContest,
 } from './api';
 import { siteConfig } from '@/lib/core/config';
 
@@ -65,8 +66,35 @@ export const useCreateContest = ({
   const queryClient = useQueryClient();
 
   const mutation = useMutation({
-    mutationFn: (newContest: CreateContestParams) => {
-      return createContest(client, newContest);
+    mutationFn: async (newContest: CreateContestParams) => {
+      console.log(newContest);
+      return await createContest(client, newContest);
+    },
+
+    onSuccess: async (data) => {
+      onSuccess && onSuccess(data);
+      await queryClient.invalidateQueries({ queryKey: QUERY_KEY });
+    },
+
+    onError: onError,
+  });
+
+  return mutation;
+};
+
+export const useUpdateContest = ({
+  onSuccess,
+  onError,
+}: {
+  onSuccess?: (data: any) => void;
+  onError?: (error: any) => void;
+}) => {
+  const client = useApi();
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation({
+    mutationFn: async (newContest: CreateContestParams) => {
+      return await updateContest(client, newContest);
     },
 
     onSuccess: async (data) => {

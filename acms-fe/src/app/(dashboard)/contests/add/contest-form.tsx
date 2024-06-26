@@ -20,7 +20,9 @@ import { toast } from '@/components/ui/use-toast';
 
 import { parseAbsoluteToLocal } from '@internationalized/date';
 import { Textarea } from '@/components/ui/textarea';
-import { useCreateContest } from '@/lib/features/hooks';
+import { useCreateContest, useUpdateContest } from '@/lib/features/hooks';
+import { Contest } from '@/lib/features/contest/types/contest';
+import { User } from '@/lib/features/auth/types/user';
 
 const FormSchema = z.object({
   id: z.string().min(1),
@@ -39,14 +41,21 @@ const FormSchema = z.object({
   ),
 });
 
-export function ContestForm() {
+export interface ContestFormProps {
+  contest?: Contest;
+}
+
+export function ContestForm({ contest }: ContestFormProps) {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      name: '',
-      id: '',
+      name: contest?.name ?? '',
+      id: contest?.id ?? '',
       timeRange: '',
-      contestants: '',
+      contestants:
+        contest?.students
+          .map((s: User) => s.profile.codeforcesHandle)
+          .join(', ') ?? '',
     },
   });
 
@@ -67,14 +76,48 @@ export function ContestForm() {
     },
   });
 
+  const updateContest = useUpdateContest({
+    onSuccess: () => {
+      toast({
+        title: 'Success',
+        description: 'Contest updated successfully.',
+      });
+      // form.reset();
+    },
+    onError: (error) => {
+      toast({
+        title: 'Error',
+        description:
+          'Failed to update contest. Perhaps there is unknown handle.',
+      });
+    },
+  });
+
   const [date, setDate] = useState({
-    start: parseAbsoluteToLocal(new Date().toISOString()),
-    end: parseAbsoluteToLocal(new Date().toISOString()),
+    start: parseAbsoluteToLocal(
+      (contest?.startingTime as string) ?? new Date().toISOString()
+    ),
+    end: parseAbsoluteToLocal(
+      (contest?.endingTime as string) ?? new Date().toISOString()
+    ),
   });
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
     const contestants = data.contestants.split(',').map((c) => c.trim());
 
+    if (contest) {
+      console.log(contest);
+      updateContest.mutate({
+        id: contest.id,
+        name: data.name,
+        students: contestants,
+        invitationLink: data.invitationLink,
+        startingTime: date.start.toAbsoluteString(),
+        endingTime: date.end.toAbsoluteString(),
+      });
+      return;
+    }
+    console.log('bbb');
     createContest.mutate({
       id: data.id!,
       name: data.name,
@@ -83,8 +126,6 @@ export function ContestForm() {
       startingTime: date.start.toAbsoluteString(),
       endingTime: date.end.toAbsoluteString(),
     });
-
-    // form.reset();
   }
 
   return (

@@ -53,8 +53,25 @@ export const getActiveContests = async (
 export const createContest = async (
   client: AxiosInstance,
   params: CreateContestParams
+): Promise<Contest> => {
+  const result = await client.post('/contests', params);
+
+  if (result?.status == 201) return result.data.data;
+  throw new Error(result.data.message || 'Failed to create contest');
+};
+
+export const updateContest = async (
+  client: AxiosInstance,
+  params: CreateContestParams
 ): Promise<Contest | null> => {
   const result = await client.post('/contests', params);
-  if (result?.data) return result.data.data;
-  return null;
+  if (result?.status == 200 && result?.data) return result.data.data;
+  throw new Error(result.data.message || 'Failed to update contest');
+};
+
+export const deleteContest = async (
+  client: AxiosInstance,
+  params: { id: string }
+): Promise<void> => {
+  await client.delete(`/contests/${params.id}`);
 };
