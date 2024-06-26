@@ -33,11 +33,16 @@ export class AuthService {
       throw new BadRequestException('auth_user_not_found');
     }
 
+    await this.userModel.updateOne(
+      { email: userExists.email },
+      { picture: user.picture },
+    );
+
     return this.generateJwt({
       sub: userExists.email,
       name: userExists.name,
       role: userExists.role,
-      picture: userExists.picture,
+      picture: user.picture,
       email: userExists.email,
     });
   }
