@@ -20,7 +20,7 @@ export default function Contest() {
 
   if (isLoading)
     return (
-      <div className="w-full h-screen flex items-center justify-center">
+      <div className="w-full h-[80vh] flex items-center justify-center">
         <Loading />
       </div>
     );

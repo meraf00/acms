@@ -51,7 +51,7 @@ export default function Student() {
       </h1>
       <div className="flex w-full overflow-auto gap-5 no-scrollbar">
         {isLoading ? (
-          <div className="flex w-full h-screen items-center justify-center">
+          <div className="flex w-full h-[80vh] items-center justify-center">
             <Loading />
           </div>
         ) : (
