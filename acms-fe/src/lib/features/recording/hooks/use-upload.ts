@@ -51,7 +51,6 @@ export const useUpload = (
         method: 'PUT',
         body: fileData,
       });
-      console.log(response);
       return response;
     });
 

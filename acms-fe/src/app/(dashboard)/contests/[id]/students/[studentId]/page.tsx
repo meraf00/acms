@@ -73,6 +73,7 @@ export default function Student() {
                             alt={image}
                             width={1280}
                             height={720}
+                            unoptimized={true}
                           />
                         </CardContent>
                       </Card>
