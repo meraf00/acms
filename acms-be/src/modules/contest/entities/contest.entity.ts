@@ -14,6 +14,9 @@ export class Contest {
   name: string;
 
   @Prop({ required: true })
+  invitationLink: string;
+
+  @Prop({ required: true })
   startingTime: Date;
 
   @Prop({ required: true })

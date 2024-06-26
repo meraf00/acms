@@ -5,6 +5,7 @@ export const createContestSchema = z
   .object({
     id: z.string(),
     name: z.string(),
+    invitationLink: z.string().url(),
     students: z.array(z.string()),
     startingTime: z.coerce.date(),
     endingTime: z.coerce.date(),
@@ -27,6 +28,13 @@ export class CreateContestDto {
     description: 'Name of the contest',
   })
   name: string;
+
+  @ApiProperty({
+    type: String,
+    example: 'https://codeforces.com/contest/551155/invitation',
+    description: 'Invitation link of the contest',
+  })
+  invitationLink: string;
 
   @ApiProperty({
     type: [String],
@@ -58,6 +66,9 @@ export class UpdateContestDto {
 
   @ApiProperty({ required: false })
   name: string;
+
+  @ApiProperty({ required: false })
+  invitationLink: string;
 
   @ApiProperty({ required: false })
   students: string[];
