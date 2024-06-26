@@ -1,3 +1,6 @@
+'use client';
+
+import { useEffect } from 'react';
 import { siteConfig } from '../config';
 import axios from 'axios';
 
@@ -7,10 +10,11 @@ export const useApi = () => {
   });
 
   // axios.defaults.withCredentials = true;
-
-  axios.defaults.headers.common = {
-    Authorization: `Bearer ${localStorage.getItem('access_token')}`,
-  };
+  useEffect(() => {
+    axios.defaults.headers.common = {
+      Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+    };
+  }, []);
 
   api.interceptors.response.use(
     (response) => response,
