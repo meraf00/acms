@@ -70,8 +70,9 @@ export function Sidebar({ className }: any) {
             </div>
           </div>
 
-          {user?.role !== Roles.student ? (
-            <div className="px-4 py-2">
+          {/* user?.role !== Roles.student
+            ? {
+                <div className="px-4 py-2">
               <h2 className="mb-2 px-2 text-lg font-semibold tracking-tight">
                 Students
               </h2>
@@ -80,16 +81,17 @@ export function Sidebar({ className }: any) {
                   <GraduationCap className="mr-2 h-4 w-4" />
                   Students
                 </Link>
-                {/* <Link
+               <Link
                 href="/students/add"
                 className={activateOn('/students/add')}
               >
                 <Plus className="mr-2 h-4 w-4" />
                 Add student
-              </Link> */}
+              </Link>
               </div>
-            </div>
-          ) : null}
+            </div> 
+              }
+            : null*/}
 
           <div className="px-4 py-2">
             <h2 className="mb-2 px-2 text-lg font-semibold tracking-tight">
