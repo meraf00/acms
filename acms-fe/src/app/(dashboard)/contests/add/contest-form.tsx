@@ -52,6 +52,7 @@ export function ContestForm({ contest }: ContestFormProps) {
       name: contest?.name ?? '',
       id: contest?.id ?? '',
       timeRange: '',
+      invitationLink: contest?.invitationLink ?? '',
       contestants:
         contest?.students
           .map((s: User) => s.profile.codeforcesHandle)
@@ -64,6 +65,10 @@ export function ContestForm({ contest }: ContestFormProps) {
       toast({
         title: 'Success',
         description: 'Contest created successfully.',
+      });
+      setDate({
+        start: parseAbsoluteToLocal(new Date().toISOString()),
+        end: parseAbsoluteToLocal(new Date().toISOString()),
       });
       form.reset();
     },
