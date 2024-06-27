@@ -56,7 +56,7 @@ export function ContestForm({ contest }: ContestFormProps) {
       contestants:
         contest?.students
           ?.map((s: User) => s.profile.codeforcesHandle)
-          .join(', ') ?? '',
+          .join('\n') ?? '',
     },
   });
 
@@ -109,7 +109,7 @@ export function ContestForm({ contest }: ContestFormProps) {
   });
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
-    const contestants = data.contestants.split(',').map((c) => c.trim());
+    const contestants = data.contestants.split('\n').map((c) => c.trim());
 
     if (contest) {
       updateContest.mutate({

@@ -4,6 +4,8 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
+import { buttonVariants } from '@/components/ui/button';
+import { cn } from '@/lib/core/utils';
 import Link from 'next/link';
 
 export function Guides() {
@@ -34,8 +36,11 @@ export function Guides() {
           <AccordionContent className="flex flex-col gap-2">
             <p>
               Visit{' '}
-              <Link href="https://acms-five.vercel.app/ongoing">
-                acms-five.vercel.app/ongoing
+              <Link
+                href="/contests/ongoing"
+                className="font-bold underline hover:text-primary"
+              >
+                ongoing contests
               </Link>
               . You will see a list of ongoing contests. Click on{' '}
               <span className="font-bold">&quot;Start Monitoring&quot;</span>{' '}
