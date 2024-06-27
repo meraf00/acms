@@ -22,7 +22,6 @@ export const useUser = () => {
         dispatch(login({ user }));
         dispatch(loaded());
       } else {
-        dispatch(login({ user: null }));
         dispatch(loaded());
       }
     };
