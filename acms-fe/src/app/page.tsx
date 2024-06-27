@@ -7,8 +7,10 @@ import { cn } from '@/lib/core/utils';
 import { buttonVariants } from '@/components/ui/button';
 import { Activity } from 'lucide-react';
 import LoginButton from '@/components/home/components/login-button';
+import { redirect } from 'next/navigation';
 
 export default function Page() {
+  return redirect('/contests/ongoing');
   return (
     <div className="min-h-screen flex flex-col gap-10 flex-wrap px-24 py-16 ">
       <div className="flex justify-between items-center">
