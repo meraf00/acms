@@ -13,6 +13,7 @@ import DarkLogo from '@public/logos/acms-high-resolution-logo-white-transparent.
 import LightLogo from '@public/logos/acms-high-resolution-logo-transparent.svg';
 import { useState } from 'react';
 import { LoginForm } from '@/lib/features/auth/components/login-form';
+import { ChevronsLeftRight } from 'lucide-react';
 
 export default function LoginPage() {
   const theme = useTheme();
@@ -67,9 +68,9 @@ export default function LoginPage() {
         <Button
           onClick={() => setPage((page) => !page)}
           variant="outline"
-          className="rounded-full animate-bounce"
+          className="rounded-full "
         >
-          Or
+          Continue with Email <ChevronsLeftRight className="w-4 h-4" />
         </Button>
       </div>
     </div>

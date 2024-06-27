@@ -24,9 +24,11 @@ export default function Success({ setAccessTokenCookie }: any) {
     localStorage.setItem('access_token', searchParams.get('t')!);
     dispatch(loaded(false));
 
-    if (ref.current) {
-      ref.current.click();
-    }
+    const redirectTimeout = setTimeout(() => {
+      if (ref.current) {
+        ref.current.click();
+      }
+    }, 2000);
 
     const timeout = setTimeout(() => {
       setShow(true);
@@ -34,6 +36,7 @@ export default function Success({ setAccessTokenCookie }: any) {
 
     return () => {
       clearTimeout(timeout);
+      clearTimeout(redirectTimeout);
     };
   }, [setShow, searchParams, dispatch]);
 
