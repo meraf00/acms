@@ -51,7 +51,7 @@ export const columns: ColumnDef<Contest>[] = [
     },
     cell: ({ row }) => {
       return (
-        <div className="capitalize max-w-64 text-ellipsis">
+        <div className="capitalize max-w-64 text-ellipsis overflow-hidden text-nowrap">
           <Link href={`/contests/${row.original._id}`}>
             {row.getValue('name')}
           </Link>
@@ -86,7 +86,11 @@ export const columns: ColumnDef<Contest>[] = [
         minute: 'numeric',
         year: 'numeric',
       });
-      return <div className="font-medium">{formatted}</div>;
+      return (
+        <div className="font-medium capitalize max-w-64 text-ellipsis overflow-hidden text-nowrap">
+          {formatted}
+        </div>
+      );
     },
   },
   {
@@ -105,7 +109,11 @@ export const columns: ColumnDef<Contest>[] = [
         year: 'numeric',
       });
 
-      return <div className="font-medium">{formatted}</div>;
+      return (
+        <div className="font-medium capitalize max-w-64 text-ellipsis overflow-hidden text-nowrap">
+          {formatted}
+        </div>
+      );
     },
   },
   {

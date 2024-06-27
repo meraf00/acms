@@ -23,6 +23,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { useCreateContest, useUpdateContest } from '@/lib/features/hooks';
 import { Contest } from '@/lib/features/contest/types/contest';
 import { User } from '@/lib/features/auth/types/user';
+import { divider } from '@nextui-org/theme';
 
 const FormSchema = z.object({
   id: z.string().min(1),
@@ -134,7 +135,10 @@ export function ContestForm({ contest }: ContestFormProps) {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 space-y-6">
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="w-full md:w-2/3 space-y-6"
+      >
         <FormField
           control={form.control}
           name="name"
@@ -193,6 +197,7 @@ export function ContestForm({ contest }: ContestFormProps) {
               <FormLabel>Open hours</FormLabel>
               <FormControl>
                 <DateRangePicker
+                  className="overflow-hidden text-ellipsis w-full"
                   granularity="minute"
                   value={date}
                   onChange={setDate}
@@ -213,14 +218,10 @@ export function ContestForm({ contest }: ContestFormProps) {
             <FormItem>
               <FormLabel>Contestants</FormLabel>
               <FormControl>
-                <Textarea
-                  placeholder="meraf, ffekirnew..."
-                  {...field}
-                  aria-label="Contestants"
-                />
+                <Textarea {...field} aria-label="Contestants" />
               </FormControl>
               <FormDescription className="flex gap-1">
-                Comma separated list of contestants codeforces handles.
+                Contestants codeforces handles one handle per line.
               </FormDescription>
               {/* <FormDescription className="flex gap-1">
                 Monitoring will be available for the selected contestants. You

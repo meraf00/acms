@@ -29,7 +29,7 @@ export const columns = (contestId: string): ColumnDef<User>[] => [
     },
     cell: ({ row }) => {
       return (
-        <div className="capitalize px-5">
+        <div className="capitalize px-5 max-w-64 text-ellipsis overflow-hidden text-nowrap">
           <Link href={`/contests/${contestId}/students/${row.original._id}`}>
             {row.original.name}
           </Link>
@@ -71,7 +71,9 @@ export const columns = (contestId: string): ColumnDef<User>[] => [
     ),
     cell: ({ row }) => {
       return (
-        <div className="capitalize px-5">{row.original.profile.group}</div>
+        <div className="capitalize px-5 max-w-64 text-ellipsis overflow-hidden text-nowrap">
+          {row.original.profile.group}
+        </div>
       );
     },
   },
@@ -92,7 +94,7 @@ export const columns = (contestId: string): ColumnDef<User>[] => [
       return (
         <div
           className={cn(
-            'capitalize px-5 font-bold',
+            'capitalize px-5 max-w-64 text-ellipsis overflow-hidden text-nowrap font-bold',
             participated ? 'text-green-600' : 'text-destructive'
           )}
         >

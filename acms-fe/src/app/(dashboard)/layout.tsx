@@ -16,7 +16,7 @@ function DashboardLayout({
   return (
     <div className="relative flex h-screen overflow-hidden">
       <div
-        className="sticky h-screen top-0 w-1/5 
+        className="sticky h-screen top-0 w-fit lg:w-1/5 
       dark:border-r dark:border-gray-600/25 border-r 
       border-gray-600/25 border-dashed 
       bg-opacity-5 dark:bg-opacity-5"
@@ -34,7 +34,7 @@ function DashboardLayout({
         )}
       </div>
 
-      <ScrollArea className="relative w-4/5 h-screen overflow-auto">
+      <ScrollArea className="relative w-full lg:w-4/5 h-screen overflow-auto">
         <main className="px-16 py-6 mt-14">{children}</main>
       </ScrollArea>
     </div>

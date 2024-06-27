@@ -18,6 +18,8 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from '@radix-ui/react-tooltip';
+import { useUser } from '../../auth/hooks/useUser';
+import { Roles } from '../../auth/types/role';
 
 export interface LiveContestCardProps {
   contest: Contest;
@@ -25,6 +27,8 @@ export interface LiveContestCardProps {
 
 export default function LiveContestCard({ contest }: LiveContestCardProps) {
   let timeRef = '';
+
+  const { currentUser: user } = useUser();
 
   const diff = new Date(contest.endingTime).getTime() - Date.now();
 
@@ -58,12 +62,14 @@ export default function LiveContestCard({ contest }: LiveContestCardProps) {
             >
               <ExternalLinkIcon className="mr-2 h-4 w-4" /> Open contest
             </Link>
-            <Link
-              href={`/monitoring/${contest._id}`}
-              className={cn(buttonVariants({ variant: 'default' }), 'w-full')}
-            >
-              <Monitor className="mr-2 h-4 w-4" /> Start monitoring
-            </Link>
+            {user?.role === Roles.student ? (
+              <Link
+                href={`/monitoring/${contest._id}`}
+                className={cn(buttonVariants({ variant: 'default' }), 'w-full')}
+              >
+                <Monitor className="mr-2 h-4 w-4" /> Start monitoring
+              </Link>
+            ) : null}
           </CardFooter>
         </Card>
       </TooltipTrigger>

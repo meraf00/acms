@@ -3,18 +3,12 @@
 import { cn } from '@/lib/core/utils';
 import { buttonVariants } from '@components/ui/button';
 import { ScrollArea } from '@components/ui/scroll-area';
-import {
-  Database,
-  Plus,
-  GraduationCap,
-  Bug,
-  Activity,
-  Timer,
-} from 'lucide-react';
+import { Database, Plus, Bug, Activity, Computer } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useUser } from '../../auth/hooks/useUser';
 import { Roles } from '../../auth/types/role';
+import { useState } from 'react';
 
 export function Sidebar({ className }: any) {
   const pathname = usePathname();
@@ -24,12 +18,12 @@ export function Sidebar({ className }: any) {
     if (pathname === path) {
       return cn(
         buttonVariants({ variant: 'secondary', size: 'sm' }),
-        'w-full justify-start'
+        'lg:w-full justify-start'
       );
     } else {
       return cn(
         buttonVariants({ variant: 'ghost', size: 'sm' }),
-        'w-full justify-start'
+        'lg:w-full justify-start'
       );
     }
   };
@@ -39,14 +33,14 @@ export function Sidebar({ className }: any) {
       <ScrollArea className="h-screen">
         <div className="space-y-4 py-4">
           <div className="px-4 py-2">
-            <h2 className="mb-2 px-2 text-lg font-semibold tracking-tight">
+            <h2 className="hidden lg:block mb-2 lg:px-2 text-lg font-semibold tracking-tight">
               Contests
             </h2>
-            <div className="space-y-1">
+            <div className="space-y-1 flex flex-col">
               {user?.role !== Roles.student ? (
                 <Link href="/contests" className={activateOn('/contests')}>
-                  <Database className="mr-2 h-4 w-4" />
-                  Contests
+                  <Database className="lg:mr-2 h-4 w-4" />
+                  <span className="hidden lg:block">Contests</span>
                 </Link>
               ) : null}
 
@@ -54,8 +48,8 @@ export function Sidebar({ className }: any) {
                 href="/contests/ongoing"
                 className={activateOn('/contests/ongoing')}
               >
-                <Activity className="mr-2 h-4 w-4" />
-                Ongoing
+                <Activity className="lg:mr-2 h-4 w-4" />
+                <span className="hidden lg:block">Ongoing</span>
               </Link>
 
               {user?.role !== Roles.student ? (
@@ -63,8 +57,8 @@ export function Sidebar({ className }: any) {
                   href="/contests/add"
                   className={activateOn('/contests/add')}
                 >
-                  <Plus className="mr-2 h-4 w-4" />
-                  Add contest
+                  <Plus className="lg:mr-2 h-4 w-4" />
+                  <span className="hidden lg:block">Add contest</span>
                 </Link>
               ) : null}
             </div>
@@ -94,13 +88,13 @@ export function Sidebar({ className }: any) {
             : null*/}
 
           <div className="px-4 py-2">
-            <h2 className="mb-2 px-2 text-lg font-semibold tracking-tight">
+            <h2 className="hidden lg:block mb-2 px-2 text-lg font-semibold tracking-tight">
               Issue
             </h2>
             <div className="space-y-1">
               <Link href="/issues" className={activateOn('/issues')}>
-                <Bug className="mr-2 h-4 w-4" />
-                Report issue
+                <Bug className="lg:mr-2 h-4 w-4" />
+                <span className="hidden lg:block">Report issue</span>
               </Link>
             </div>
           </div>
