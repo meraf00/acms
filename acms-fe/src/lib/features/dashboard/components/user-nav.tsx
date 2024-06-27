@@ -1,26 +1,21 @@
 'use client';
 
-import {
-  CreditCard,
-  Link,
-  LogOut,
-  PlusCircle,
-  Settings,
-  User,
-} from 'lucide-react';
+import { LogOut, User } from 'lucide-react';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@components/ui/avatar';
 import { Button } from '@components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@components/ui/dropdown-menu';
 import { useLogout } from '../../auth/hooks/useLogin';
+import { useAppDispatch } from '@/lib/core/hooks';
+import { redirect } from 'next/navigation';
+import { logout } from '../../auth/store/slice';
 
 export interface UserNavProps {
   avatarImage?: string;
@@ -30,7 +25,7 @@ export interface UserNavProps {
 }
 
 export function UserNav({ avatarImage, fallback, email, name }: UserNavProps) {
-  const logout = useLogout();
+  const dispatch = useAppDispatch();
 
   return (
     <>
@@ -70,11 +65,12 @@ export function UserNav({ avatarImage, fallback, email, name }: UserNavProps) {
           <DropdownMenuItem
             onClick={() => {
               localStorage.clear();
-              logout.mutate();
+              dispatch(logout());
+              redirect('/');
             }}
           >
             <LogOut className="mr-2 h-4 w-4" />
-            <Link className="/auth/login">Log out</Link>
+            Log out
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

@@ -15,6 +15,10 @@ export default function AuthGuard({ Component, allowedRoles }: AuthGuardProps) {
     const [isMounted, setIsMounted] = React.useState(false);
 
     useEffect(() => {
+      if (localStorage.getItem('access_token') === null) {
+        return redirect('/auth/login');
+      }
+
       if (user && allowedRoles && !allowedRoles.includes(user.role)) {
         return redirect('/404');
       }

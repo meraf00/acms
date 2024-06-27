@@ -25,7 +25,12 @@ export const localStorageMiddleware: Middleware<{}, any> = (storeApi) => {
       auth: state.auth,
     };
 
-    localStorage.setItem(stateCacheKey, JSON.stringify(serialized));
+    if (localStorage.getItem('access_token')) {
+      localStorage.setItem(stateCacheKey, JSON.stringify(serialized));
+    } else {
+      localStorage.removeItem(stateCacheKey);
+    }
+
     return result;
   };
 };
