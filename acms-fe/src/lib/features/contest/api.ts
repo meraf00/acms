@@ -42,6 +42,16 @@ export const getContestWithRecord = async (
   return null;
 };
 
+export const getActiveContest = async (
+  client: AxiosInstance,
+  params: GetContestParams
+): Promise<Contest | null> => {
+  const { id } = params;
+  const result = await client.get(`/active-contests/${id}`);
+  if (result?.data) return result.data.data;
+  return null;
+};
+
 export const getActiveContests = async (
   client: AxiosInstance
 ): Promise<Contest[]> => {

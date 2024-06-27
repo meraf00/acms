@@ -1,6 +1,12 @@
 import { JwtAuthGuard } from '@modules/auth/guards/jwt-auth.guard';
 import { RoleGuard } from '@modules/auth/guards/role.guard';
-import { Controller, Get, UseGuards } from '@nestjs/common';
+import {
+  BadRequestException,
+  Controller,
+  Get,
+  Param,
+  UseGuards,
+} from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Roles } from '@shared/types/roles';
 import { ApiVersion } from '@shared/types/version';
@@ -14,6 +20,15 @@ import { ContestService } from '../services/contest.service';
 @UseGuards(JwtAuthGuard)
 export class ActiveContestController {
   constructor(private readonly contestService: ContestService) {}
+
+  @Get(':id')
+  async findOne(@Param('id') id: string) {
+    try {
+      return await this.contestService.findActiveOne(id);
+    } catch (err) {
+      throw new BadRequestException('Unable to find contest.');
+    }
+  }
 
   @Get()
   async getActiveContests() {

@@ -5,6 +5,7 @@ import { useApi } from '@lib/core/hooks';
 import {
   CreateContestParams,
   createContest,
+  getActiveContest,
   getActiveContests,
   getContest,
   getContestWithRecord,
@@ -35,12 +36,23 @@ export const useGetContest = (id: string) => {
     staleTime,
   });
 };
+
 export const useGetContestWithRecord = (id: string) => {
   const client = useApi();
 
   return useQuery({
     queryKey: [...QUERY_KEY, id],
     queryFn: () => getContestWithRecord(client, { id }),
+    staleTime,
+  });
+};
+
+export const useGetActiveContest = (id: string) => {
+  const client = useApi();
+
+  return useQuery({
+    queryKey: ['active-contests', id],
+    queryFn: () => getActiveContest(client, { id }),
     staleTime,
   });
 };

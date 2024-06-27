@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { toast } from '@/components/ui/use-toast';
 import { useAppSelector } from '@/lib/core/hooks';
 import { useUser } from '@/lib/features/auth/hooks/useUser';
-import { useGetContest } from '@/lib/features/hooks';
+import { useGetActiveContest } from '@/lib/features/hooks';
 import { useStreamContext } from '@/lib/features/recording/components/stream-provider';
 import { VideoRecorder } from '@/lib/features/recording/components/video-recorder';
 import { useUpload } from '@/lib/features/recording/hooks/use-upload';
@@ -16,7 +16,7 @@ import { useEffect, useRef } from 'react';
 export default function Monitor() {
   const params = useParams();
   const { id: contestId } = params;
-  const { data: contest } = useGetContest(contestId as string);
+  const { data: contest } = useGetActiveContest(contestId as string);
   const cameraRef = useRef<HTMLVideoElement>(null);
   const screenRef = useRef<HTMLVideoElement>(null);
   const { currentUser: user } = useUser();

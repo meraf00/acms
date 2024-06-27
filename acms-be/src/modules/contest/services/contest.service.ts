@@ -108,6 +108,16 @@ export class ContestService extends EntityService<Contest>({
     });
   }
 
+  async findActiveOne(contestId: string) {
+    const now = Date.now();
+
+    return await this.contestModel.findOne({
+      _id: contestId,
+      startingTime: { $lte: now },
+      endingTime: { $gte: now },
+    });
+  }
+
   async bulkCreate(contests: CodeforcesContest[]) {
     const contestIds = contests.map((contest) => contest.id.toString());
 
