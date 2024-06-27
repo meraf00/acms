@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { cn } from '@/lib/core/utils';
 import { buttonVariants } from '@/components/ui/button';
 import { Activity } from 'lucide-react';
+import LoginButton from '@/components/home/components/login-button';
 
 export default function Page() {
   return (
@@ -27,17 +28,7 @@ export default function Page() {
         />
 
         <div className="flex mt-10">
-          <Link
-            href="/contests/ongoing"
-            className={cn(
-              'w-full',
-              'gap-2',
-              buttonVariants({ variant: 'link' })
-            )}
-          >
-            <Activity className="w-4 h-4" />
-            Ongoing Contests
-          </Link>
+          <LoginButton />
         </div>
       </div>
       <Guides />

@@ -4,6 +4,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
+import Link from 'next/link';
 
 export function Guides() {
   return (
@@ -32,8 +33,11 @@ export function Guides() {
           <AccordionTrigger>How to start monitoring?</AccordionTrigger>
           <AccordionContent className="flex flex-col gap-2">
             <p>
-              Visit acms.vercel.app/ongoing. You will see a list of ongoing
-              contests. Click on{' '}
+              Visit{' '}
+              <Link href="https://acms-five.vercel.app/ongoing">
+                acms-five.vercel.app/ongoing
+              </Link>
+              . You will see a list of ongoing contests. Click on{' '}
               <span className="font-bold">&quot;Start Monitoring&quot;</span>{' '}
               next to the contest you want to join.
             </p>
