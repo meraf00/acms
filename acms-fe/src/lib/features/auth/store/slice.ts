@@ -17,8 +17,8 @@ const authSlice = createSlice({
       state.user = user;
     },
 
-    loaded(state) {
-      state.loaded = true;
+    loaded(state, { payload }: { payload: boolean }) {
+      state.loaded = payload;
     },
 
     logout(state) {

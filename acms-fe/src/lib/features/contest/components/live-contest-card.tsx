@@ -52,7 +52,7 @@ export default function LiveContestCard({ contest }: LiveContestCardProps) {
 
           <CardFooter className="flex gap-5">
             <Link
-              href={contest.invitationLink}
+              href={contest.invitationLink ?? ''}
               target="_blank"
               className={cn('w-full', buttonVariants({ variant: 'link' }))}
             >

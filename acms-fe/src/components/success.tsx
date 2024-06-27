@@ -9,9 +9,12 @@ import DarkLogo from '@public/logos/acms-high-resolution-logo-white-transparent.
 import LightLogo from '@public/logos/acms-high-resolution-logo-transparent.svg';
 import { cn } from '@/lib/core/utils';
 import { redirect } from 'next/navigation';
+import { useAppDispatch } from '@/lib/core/hooks';
+import { loaded } from '@/lib/features/auth/store/slice';
 
 export default function Success({ setAccessTokenCookie }: any) {
   const searchParams = useSearchParams();
+  const dispatch = useAppDispatch();
 
   const ref = useRef<any>(null);
 
@@ -19,6 +22,7 @@ export default function Success({ setAccessTokenCookie }: any) {
 
   useEffect(() => {
     localStorage.setItem('access_token', searchParams.get('t')!);
+    dispatch(loaded(false));
 
     if (ref.current) {
       ref.current.click();
@@ -31,7 +35,7 @@ export default function Success({ setAccessTokenCookie }: any) {
     return () => {
       clearTimeout(timeout);
     };
-  }, [setShow, searchParams]);
+  }, [setShow, searchParams, dispatch]);
 
   return (
     <div className=" flex flex-col justify-center items-center h-screen w-full relative gap-4">

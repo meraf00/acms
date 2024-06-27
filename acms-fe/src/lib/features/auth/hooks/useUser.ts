@@ -11,7 +11,10 @@ export const useUser = () => {
   const userLoaded = useAppSelector((state) => state.auth.loaded);
 
   useEffect(() => {
-    if (currentUser) return;
+    if (currentUser) {
+      dispatch(loaded(true));
+      return;
+    }
 
     const getMe = async () => {
       const response = await client.get('/users/me');
@@ -20,10 +23,8 @@ export const useUser = () => {
         const user = response.data.data;
 
         dispatch(login({ user }));
-        dispatch(loaded());
-      } else {
-        dispatch(loaded());
       }
+      dispatch(loaded(true));
     };
 
     getMe();
