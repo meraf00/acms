@@ -8,9 +8,13 @@ import Link from 'next/link';
 import React from 'react';
 
 export default function LoginButton() {
-  const user = useUser();
+  const { currentUser, userLoaded } = useUser();
 
-  if (user) {
+  console.log(currentUser, userLoaded);
+
+  if (!userLoaded) {
+    return null;
+  } else if (currentUser) {
     return (
       <Link
         href="/contests/ongoing"

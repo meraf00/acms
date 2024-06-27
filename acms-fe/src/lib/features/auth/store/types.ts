@@ -9,4 +9,6 @@ export interface AuthState {
     picture: string;
     role: string;
   } | null;
+
+  loaded: boolean;
 }

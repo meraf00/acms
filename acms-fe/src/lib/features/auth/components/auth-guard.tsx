@@ -1,6 +1,5 @@
 'use client';
 
-import { useAppSelector } from '@/lib/core/hooks';
 import { redirect } from 'next/navigation';
 import React, { useEffect } from 'react';
 import { useUser } from '../hooks/useUser';
@@ -12,7 +11,7 @@ export interface AuthGuardProps {
 
 export default function AuthGuard({ Component, allowedRoles }: AuthGuardProps) {
   return function IsAuth(props: any) {
-    const user = useUser();
+    const { currentUser: user, userLoaded: loaded } = useUser();
     const [isMounted, setIsMounted] = React.useState(false);
 
     useEffect(() => {
@@ -20,8 +19,12 @@ export default function AuthGuard({ Component, allowedRoles }: AuthGuardProps) {
         return redirect('/404');
       }
 
+      if (loaded && user === null) {
+        return redirect('/auth/login');
+      }
+
       setIsMounted(true);
-    }, [user]);
+    }, [user, loaded]);
 
     if (!isMounted || !user) {
       return null;
