@@ -18,7 +18,7 @@ import { Roles } from '../../auth/types/role';
 
 export function Sidebar({ className }: any) {
   const pathname = usePathname();
-  const user = useUser();
+  const { currentUser: user } = useUser();
 
   const activateOn = (path: string) => {
     if (pathname === path) {
