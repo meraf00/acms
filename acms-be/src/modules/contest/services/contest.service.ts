@@ -98,6 +98,22 @@ export class ContestService extends EntityService<Contest>({
       .exec();
   }
 
+  async getUpcomingContests() {
+    const now = Date.now();
+
+    return await this.contestModel
+      .find({
+        startingTime: { $gte: now },
+      })
+      .populate({
+        path: 'students',
+        populate: {
+          path: 'profile',
+        },
+      })
+      .exec();
+  }
+
   async isActive(contestId: string) {
     const now = Date.now();
 

@@ -7,6 +7,7 @@ import { ActiveContestController } from './controllers/active-contest.controller
 import { CodeforcesController } from './controllers/codeforces.controller';
 import { ContestController } from './controllers/contest.controller';
 import { ContestDeletionRequestController } from './controllers/contest-deletion-request.controller';
+import { UpcomingContestController } from './controllers/upcoming-contest.controller';
 import { Contest, ContestSchema } from './entities/contest.entity';
 import {
   ContestDeletionRequest,
@@ -29,6 +30,7 @@ import { ContestDeletionRequestService } from './services/contest-deletion.servi
     UserModule,
   ],
   controllers: [
+    UpcomingContestController,
     CodeforcesController,
     ContestController,
     ActiveContestController,
