@@ -5,6 +5,8 @@ acms.json
 
 .env
 .env.prod
+.env.dev
+.env.local
 
 # dependencies
 /node_modules

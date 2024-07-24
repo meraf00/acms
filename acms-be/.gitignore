@@ -2,6 +2,8 @@ data
 
 .env
 .env.prod
+.env.dev
+.env.local
 oauth-client*.json
 
 app.yaml
