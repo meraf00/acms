@@ -20,7 +20,7 @@ export default function ActiveContests() {
   } = useGetUpcomingContests();
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-10">
       <div>
         <h1 className="font-bold text-2xl mb-10 flex gap-2 items-start">
           Active contests
@@ -36,7 +36,7 @@ export default function ActiveContests() {
             ))
           ) : (
             <div className="flex w-full items-center">
-              <h1 className="font-bold text-2xl mb-10 flex gap-2 items-start opacity-50">
+              <h1 className="font-bold text-xl mb-10 flex gap-2 items-start opacity-50">
                 There are no active contests
               </h1>
             </div>
@@ -55,11 +55,15 @@ export default function ActiveContests() {
             </div>
           ) : upcomingContests && upcomingContests.length ? (
             upcomingContests.map((contest) => (
-              <LiveContestCard key={contest._id} contest={contest} />
+              <LiveContestCard
+                key={contest._id}
+                contest={contest}
+                isLive={false}
+              />
             ))
           ) : (
             <div className="flex w-full items-center">
-              <h1 className="font-bold text-2xl mb-10 flex gap-2 items-start opacity-50">
+              <h1 className="font-bold text-xl mb-10 flex gap-2 items-start opacity-50">
                 There are no upcoming contests
               </h1>
             </div>
