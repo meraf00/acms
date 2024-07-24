@@ -85,7 +85,7 @@ export const columns = (contestId: string): ColumnDef<User>[] => [
         variant="ghost"
         onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
       >
-        Participated
+        Monitored
         <CaretSortIcon className="ml-2 h-4 w-4" />
       </Button>
     ),
