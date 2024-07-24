@@ -23,9 +23,13 @@ import { Roles } from '../../auth/types/role';
 
 export interface LiveContestCardProps {
   contest: Contest;
+  isLive?: boolean;
 }
 
-export default function LiveContestCard({ contest }: LiveContestCardProps) {
+export default function LiveContestCard({
+  contest,
+  isLive = true,
+}: LiveContestCardProps) {
   let timeRef = '';
 
   const { currentUser: user } = useUser();
@@ -62,7 +66,7 @@ export default function LiveContestCard({ contest }: LiveContestCardProps) {
             >
               <ExternalLinkIcon className="mr-2 h-4 w-4" /> Open contest
             </Link>
-            {user?.role === Roles.student ? (
+            {user?.role === Roles.student && isLive ? (
               <Link
                 href={`/monitoring/${contest._id}`}
                 className={cn(buttonVariants({ variant: 'default' }), 'w-full')}
