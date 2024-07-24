@@ -10,6 +10,7 @@ import {
   getContest,
   getContestWithRecord,
   getContests,
+  getUpcomingContests,
   updateContest,
 } from './api';
 import { siteConfig } from '@/lib/core/config';
@@ -63,6 +64,16 @@ export const useGetActiveContests = () => {
   return useQuery({
     queryKey: ['active-contests'],
     queryFn: () => getActiveContests(client),
+    staleTime,
+  });
+};
+
+export const useGetUpcomingContests = () => {
+  const client = useApi();
+
+  return useQuery({
+    queryKey: ['upcoming-contests'],
+    queryFn: () => getUpcomingContests(client),
     staleTime,
   });
 };

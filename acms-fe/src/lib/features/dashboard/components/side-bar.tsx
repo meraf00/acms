@@ -3,12 +3,11 @@
 import { cn } from '@/lib/core/utils';
 import { buttonVariants } from '@components/ui/button';
 import { ScrollArea } from '@components/ui/scroll-area';
-import { Database, Plus, Bug, Activity, Computer } from 'lucide-react';
+import { Database, Plus, Bug, Activity, ClockIcon } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useUser } from '../../auth/hooks/useUser';
 import { Roles } from '../../auth/types/role';
-import { useState } from 'react';
 
 export function Sidebar({ className }: any) {
   const pathname = usePathname();
@@ -51,6 +50,16 @@ export function Sidebar({ className }: any) {
                 <Activity className="lg:mr-2 h-4 w-4" />
                 <span className="hidden lg:block">Ongoing</span>
               </Link>
+
+              {user?.role !== Roles.student ? (
+                <Link
+                  href="/contests/upcoming"
+                  className={activateOn('/contests/upcoming')}
+                >
+                  <ClockIcon className="lg:mr-2 h-4 w-4" />
+                  <span className="hidden lg:block">Upcoming</span>
+                </Link>
+              ) : null}
 
               {user?.role !== Roles.student ? (
                 <Link
