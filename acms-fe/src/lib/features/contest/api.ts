@@ -60,6 +60,14 @@ export const getActiveContests = async (
   return [];
 };
 
+export const getUpcomingContests = async (
+  client: AxiosInstance
+): Promise<Contest[]> => {
+  const result = await client.get('/upcoming-contests');
+  if (result?.data) return result.data.data;
+  return [];
+};
+
 export const createContest = async (
   client: AxiosInstance,
   params: CreateContestParams
