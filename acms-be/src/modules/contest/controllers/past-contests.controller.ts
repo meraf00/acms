@@ -1,5 +1,4 @@
 import { JwtAuthGuard } from '@modules/auth/guards/jwt-auth.guard';
-import { RecordService } from '@modules/monitoring/services/record.service';
 import {
   BadRequestException,
   Controller,
@@ -10,13 +9,6 @@ import {
 import { ApiTags } from '@nestjs/swagger';
 import { ApiVersion } from '@shared/types/version';
 
-// import {
-//   CreateContestDto,
-//   createContestSchema,
-//   UpdateContestDto,
-//   updateContestSchema,
-// } from '../dtos/contest.dto';
-// import { Contest } from '../entities/contest.entity';
 import { ContestService } from '../services/contest.service';
 
 @ApiTags('contests')
