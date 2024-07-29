@@ -49,12 +49,6 @@ jobs:
           fileName: 'app.yaml'
           encodedString: ${{ secrets.GAE_CONFIG }}
 
-      - name: Check if app.yaml is created
-        run: ls -la
-
-      - name: Current Directory
-        run: pwd
-
       - name: Deploy to App Engine
         id: deploy
         uses: google-github-actions/deploy-appengine@v2
@@ -62,7 +56,6 @@ jobs:
           deliverables: ${{ steps.write_file.outputs.filePath }}
           version: v2
           project_id: ${{ secrets.GCP_PROJECT_ID }}
-          promote: false
 
       - name: Test Deployment
         run: curl "${{ steps.deploy.outputs.url }}"
