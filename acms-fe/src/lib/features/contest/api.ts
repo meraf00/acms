@@ -72,7 +72,6 @@ export const getPastContests = async (
   client: AxiosInstance
 ): Promise<Contest[]> => {
   const result = await client.get('/past-contests');
-  console.log(result.data);
   if (result?.data) return result.data.data;
   return [];
 };
