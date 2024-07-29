@@ -45,17 +45,19 @@ jobs:
         id: write_file
         uses: timheuer/base64-to-file@v1.2
         with:
-          fileDir: '.'
           fileName: 'app.yaml'
           encodedString: ${{ secrets.GAE_CONFIG }}
 
+      - name: Debug files
+        run: ls -la
+
+      - name: Setup gcloud
+        uses: google-github-actions/setup-gcloud@v2
+
       - name: Deploy to App Engine
         id: deploy
-        uses: google-github-actions/deploy-appengine@v2
-        with:
-          deliverables: ${{ steps.write_file.outputs.filePath }}
-          version: v2
-          project_id: ${{ secrets.GCP_PROJECT_ID }}
+        run: |
+          gcloud app deploy -v v2
 
       - name: Test Deployment
         run: curl "${{ steps.deploy.outputs.url }}"
