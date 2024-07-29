@@ -2,13 +2,14 @@
 
 import Loading from "@/components/ui/loading";
 import LiveContestCard from "@/lib/features/contest/components/live-contest-card";
-import { ContestsTable } from "@/lib/features/contest/components/past-contest-table";
+import { PastContestsTable } from "@/lib/features/contest/components/past-contest-table";
 import {
   useGetActiveContests,
   useGetPastContests,
   useGetUpcomingContests,
 } from "@/lib/features/hooks";
 import LiveContestCardSkeleton from "@lib/features/contest/components/skeletons/live-contest-card-skeleton";
+import { PastContestsTableSkeleton } from "@lib/features/contest/components/skeletons/past-contest-table-skeleton";
 
 export default function ActiveContests() {
   const {
@@ -26,7 +27,7 @@ export default function ActiveContests() {
     isLoading: isPastLoading,
     error: pastError,
   } = useGetPastContests();
-
+  const isLoading = true;
   return (
     <div className="space-y-10 mb-32 mr-2">
       <div>
@@ -34,11 +35,14 @@ export default function ActiveContests() {
           Active Contests
         </h1>
         <hr className="mb-12 h-0.5 border-t-0 bg-neutral-200 dark:bg-white/10 " />
-        <div className="flex w-full overflow-auto gap-10 no-scrollbar  px-6 pb-8 pr-24 ">
+        <div className="flex w-full overflow-auto gap-10 no-scrollbar px-6 pb-8 pr-24 ">
           {isActiveLoading ? (
-            <div className="flex w-full h-[70vh] items-center justify-center">
-              <Loading />
-            </div>
+            // <div className="flex w-full h-[70vh] items-center justify-center">
+            //   <Loading />
+            // </div>
+            Array.from({ length: 4 }).map((_, i) => (
+              <LiveContestCardSkeleton key={i} isUpcoming={false} />
+            ))
           ) : activeContests && activeContests.length ? (
             activeContests.map((contest) => (
               <LiveContestCard key={contest._id} contest={contest} />
@@ -60,9 +64,9 @@ export default function ActiveContests() {
         <hr className="mb-12 h-0.5 border-t-0 bg-neutral-200 dark:bg-white/10 " />
         <div className="flex w-full overflow-auto gap-10 no-scrollbar px-6 pb-8 pr-24 ">
           {isUpcomingLoading ? (
-            <div className="flex w-full h-[70vh] items-center justify-center">
-              <Loading />
-            </div>
+            Array.from({ length: 4 }).map((_, i) => (
+              <LiveContestCardSkeleton key={i} isUpcoming={true} />
+            ))
           ) : upcomingContests && upcomingContests.length ? (
             upcomingContests.map((contest) => (
               <LiveContestCard
@@ -85,11 +89,9 @@ export default function ActiveContests() {
         <hr className="mb-12 h-0.5 border-t-0 bg-neutral-200 dark:bg-white/10 " />
         <div className="flex w-full">
           {isPastLoading ? (
-            <div className="flex w-full h-[70vh] items-center justify-center">
-              <Loading />
-            </div>
+            <PastContestsTableSkeleton />
           ) : pastContests && pastContests.length ? (
-            <ContestsTable contests={pastContests} />
+            <PastContestsTable contests={pastContests} />
           ) : (
             <div className="flex w-full items-center">
               <h1 className="font-medium text-sm flex gap-2 items-start opacity-50">

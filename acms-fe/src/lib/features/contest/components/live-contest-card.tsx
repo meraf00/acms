@@ -56,7 +56,7 @@ export default function LiveContestCard({
         <Card
           className={` ${cn(
             "w-[420px]",
-            "bg-background overflow-hidden rounded-3xl shadow-[0_10px_20px_rgba(0,0,0,_0.2)] dark:shadow-[0_10px_20px_rgba(0,0,0,_0.3)] border-0 h-full flex flex-col justify-between"
+            "bg-background overflow-hidden rounded-3xl shadow-[0_10px_20px_rgba(0,0,0,_0.08)] dark:shadow-[0_10px_20px_rgba(0,0,0,_0.3)] border-0 h-full flex flex-col justify-between"
           )}`}
         >
           <CardContent className="max-h-44 overflow-hidden">
