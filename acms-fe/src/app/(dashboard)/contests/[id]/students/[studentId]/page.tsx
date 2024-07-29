@@ -49,7 +49,7 @@ export default function Student() {
       <h1 className="font-bold text-2xl mb-10 flex gap-2 items-start">
         Student images
       </h1>
-      <div className="flex w-full overflow-auto gap-5 no-scrollbar">
+      <div className="flex w-full overflow-auto gap-5 no-scrollbar pr-24">
         {isLoading ? (
           <div className="flex w-full h-[80vh] items-center justify-center">
             <Loading />

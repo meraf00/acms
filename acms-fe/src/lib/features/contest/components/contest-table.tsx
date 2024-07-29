@@ -1,5 +1,5 @@
-import * as React from 'react';
-import { ChevronDownIcon } from '@radix-ui/react-icons';
+import * as React from "react";
+import { ChevronDownIcon } from "@radix-ui/react-icons";
 import {
   ColumnFiltersState,
   SortingState,
@@ -10,17 +10,17 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
-} from '@tanstack/react-table';
+} from "@tanstack/react-table";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { Input } from '@/components/ui/input';
+} from "@/components/ui/dropdown-menu";
+import { Input } from "@/components/ui/input";
 import {
   Table,
   TableBody,
@@ -28,9 +28,9 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
-import { Contest } from '../types/contest';
-import { columns } from './contest-table-columns';
+} from "@/components/ui/table";
+import { Contest } from "../types/contest";
+import { columns } from "./contest-table-columns";
 
 export interface ContestTableProps {
   contests: Contest[];
@@ -66,13 +66,13 @@ export function ContestsTable({ contests }: ContestTableProps) {
   });
 
   return (
-    <div className="w-full">
+    <div className="w-full pr-24">
       <div className="flex items-center py-4">
         <Input
           placeholder="Filter contests..."
-          value={(table.getColumn('name')?.getFilterValue() as string) ?? ''}
+          value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
-            table.getColumn('name')?.setFilterValue(event.target.value)
+            table.getColumn("name")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />
@@ -128,7 +128,7 @@ export function ContestsTable({ contests }: ContestTableProps) {
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
-                  data-state={row.getIsSelected() && 'selected'}
+                  data-state={row.getIsSelected() && "selected"}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
@@ -155,7 +155,7 @@ export function ContestsTable({ contests }: ContestTableProps) {
       </div>
       <div className="flex items-center justify-end space-x-2 py-4">
         <div className="flex-1 text-sm text-muted-foreground">
-          {table.getFilteredSelectedRowModel().rows.length} of{' '}
+          {table.getFilteredSelectedRowModel().rows.length} of{" "}
           {table.getFilteredRowModel().rows.length} row(s) selected.
         </div>
         <div className="space-x-2">
