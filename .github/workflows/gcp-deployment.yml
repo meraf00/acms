@@ -45,6 +45,7 @@ jobs:
         id: write_file
         uses: timheuer/base64-to-file@v1.2
         with:
+          fileDir: 'acms-be'
           fileName: 'app.yaml'
           encodedString: ${{ secrets.GAE_CONFIG }}
 
