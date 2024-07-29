@@ -22,6 +22,9 @@ export class User {
 
   @Prop({ type: Types.ObjectId, required: true, ref: Profile.name })
   profile: Profile;
+
+  @Prop({ type: Boolean, default: false })
+  isDeleted: boolean;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

@@ -14,7 +14,10 @@ export const EntityService = <T>(populateFields: string[] | PathDef = []) => {
 
     async findAll(): Promise<T[]> {
       try {
-        return await this.entityModel.find().populate(populateFields).exec();
+        return await this.entityModel
+          .find({ isDeleted: false })
+          .populate(populateFields)
+          .exec();
       } catch (e) {
         console.log(e);
       }
@@ -24,7 +27,7 @@ export const EntityService = <T>(populateFields: string[] | PathDef = []) => {
     async findOne(id: string): Promise<T | null> {
       try {
         return await this.entityModel
-          .findOne({ _id: id })
+          .findOne({ _id: id, isDeleted: false })
           .populate(populateFields)
           .exec();
       } catch (e) {
@@ -34,11 +37,15 @@ export const EntityService = <T>(populateFields: string[] | PathDef = []) => {
     }
 
     async update(id: string, data: any) {
-      return await this.entityModel.updateOne({ _id: id }, data).exec();
+      return await this.entityModel
+        .updateOne({ _id: id, isDeleted: false }, data)
+        .exec();
     }
 
     async delete(id: string) {
-      return await this.entityModel.deleteOne({ _id: id }).exec();
+      return await this.entityModel
+        .updateOne({ _id: id }, { isDeleted: true })
+        .exec();
     }
   }
 

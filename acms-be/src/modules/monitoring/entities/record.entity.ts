@@ -21,6 +21,9 @@ export class Record {
     default: [],
   })
   files: UploadedFile[];
+
+  @Prop({ type: Boolean, default: false })
+  isDeleted: boolean;
 }
 
 export const RecordSchema = SchemaFactory.createForClass(Record);
