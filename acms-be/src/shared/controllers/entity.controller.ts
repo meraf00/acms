@@ -8,8 +8,9 @@ import {
   Param,
   Post,
   Put,
+  Query,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiBody } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiParam, ApiQuery } from '@nestjs/swagger';
 import { IEntityService } from '@shared/types/service';
 import { DeleteResult } from 'mongodb';
 import { UpdateWriteOpResult } from 'mongoose';
@@ -39,14 +40,26 @@ export const EntityController = <T>(
       }
     }
 
+    @ApiQuery({ name: 'deleted', required: false, type: Boolean })
     @Get()
-    findAll() {
+    findAll(@Query('deleted') isDeleted: boolean) {
+      if (isDeleted) {
+        return this.entityService.findAll(isDeleted);
+      }
       return this.entityService.findAll();
     }
 
+    @ApiQuery({ name: 'deleted', required: false, type: Boolean })
+    @ApiParam({ name: 'id', required: true })
     @Get(':id')
-    async findOne(@Param('id') id: string) {
+    async findOne(
+      @Param('id') id: string,
+      @Query('deleted') isDeleted: boolean,
+    ) {
       try {
+        if (isDeleted) {
+          return await this.entityService.findOne(id, true);
+        }
         return await this.entityService.findOne(id);
       } catch (err) {
         throw new BadRequestException('Unable to complete request.');
