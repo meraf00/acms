@@ -3,7 +3,6 @@
 import Loading from '@/components/ui/loading';
 import AuthGuard from '@/lib/features/auth/components/auth-guard';
 import { ContestsTable } from '@/lib/features/contest/components/contest-table';
-
 import { useGetContests } from '@/lib/features/hooks';
 import React from 'react';
 
@@ -11,7 +10,7 @@ function ContestsPage() {
   const { data, isLoading, error } = useGetContests();
 
   return (
-    <div>
+    <div >
       {isLoading && (
         <div className="flex w-full h-[80vh] items-center justify-center">
           <Loading />

@@ -12,7 +12,7 @@ export default function EditContest() {
   const { data, isLoading, error } = useGetContest(params.id as string);
 
   return (
-    <div className="">
+    <div className="pr-24">
       <h1
         className={cn(
           'font-bold text-2xl mb-10 flex gap-2 items-start',

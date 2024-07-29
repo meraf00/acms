@@ -58,8 +58,8 @@ export default function Contest() {
     });
 
     return (
-      <>
-        <div className="flex justify-between w-full">
+      <div className='pr-24'>
+        <div className="flex justify-between w-full ">
           <h1 className="font-bold text-2xl mb-10 flex gap-2 items-start">
             {data.contest.name}
             <Link
@@ -100,7 +100,7 @@ export default function Contest() {
             />
           )}
         </div>
-      </>
+      </div>
     );
   }
 }
