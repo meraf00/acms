@@ -21,25 +21,49 @@ jobs:
     name: Deploying to Google Cloud
 
     environment: Production
+    permissions:
+      contents: 'read'
+      id-token: 'write'
 
     runs-on: ubuntu-latest
 
     defaults:
       run:
-        working-directory: acms-be
+        working-directory: 'acms-be'
 
     steps:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: Google Auth
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: '${{ secrets.WIF_PROVIDER}}'
+          service_account: '${{ secrets.SA_EMAIL }}'
+
+      - name: Setup app.yaml
+        id: write_app_yaml
+        uses: timheuer/base64-to-file@v1.2
+        with:
+          fileDir: 'acms-be'
+          fileName: 'app.yaml'
+          encodedString: ${{ secrets.GAE_CONFIG }}
+
+      - name: Setup OAuth Client Credentials
+        id: write_oauth_client
+        uses: timheuer/base64-to-file@v1.2
+        with:
+          fileDir: 'acms-be'
+          fileName: 'oauth-client-prod.json'
+          encodedString: ${{ secrets.OAUTH_SECRET }}
+
+      - name: Setup gcloud
+        uses: google-github-actions/setup-gcloud@v2
+
       - name: Deploy to App Engine
         id: deploy
-        uses: google-github-actions/deploy-appengine@v0.2.0
-        with:
-          deliverables: app.yaml
-          version: v2
-          project_id: ${{ secrets.GCP_PROJECT_ID }}
-          credentials: ${{ secrets.GCS_SA_KEY }}
+        run: |
+          gcloud app deploy -v v2
 
       - name: Test Deployment
-        run: curl "${{ steps.deploy.outputs.url }}"
+        run: curl "${{ secrets.SERVER_HEALTH_URL }}"
