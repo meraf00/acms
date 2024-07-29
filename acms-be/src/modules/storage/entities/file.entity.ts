@@ -16,6 +16,9 @@ export class UploadedFile {
 
   @Prop({ type: String, required: true })
   originalName: string;
+
+  @Prop({ type: Boolean, default: false })
+  isDeleted: boolean;
 }
 
 export const UploadedFileSchema = SchemaFactory.createForClass(UploadedFile);
