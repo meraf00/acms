@@ -99,7 +99,7 @@ export default function LiveContestCard({
           </div>
         </Card>
       </TooltipTrigger>
-      <TooltipContent className="text-sm bg-background text-muted-foreground ">
+      <TooltipContent className="text-sm bg-opacity-0 text-muted-foreground ">
         {contest.name}
       </TooltipContent>
     </Tooltip>

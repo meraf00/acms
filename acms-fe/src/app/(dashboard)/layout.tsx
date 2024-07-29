@@ -24,7 +24,10 @@ function DashboardLayout({
         <Sidebar className="mr-15" />
       </div>
 
-      <div className="flex absolute right-4 top-0 pt-7 px-4  z-10 h-screen dark:bg-[#171C23] dark:bg-opacity-70 dark:backdrop-blur-sm">
+      <div
+        className="flex absolute right-4 top-0 pt-7 px-4  z-10 h-screen bg-opacity-70 backdrop-blur-sm dark:bg-[#171C23] dark:bg-opacity-70 dark:backdrop-blur-sm 
+        dark:border-l dark:border-gray-600/25 border-l border-gray-600/25 border-dashed"
+      >
         {user && (
           <UserNav
             email={user!.email}
