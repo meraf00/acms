@@ -52,7 +52,7 @@ jobs:
         id: deploy
         uses: google-github-actions/deploy-appengine@v2
         with:
-          deliverables: app.yaml
+          deliverables: ${{ steps.write_file.outputs.filePath }}
           version: v2
           project_id: ${{ secrets.GCP_PROJECT_ID }}
 
