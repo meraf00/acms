@@ -42,15 +42,20 @@ jobs:
           service_account: '${{ secrets.SA_EMAIL }}'
 
       - name: Setup app.yaml
-        id: write_file
+        id: write_app_yaml
         uses: timheuer/base64-to-file@v1.2
         with:
           fileDir: 'acms-be'
           fileName: 'app.yaml'
           encodedString: ${{ secrets.GAE_CONFIG }}
 
-      - name: Debug files
-        run: ls -la
+      - name: Setup OAuth Client Credentials
+        id: write_oauth_client
+        uses: timheuer/base64-to-file@v1.2
+        with:
+          fileDir: 'acms-be'
+          fileName: 'oauth-client-prod.json'
+          encodedString: ${{ secrets.OAUTH_SECRET }}
 
       - name: Setup gcloud
         uses: google-github-actions/setup-gcloud@v2
@@ -61,4 +66,4 @@ jobs:
           gcloud app deploy -v v2
 
       - name: Test Deployment
-        run: curl "${{ steps.deploy.outputs.url }}"
+        run: curl "${{ secrets.SERVER_HEALTH_URL }}"
