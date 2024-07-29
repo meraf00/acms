@@ -45,8 +45,15 @@ jobs:
         id: write_file
         uses: timheuer/base64-to-file@v1.2
         with:
+          fileDir: '.'
           fileName: 'app.yaml'
           encodedString: ${{ secrets.GAE_CONFIG }}
+
+      - name: Check if app.yaml is created
+        run: ls -la
+
+      - name: Current Directory
+        run: pwd
 
       - name: Deploy to App Engine
         id: deploy
@@ -55,6 +62,7 @@ jobs:
           deliverables: ${{ steps.write_file.outputs.filePath }}
           version: v2
           project_id: ${{ secrets.GCP_PROJECT_ID }}
+          promote: false
 
       - name: Test Deployment
         run: curl "${{ steps.deploy.outputs.url }}"
