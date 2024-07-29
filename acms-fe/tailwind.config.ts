@@ -27,12 +27,20 @@ const config = {
       },
     },
     extend: {
+      boxShadow: {
+        miShadow: '23px 0px 35px 0px rgba(0,0,0,0.39) inset',
+
+      },
       colors: {
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
+        darkBackgroundWithOpacity: {
+          50: 'rgba(33, 41, 52, 1)',  // 50% opacity
+          // Add other opacity levels
+        },
         primary: {
           DEFAULT: 'hsl(var(--primary))',
           foreground: 'hsl(var(--primary-foreground))',

@@ -10,6 +10,7 @@ import {
   getContest,
   getContestWithRecord,
   getContests,
+  getPastContests,
   getUpcomingContests,
   updateContest,
 } from './api';
@@ -74,6 +75,16 @@ export const useGetUpcomingContests = () => {
   return useQuery({
     queryKey: ['upcoming-contests'],
     queryFn: () => getUpcomingContests(client),
+    staleTime,
+  });
+};
+
+export const useGetPastContests = () => {
+  const client = useApi();
+
+  return useQuery({
+    queryKey: ['past-contests'],
+    queryFn: () => getPastContests(client),
     staleTime,
   });
 };
