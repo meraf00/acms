@@ -10,6 +10,9 @@ export class Profile {
 
   @Prop({ type: String, required: true })
   codeforcesHandle: string;
+
+  @Prop({ type: Boolean, default: false })
+  isDeleted: boolean;
 }
 
 export const ProfileSchema = SchemaFactory.createForClass(Profile);

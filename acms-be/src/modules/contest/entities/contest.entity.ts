@@ -24,6 +24,9 @@ export class Contest {
 
   @Prop({ type: [Types.ObjectId], required: true, ref: User.name })
   students: User[];
+
+  @Prop({ type: Boolean, default: false })
+  isDeleted: boolean;
 }
 
 export const ContestSchema = SchemaFactory.createForClass(Contest);

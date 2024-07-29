@@ -33,7 +33,7 @@ export function UserNav({ avatarImage, fallback, email, name }: UserNavProps) {
         <ProfileModal open={open} onClose={() => setOpen(false)} />
       ) : null} */}
       <DropdownMenu>
-        <DropdownMenuTrigger asChild>
+        <DropdownMenuTrigger asChild >
           <Button variant="ghost" className="relative h-8 w-8 rounded-full">
             <Avatar className="h-8 w-8">
               <AvatarImage src={avatarImage} alt="avatar image" />

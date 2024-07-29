@@ -14,6 +14,9 @@ export class ContestDeletionRequest {
 
   @Prop({ type: [Types.ObjectId], required: true, ref: User.name, default: [] })
   approvals: User[];
+
+  @Prop({ type: Boolean, default: false })
+  isDeleted: boolean;
 }
 
 export const ContestDeletionRequestSchema = SchemaFactory.createForClass(
