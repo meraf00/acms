@@ -21,6 +21,9 @@ jobs:
     name: Deploying to Google Cloud
 
     environment: Production
+    permissions:
+      contents: 'read'
+      id-token: 'write'
 
     runs-on: ubuntu-latest
 
