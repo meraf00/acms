@@ -6,28 +6,11 @@ import { Button, buttonVariants } from "@/components/ui/button";
 import { ExternalLinkIcon } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/core/utils";
+import { formatDate } from "@/lib/core/utils/format-date";
 
-const formatDate = (dateString: string) => {
-  const options: Intl.DateTimeFormatOptions = {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-    hour: "numeric",
-    minute: "numeric",
-    hour12: true,
-  };
-  return new Date(dateString).toLocaleString(undefined, options);
-};
-
-export default function PastContestRow({
-  contest,
-  key,
-}: {
-  contest: Contest;
-  key: number;
-}) {
+export default function PastContestRow({ contest }: { contest: Contest }) {
   return (
-    <div key={key} className="flex pt-8 px-8 justify-between items-center ">
+    <div className="flex pt-8 px-8 justify-between items-center ">
       <div className="flex flex-col md:flex-row space-y-2 md:space-x-4 justify-center items-center">
         <div className=" rounded-xl overflow-hidden  max-w-40">
           <Image
@@ -48,7 +31,7 @@ export default function PastContestRow({
       </div>
       <div>
         <Link
-          href={`https://codeforces.com/contests${contest._id}`}
+          href={`https://codeforces.com/contests/${contest.id}`}
           target="_blank"
           className={`  ${cn(
             buttonVariants({ variant: "default" }),
@@ -57,7 +40,6 @@ export default function PastContestRow({
         >
           <ExternalLinkIcon className="mr-2 h-4 w-4" /> Open Contest
         </Link>
-        
       </div>
     </div>
   );
