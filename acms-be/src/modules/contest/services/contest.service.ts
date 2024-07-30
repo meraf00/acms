@@ -95,6 +95,7 @@ export class ContestService extends EntityService<Contest>({
           path: 'profile',
         },
       })
+      .sort({ startingTime: 1 })
       .exec();
   }
 
@@ -111,6 +112,7 @@ export class ContestService extends EntityService<Contest>({
           path: 'profile',
         },
       })
+      .sort({ startingTime: 1 })
       .exec();
   }
 

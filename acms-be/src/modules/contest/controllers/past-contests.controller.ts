@@ -32,7 +32,7 @@ export class PastContestController {
     try {
       return await this.contestService.findAll(
         undefined, // isDeleted
-        { startTime: -1 }, // sortBy
+        { startingTime: -1 }, // sortBy
       );
     } catch (err) {
       console.log(err);
