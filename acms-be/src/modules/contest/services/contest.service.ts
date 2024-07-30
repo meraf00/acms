@@ -76,6 +76,7 @@ export class ContestService extends EntityService<Contest>({
           );
         })
         .map((user: UserDocument) => user.id);
+      data.students = [...oldContest.students, ...data.students];
     }
 
     return await this.contestModel.updateOne({ _id: id }, data).exec();
@@ -86,6 +87,7 @@ export class ContestService extends EntityService<Contest>({
 
     return await this.contestModel
       .find({
+        isDeleted: false,
         startingTime: { $lte: now },
         endingTime: { $gte: now },
       })
@@ -104,6 +106,7 @@ export class ContestService extends EntityService<Contest>({
 
     return await this.contestModel
       .find({
+        isDeleted: false,
         startingTime: { $gte: now },
       })
       .populate({
@@ -116,11 +119,30 @@ export class ContestService extends EntityService<Contest>({
       .exec();
   }
 
+  async getPastContests() {
+    const now = Date.now();
+
+    return await this.contestModel
+      .find({
+        isDeleted: false,
+        endingTime: { $lte: now },
+      })
+      .populate({
+        path: 'students',
+        populate: {
+          path: 'profile',
+        },
+      })
+      .sort({ startingTime: -1 })
+      .exec();
+  }
+
   async isActive(contestId: string) {
     const now = Date.now();
 
     return await this.contestModel.exists({
       _id: contestId,
+      isDeleted: false,
       startingTime: { $lte: now },
       endingTime: { $gte: now },
     });
@@ -131,6 +153,7 @@ export class ContestService extends EntityService<Contest>({
 
     return await this.contestModel.findOne({
       _id: contestId,
+      isDeleted: false,
       startingTime: { $lte: now },
       endingTime: { $gte: now },
     });

@@ -30,10 +30,7 @@ export class PastContestController {
   @Get()
   async findAll() {
     try {
-      return await this.contestService.findAll(
-        undefined, // isDeleted
-        { startingTime: -1 }, // sortBy
-      );
+      return await this.contestService.getPastContests();
     } catch (err) {
       console.log(err);
       throw new BadRequestException('Unable to complete request.');
