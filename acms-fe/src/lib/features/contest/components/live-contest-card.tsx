@@ -1,5 +1,4 @@
 "use client";
-
 import React, { useEffect } from "react";
 import { Contest } from "../types/contest";
 import Link from "next/link";
