@@ -10,8 +10,11 @@ import {
 } from "@/lib/features/hooks";
 import LiveContestCardSkeleton from "@lib/features/contest/components/skeletons/live-contest-card-skeleton";
 import { PastContestsTableSkeleton } from "@lib/features/contest/components/skeletons/past-contest-table-skeleton";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 export default function ActiveContests() {
+  const router = useRouter();
   const {
     data: activeContests,
     isLoading: isActiveLoading,
@@ -27,6 +30,32 @@ export default function ActiveContests() {
     isLoading: isPastLoading,
     error: pastError,
   } = useGetPastContests();
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (activeContests) {
+        const activeDiff =
+          new Date(activeContests[0].endingTime).getTime() - Date.now();
+
+        if (activeDiff < 0) {
+          router.refresh();
+          clearInterval(interval);
+        }
+      }
+
+      if (upcomingContests) {
+        const upcomingDiff =
+          new Date(upcomingContests[0].startingTime).getTime() - Date.now();
+
+        if (upcomingDiff < 0) {
+          router.refresh();
+          clearInterval(interval);
+        }
+      }
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [activeContests, upcomingContests, router]);
   const isLoading = true;
   return (
     <div className="space-y-10 mb-32 mr-2">
