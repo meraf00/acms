@@ -12,11 +12,15 @@ export const EntityService = <T>(populateFields: string[] | PathDef = []) => {
       return await this.entityModel.create(data);
     }
 
-    async findAll(isDeleted: boolean = false): Promise<T[]> {
+    async findAll(
+      isDeleted: boolean = false,
+      sortBy: Record<string, 1 | -1> = {},
+    ): Promise<T[]> {
       try {
         return await this.entityModel
           .find({ isDeleted })
           .populate(populateFields)
+          .sort(sortBy)
           .exec();
       } catch (e) {
         console.log(e);
