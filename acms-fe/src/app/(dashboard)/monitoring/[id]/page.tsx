@@ -74,7 +74,7 @@ export default function Monitor() {
   // console.log(captureInterval);
 
   return (
-    <>
+    <div className='pr-20'>
       <h1 className="font-bold text-2xl mb-10 flex gap-2 items-start">
         Monitoring {trackedContest && trackedContest.name}
       </h1>
@@ -106,6 +106,6 @@ export default function Monitor() {
           onClick={() => upload(cameraRef.current, screenRef.current)}
         ></Button>
       </div>
-    </>
+    </div>
   );
 }
