@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { Contest } from "../types/contest";
 import Link from "next/link";
 import { cn } from "@/lib/core/utils";
@@ -33,22 +33,56 @@ export default function LiveContestCard({
   contest,
   isLive = true,
 }: LiveContestCardProps) {
-  let timeRef = "";
-
   const { currentUser: user } = useUser();
 
-  const diff = new Date(contest.endingTime).getTime() - Date.now();
+  const [timeRef, setTimeRef] = React.useState<string>("");
 
-  const hours = Math.floor(diff / (1000 * 60 * 60));
-  const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+  const [days, setDays] = React.useState<number>(0);
+  const [hours, setHours] = React.useState<number>(0);
+  const [minutes, setMinutes] = React.useState<number>(0);
+  const [secs, setSecs] = React.useState<number>(0);
 
-  if (hours === 0) {
-    timeRef = `Ends in ${minutes} mins`;
-  } else if (minutes === 0) {
-    timeRef = `Ends in ${hours} hrs`;
-  } else {
-    timeRef = `Ends in ${hours} hrs and ${minutes} mins`;
-  }
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const diff =
+        new Date(isLive ? contest.endingTime : contest.startingTime).getTime() -
+        Date.now();
+      setDays(Math.floor(diff / (1000 * 60 * 60 * 24)));
+      setHours(Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)));
+      setMinutes(Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)));
+      setSecs(Math.floor(((diff % (1000 * 60 * 60)) % (1000 * 60)) / 1000));
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [contest, contest.endingTime, contest.startingTime]);
+
+  useEffect(() => {
+    if (isLive) {
+      if (days > 0) {
+        setTimeRef(
+          `Monitoring ends in ${days}d ${hours}h ${minutes}m ${secs}s`
+        );
+      } else if (hours > 0) {
+        setTimeRef(`Monitoring ends in ${hours}h ${minutes}m ${secs}s`);
+      } else if (minutes > 0) {
+        setTimeRef(`Monitoring ends in ${minutes}m ${secs}s`);
+      } else {
+        setTimeRef(`Monitoring ends in ${secs}s`);
+      }
+    } else {
+      if (days > 0) {
+        setTimeRef(
+          `Monitoring starts in ${days}d ${hours}h ${minutes}m ${secs}s`
+        );
+      } else if (hours > 0) {
+        setTimeRef(`Monitoring starts in ${hours}h ${minutes}m ${secs}s`);
+      } else if (minutes > 0) {
+        setTimeRef(`Monitoring starts in ${minutes}m ${secs}s`);
+      } else {
+        setTimeRef(`Monitoring starts in ${secs}s`);
+      }
+    }
+  }, [days, hours, minutes, secs, isLive]);
 
   return (
     <Tooltip>
@@ -71,7 +105,7 @@ export default function LiveContestCard({
               <CardTitle className="text-ellipsis text-md font-bold overflow-hidden text-left line-clamp-2">
                 {contest.name}
               </CardTitle>
-              <CardDescription className="text-xs font-sm">
+              <CardDescription className="text-xs font-sm text-left">
                 {timeRef}
               </CardDescription>
             </CardHeader>
