@@ -7,12 +7,6 @@ on:
       - 'acms-be/**'
       - '.github/workflows/gcp-deployment.yml'
 
-  pull_request:
-    branches: [main]
-    paths:
-      - 'acms-be/**'
-      - '.github/workflows/gcp-deployment.yml'
-
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
