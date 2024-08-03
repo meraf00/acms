@@ -33,7 +33,7 @@ export default function ActiveContests() {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      if (activeContests && activeContests?.length !== 0) {
+      if (activeContests && activeContests.length !== 0) {
         const activeDiff =
           new Date(activeContests[0].endingTime).getTime() - Date.now();
 
