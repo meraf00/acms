@@ -33,7 +33,7 @@ export default function ActiveContests() {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      if (activeContests) {
+      if (activeContests && activeContests.length !== 0) {
         const activeDiff =
           new Date(activeContests[0].endingTime).getTime() - Date.now();
 
@@ -43,7 +43,7 @@ export default function ActiveContests() {
         }
       }
 
-      if (upcomingContests) {
+      if (upcomingContests && upcomingContests.length !== 0) {
         const upcomingDiff =
           new Date(upcomingContests[0].startingTime).getTime() - Date.now();
 
