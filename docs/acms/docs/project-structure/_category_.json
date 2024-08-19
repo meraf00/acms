@@ -1,0 +1,8 @@
+{
+  "label": "Project Structure",
+  "position": 2,
+  "link": {
+    "type": "generated-index",
+    "description": "The project is a mono repo, containing the backend, frontend, and documentation within the same repository."
+  }
+}
