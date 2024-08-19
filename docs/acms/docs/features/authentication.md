@@ -1,7 +1,7 @@
 ---
 title: Authentication
 sidebar_label: Authentication
-sidebar_position: 2
+sidebar_position: 1
 ---
 
 The Contest Monitoring System uses Google OAuth for user authentication. Users must authenticate with their organizational email to access the system. Below are the two primary authentication flows:
