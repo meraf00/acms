@@ -6,28 +6,23 @@ import { Auth, AuthState } from './types';
 
 export const authInitialState: AuthState = {
   user: null,
-  loaded: false,
+  token: null,
 };
 
 const authSlice = createSlice({
   name: Auth,
   initialState: authInitialState,
   reducers: {
-    login(state, { payload: { user } }) {
-      state.user = user;
+    setUser(state, { payload }) {
+      state.user = payload;
     },
 
-    loaded(state, { payload }: { payload: boolean }) {
-      state.loaded = payload;
-    },
-
-    logout(state) {
-      state.user = null;
-      state.loaded = true;
+    setToken(state, { payload }) {
+      state.token = payload;
     },
   },
 });
 
-export const { login, loaded, logout } = authSlice.actions;
+export const { setUser, setToken } = authSlice.actions;
 
 export default authSlice.reducer;

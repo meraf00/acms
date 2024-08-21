@@ -1,9 +1,9 @@
-"use client";
-import React, { useEffect } from "react";
-import { Contest } from "../types/contest";
-import Link from "next/link";
-import { cn } from "@/lib/core/utils";
-import { buttonVariants } from "@/components/ui/button";
+'use client';
+import React, { useEffect } from 'react';
+import { Contest } from '../types/contest';
+import Link from 'next/link';
+import { cn } from '@/lib/core/utils';
+import { buttonVariants } from '@/components/ui/button';
 import {
   Card,
   CardDescription,
@@ -11,17 +11,17 @@ import {
   CardHeader,
   CardTitle,
   CardContent,
-} from "@/components/ui/card";
-import { ExternalLinkIcon, Monitor } from "lucide-react";
+} from '@/components/ui/card';
+import { ExternalLinkIcon, Monitor } from 'lucide-react';
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from "@radix-ui/react-tooltip";
-import { useUser } from "../../auth/hooks/useUser";
-import { Roles } from "../../auth/types/role";
-import Image from "next/image";
-import contestImage from "@public/images/Vector_2648.jpg";
+} from '@radix-ui/react-tooltip';
+import { Roles } from '../../auth/types/role';
+import Image from 'next/image';
+import contestImage from '@public/images/Vector_2648.jpg';
+import { useAppSelector } from '@/lib/core/hooks';
 
 export interface LiveContestCardProps {
   contest: Contest;
@@ -32,9 +32,9 @@ export default function LiveContestCard({
   contest,
   isLive = true,
 }: LiveContestCardProps) {
-  const { currentUser: user } = useUser();
+  const user = useAppSelector((state) => state.auth.user);
 
-  const [timeRef, setTimeRef] = React.useState<string>("");
+  const [timeRef, setTimeRef] = React.useState<string>('');
 
   const [days, setDays] = React.useState<number>(0);
   const [hours, setHours] = React.useState<number>(0);
@@ -53,7 +53,7 @@ export default function LiveContestCard({
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [contest, contest.endingTime, contest.startingTime]);
+  }, [contest, contest.endingTime, contest.startingTime, isLive]);
 
   useEffect(() => {
     if (isLive) {
@@ -88,15 +88,15 @@ export default function LiveContestCard({
       <TooltipTrigger className="">
         <Card
           className={` ${cn(
-            "w-[420px]",
-            "bg-background overflow-hidden rounded-3xl shadow-[0_10px_20px_rgba(0,0,0,_0.08)] dark:shadow-[0_10px_20px_rgba(0,0,0,_0.3)] border-0 h-full flex flex-col justify-between"
+            'w-[420px]',
+            'bg-background overflow-hidden rounded-3xl shadow-[0_10px_20px_rgba(0,0,0,_0.08)] dark:shadow-[0_10px_20px_rgba(0,0,0,_0.3)] border-0 h-full flex flex-col justify-between'
           )}`}
         >
           <CardContent className="max-h-44 overflow-hidden">
             <Image
               priority={false}
               src={contestImage}
-              alt={"contest photo "}
+              alt={'contest photo '}
             ></Image>
           </CardContent>
           <div className="flex justify-between ">
@@ -111,9 +111,9 @@ export default function LiveContestCard({
 
             <CardFooter className="flex flex-col px-0 py-4 mr-3 gap-2 max-w-44 items-start justify-end">
               <Link
-                href={contest.invitationLink ?? ""}
+                href={contest.invitationLink ?? ''}
                 target="_blank"
-                className={` ${cn("", buttonVariants({ variant: "link" }))}`}
+                className={` ${cn('', buttonVariants({ variant: 'link' }))}`}
               >
                 <ExternalLinkIcon className="mr-2 h-4 w-4" /> Open Contest
               </Link>
@@ -121,8 +121,8 @@ export default function LiveContestCard({
                 <Link
                   href={`/monitoring/${contest._id}`}
                   className={`  ${cn(
-                    buttonVariants({ variant: "default" }),
-                    "rounded-xl"
+                    buttonVariants({ variant: 'default' }),
+                    'rounded-xl'
                   )}`}
                 >
                   <Monitor className="mr-2 h-4 w-4" /> Start Monitoring

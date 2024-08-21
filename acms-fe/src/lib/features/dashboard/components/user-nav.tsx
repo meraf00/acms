@@ -12,10 +12,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@components/ui/dropdown-menu';
-import { useLogout } from '../../auth/hooks/useLogin';
 import { useAppDispatch } from '@/lib/core/hooks';
-import { redirect } from 'next/navigation';
-import { logout } from '../../auth/store/slice';
+import Link from 'next/link';
 
 export interface UserNavProps {
   avatarImage?: string;
@@ -33,7 +31,7 @@ export function UserNav({ avatarImage, fallback, email, name }: UserNavProps) {
         <ProfileModal open={open} onClose={() => setOpen(false)} />
       ) : null} */}
       <DropdownMenu>
-        <DropdownMenuTrigger asChild >
+        <DropdownMenuTrigger asChild>
           <Button variant="ghost" className="relative h-8 w-8 rounded-full">
             <Avatar className="h-8 w-8">
               <AvatarImage src={avatarImage} alt="avatar image" />
@@ -62,15 +60,11 @@ export function UserNav({ avatarImage, fallback, email, name }: UserNavProps) {
           </DropdownMenuItem> 
           </DropdownMenuGroup>*/}
           <DropdownMenuSeparator />
-          <DropdownMenuItem
-            onClick={() => {
-              localStorage.clear();
-              dispatch(logout());
-              redirect('/');
-            }}
-          >
-            <LogOut className="mr-2 h-4 w-4" />
-            Log out
+          <DropdownMenuItem>
+            <Link href="/auth/logout">
+              <LogOut className="mr-2 h-4 w-4" />
+              Log out
+            </Link>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

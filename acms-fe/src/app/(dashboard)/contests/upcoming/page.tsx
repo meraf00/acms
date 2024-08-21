@@ -1,14 +1,17 @@
 'use client';
 
 import Loading from '@/components/ui/loading';
-import AuthGuard from '@/lib/features/auth/components/auth-guard';
+import { useAppSelector } from '@/lib/core/hooks';
 import { ContestsTable } from '@/lib/features/contest/components/contest-table';
+import { useGetUpcomingContestsQuery } from '@/lib/features/contest/store/api';
 
-import { useGetUpcomingContests } from '@/lib/features/hooks';
 import React from 'react';
 
-function UpcomingContestsPage() {
-  const { data, isLoading, error } = useGetUpcomingContests();
+export default function UpcomingContestsPage() {
+  const user = useAppSelector((state) => state.auth.user);
+  const { data, isLoading, error } = useGetUpcomingContestsQuery(undefined, {
+    skip: !user,
+  });
 
   return (
     <div>
@@ -17,13 +20,8 @@ function UpcomingContestsPage() {
           <Loading />
         </div>
       )}
-      {error && <div>Error: {error.message}</div>}
+      {error && <div>Error: {'error'}</div>}
       {data && <ContestsTable contests={data} />}
     </div>
   );
 }
-
-export default AuthGuard({
-  Component: UpcomingContestsPage,
-  allowedRoles: ['hoe', 'hoa', 'acms'],
-});

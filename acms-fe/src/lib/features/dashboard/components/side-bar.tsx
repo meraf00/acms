@@ -6,12 +6,12 @@ import { ScrollArea } from '@components/ui/scroll-area';
 import { Database, Plus, Bug, Activity, ClockIcon } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useUser } from '../../auth/hooks/useUser';
 import { Roles } from '../../auth/types/role';
+import { useAppSelector } from '@/lib/core/hooks';
 
 export function Sidebar({ className }: any) {
   const pathname = usePathname();
-  const { currentUser: user } = useUser();
+  const user = useAppSelector((state) => state.auth.user);
 
   const activateOn = (path: string) => {
     if (pathname === path) {

@@ -10,3 +10,7 @@ export const siteConfig = {
     otp: process.env.NEXT_PUBLIC_OTP_AUTH_URL,
   },
 };
+
+export const appCookies = {
+  accessToken: 'ACCESS_TOKEN',
+};

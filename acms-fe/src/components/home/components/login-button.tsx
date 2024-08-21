@@ -1,23 +1,15 @@
 'use client';
 
 import { buttonVariants } from '@/components/ui/button';
+import { useAppSelector } from '@/lib/core/hooks';
 import { cn } from '@/lib/core/utils';
-import { useUser } from '@/lib/features/auth/hooks/useUser';
 import { Activity, LogInIcon } from 'lucide-react';
 import Link from 'next/link';
 import React, { useEffect } from 'react';
 
 export default function LoginButton() {
-  const { currentUser, userLoaded } = useUser();
-  const [show, setShow] = React.useState(false);
-
-  useEffect(() => {
-    if (currentUser && userLoaded) {
-      setShow(true);
-    } else {
-      setShow(false);
-    }
-  }, [currentUser, userLoaded]);
+  const user = useAppSelector((state) => state.auth.user);
+  const show = !user;
 
   return show ? (
     <Link

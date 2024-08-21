@@ -11,4 +11,6 @@ export interface User {
   role: Role;
 
   profile: Profile;
+
+  picture: string;
 }

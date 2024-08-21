@@ -1,15 +1,20 @@
 'use client';
 
+import { useAppSelector } from '@/lib/core/hooks';
 import { cn } from '@/lib/core/utils';
 import { ContestForm } from '@/lib/features/contest/components/contest-form';
-import { useGetContest } from '@/lib/features/hooks';
+import { useGetContestQuery } from '@/lib/features/contest/store/api';
+
 import { useParams } from 'next/navigation';
 import React from 'react';
 
 export default function EditContest() {
   const params = useParams();
 
-  const { data, isLoading, error } = useGetContest(params.id as string);
+  const user = useAppSelector((state) => state.auth.user);
+  const { data, isLoading, error } = useGetContestQuery(params.id as string, {
+    skip: !user,
+  });
 
   return (
     <div className="pr-24">

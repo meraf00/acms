@@ -1,8 +1,5 @@
-'use client';
-
 import { redirect } from 'next/navigation';
-import React, { useEffect } from 'react';
-import { useUser } from '../hooks/useUser';
+import { auth } from '../utils';
 
 export interface AuthGuardProps {
   Component: React.JSXElementConstructor<any>;
@@ -10,28 +7,15 @@ export interface AuthGuardProps {
 }
 
 export default function AuthGuard({ Component, allowedRoles }: AuthGuardProps) {
-  return function IsAuth(props: any) {
-    const { currentUser: user, userLoaded: loaded } = useUser();
-    const [isMounted, setIsMounted] = React.useState(false);
+  return async function IsAuth(props: any) {
+    const session = await auth();
 
-    useEffect(() => {
-      if (localStorage.getItem('access_token') === null) {
-        return redirect('/auth/login');
-      }
+    if (!session) {
+      redirect('/auth/login');
+    }
 
-      if (user && allowedRoles && !allowedRoles.includes(user.role)) {
-        return redirect('/404');
-      }
-
-      if (loaded && user === null) {
-        return redirect('/auth/login');
-      }
-
-      setIsMounted(true);
-    }, [user, loaded]);
-
-    if (!isMounted || !user) {
-      return null;
+    if (allowedRoles && !allowedRoles.includes(session.user.role)) {
+      redirect('/auth/forbidden');
     }
 
     return (

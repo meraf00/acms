@@ -2,9 +2,9 @@
 
 import React from 'react';
 import { useParams } from 'next/navigation';
-import { useGetContestWithRecord } from '@/lib/features/hooks';
+
 import Loading from '@/components/ui/loading';
-import { CalendarSearch, ExternalLink, TimerIcon } from 'lucide-react';
+import { CalendarSearch, ExternalLink } from 'lucide-react';
 import Link from 'next/link';
 import {
   Accordion,
@@ -13,10 +13,18 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 import { ContestantsTable } from '@/lib/features/contest/components/contestants-table';
+import { useGetContestWithRecordQuery } from '@/lib/features/contest/store/api';
+import { useAppSelector } from '@/lib/core/hooks';
 
 export default function Contest() {
   const { id } = useParams();
-  const { data, isLoading, error } = useGetContestWithRecord(id as string);
+  const user = useAppSelector((state) => state.auth.user);
+  const { data, isLoading, error } = useGetContestWithRecordQuery(
+    id as string,
+    {
+      skip: !user,
+    }
+  );
 
   if (isLoading)
     return (
@@ -54,11 +62,14 @@ export default function Contest() {
     const participated = data.record.map((r: any) => r.user);
     const students = data.contest.students;
     students.map((user) => {
-      user.participated = participated.includes(user._id);
+      return {
+        ...user,
+        participated: participated.includes(user._id),
+      };
     });
 
     return (
-      <div className='pr-24'>
+      <div className="pr-24">
         <div className="flex justify-between w-full ">
           <h1 className="font-bold text-2xl mb-10 flex gap-2 items-start">
             {data.contest.name}

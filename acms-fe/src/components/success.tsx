@@ -10,7 +10,6 @@ import LightLogo from '@public/logos/acms-high-resolution-logo-transparent.svg';
 import { cn } from '@/lib/core/utils';
 import { redirect } from 'next/navigation';
 import { useAppDispatch } from '@/lib/core/hooks';
-import { loaded } from '@/lib/features/auth/store/slice';
 
 export default function Success({ setAccessTokenCookie }: any) {
   const searchParams = useSearchParams();
@@ -19,26 +18,6 @@ export default function Success({ setAccessTokenCookie }: any) {
   const ref = useRef<any>(null);
 
   const [show, setShow] = React.useState(false);
-
-  useEffect(() => {
-    localStorage.setItem('access_token', searchParams.get('t')!);
-    dispatch(loaded(false));
-
-    const redirectTimeout = setTimeout(() => {
-      if (ref.current) {
-        ref.current.click();
-      }
-    }, 2000);
-
-    const timeout = setTimeout(() => {
-      setShow(true);
-    }, 5000);
-
-    return () => {
-      clearTimeout(timeout);
-      clearTimeout(redirectTimeout);
-    };
-  }, [setShow, searchParams, dispatch]);
 
   return (
     <div className=" flex flex-col justify-center items-center h-screen w-full relative gap-4">

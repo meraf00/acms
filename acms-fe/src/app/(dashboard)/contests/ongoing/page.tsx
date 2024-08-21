@@ -1,35 +1,38 @@
-"use client";
+'use client';
 
-import Loading from "@/components/ui/loading";
-import LiveContestCard from "@/lib/features/contest/components/live-contest-card";
-import { PastContestsTable } from "@/lib/features/contest/components/past-contest-table";
+import Loading from '@/components/ui/loading';
+import LiveContestCard from '@/lib/features/contest/components/live-contest-card';
+import { PastContestsTable } from '@/lib/features/contest/components/past-contest-table';
+import LiveContestCardSkeleton from '@lib/features/contest/components/skeletons/live-contest-card-skeleton';
+import { PastContestsTableSkeleton } from '@lib/features/contest/components/skeletons/past-contest-table-skeleton';
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import {
-  useGetActiveContests,
-  useGetPastContests,
-  useGetUpcomingContests,
-} from "@/lib/features/hooks";
-import LiveContestCardSkeleton from "@lib/features/contest/components/skeletons/live-contest-card-skeleton";
-import { PastContestsTableSkeleton } from "@lib/features/contest/components/skeletons/past-contest-table-skeleton";
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
+  useGetPastContestsQuery,
+  useGetActiveContestsQuery,
+  useGetUpcomingContestsQuery,
+} from '@/lib/features/contest/store/api';
+import { useAppSelector } from '@/lib/core/hooks';
 
 export default function ActiveContests() {
   const router = useRouter();
+  const user = useAppSelector((state) => state.auth.user);
+
   const {
     data: activeContests,
     isLoading: isActiveLoading,
     error: activeError,
-  } = useGetActiveContests();
+  } = useGetActiveContestsQuery(undefined, { skip: !user });
   const {
     data: upcomingContests,
     isLoading: isUpcomingLoading,
     error: upcomingError,
-  } = useGetUpcomingContests();
+  } = useGetUpcomingContestsQuery(undefined, { skip: !user });
   const {
     data: pastContests,
     isLoading: isPastLoading,
     error: pastError,
-  } = useGetPastContests();
+  } = useGetPastContestsQuery(undefined, { skip: !user });
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -56,7 +59,7 @@ export default function ActiveContests() {
 
     return () => clearInterval(interval);
   }, [activeContests, upcomingContests, router]);
-  const isLoading = true;
+
   return (
     <div className="space-y-10 mb-32 mr-2">
       <div>

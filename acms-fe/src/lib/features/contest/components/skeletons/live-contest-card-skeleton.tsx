@@ -1,29 +1,29 @@
-"use client";
+'use client';
 
-import React from "react";
-import { Skeleton } from "@/components/ui/skeleton";
-import { cn } from "@/lib/core/utils";
+import React from 'react';
+import { Skeleton } from '@/components/ui/skeleton';
+import { cn } from '@/lib/core/utils';
 import {
   Card,
   CardFooter,
   CardHeader,
   CardContent,
-} from "@/components/ui/card";
-import { useUser } from "../../../auth/hooks/useUser";
-import { Roles } from "../../../auth/types/role";
+} from '@/components/ui/card';
+import { Roles } from '../../../auth/types/role';
+import { useAppSelector } from '@/lib/core/hooks';
 
 export default function LiveContestCardSkeleton({
   isUpcoming,
 }: {
   isUpcoming: boolean;
 }) {
-  const { currentUser: user } = useUser();
+  const user = useAppSelector((state) => state.auth.user);
 
   return (
     <Card
       className={` ${cn(
-        "w-[420px]",
-        "bg-background min-w-[420px] overflow-hidden rounded-3xl shadow-[0_10px_20px_rgba(0,0,0,_0.08)] dark:shadow-[0_10px_20px_rgba(0,0,0,_0.3)] border-0 h-64 flex flex-col justify-between"
+        'w-[420px]',
+        'bg-background min-w-[420px] overflow-hidden rounded-3xl shadow-[0_10px_20px_rgba(0,0,0,_0.08)] dark:shadow-[0_10px_20px_rgba(0,0,0,_0.3)] border-0 h-64 flex flex-col justify-between'
       )}`}
     >
       <CardContent className="max-h-44 overflow-hidden">

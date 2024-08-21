@@ -15,7 +15,7 @@ import { Input } from '@/components/ui/input';
 import { toast } from '@/components/ui/use-toast';
 import { cn } from '@/lib/core/utils';
 import { MailIcon } from 'lucide-react';
-import { useLogin } from '../hooks/useLogin';
+import { useSendLoginLinkMutation } from '../store/api';
 
 const FormSchema = z.object({
   email: z
@@ -36,25 +36,27 @@ export function LoginForm() {
     },
   });
 
-  const sendLoginLink = useLogin({
-    onSuccess: () => {
-      toast({
-        title: 'Success',
-        description: 'Login link has been sent to your email.',
-      });
-      form.reset();
-    },
-    onError: (error) => {
-      toast({
-        title: 'Failed',
-        description:
-          'An error occurred while sending the login link. Please try again.',
-      });
-    },
-  });
+  const [sendLoginLink, { isLoading, isError, error, isSuccess }] =
+    useSendLoginLinkMutation();
+
+  if (isSuccess) {
+    toast({
+      title: 'Success',
+      description: 'Login link has been sent to your email.',
+    });
+    form.reset();
+  }
+
+  if (isError) {
+    toast({
+      title: 'Failed',
+      description:
+        'An error occurred while sending the login link. Please try again.',
+    });
+  }
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
-    sendLoginLink.mutate({
+    sendLoginLink({
       email: data.email,
     });
     form.reset();

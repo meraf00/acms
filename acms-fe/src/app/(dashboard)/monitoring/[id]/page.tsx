@@ -3,8 +3,8 @@
 import { Button } from '@/components/ui/button';
 import { toast } from '@/components/ui/use-toast';
 import { useAppSelector } from '@/lib/core/hooks';
-import { useUser } from '@/lib/features/auth/hooks/useUser';
-import { useGetActiveContest } from '@/lib/features/hooks';
+import { useGetActiveContestQuery } from '@/lib/features/contest/store/api';
+
 import { useStreamContext } from '@/lib/features/recording/components/stream-provider';
 import { VideoRecorder } from '@/lib/features/recording/components/video-recorder';
 import { useUpload } from '@/lib/features/recording/hooks/use-upload';
@@ -16,10 +16,10 @@ import { useEffect, useRef } from 'react';
 export default function Monitor() {
   const params = useParams();
   const { id: contestId } = params;
-  const { data: contest } = useGetActiveContest(contestId as string);
+  const { data: contest } = useGetActiveContestQuery(contestId as string);
   const cameraRef = useRef<HTMLVideoElement>(null);
   const screenRef = useRef<HTMLVideoElement>(null);
-  const { currentUser: user } = useUser();
+  const user = useAppSelector((state) => state.auth.user);
   const upload = useUpload(
     contestId as string,
     contest?.name ?? '',
@@ -71,10 +71,9 @@ export default function Monitor() {
 
     return () => clearTimeout(timer);
   }, [upload, captureInterval]);
-  // console.log(captureInterval);
 
   return (
-    <div className='pr-20'>
+    <div className="pr-20">
       <h1 className="font-bold text-2xl mb-10 flex gap-2 items-start">
         Monitoring {trackedContest && trackedContest.name}
       </h1>

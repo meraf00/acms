@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Inter, Quicksand } from 'next/font/google';
+import { Inter } from 'next/font/google';
 import './globals.css';
 import Providers from './providers';
 import { ModeToggle } from '@/components/ui/mode-toggle';

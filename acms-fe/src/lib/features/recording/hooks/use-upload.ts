@@ -1,3 +1,5 @@
+'use client';
+
 import { retirableReq } from '@/lib/core/utils/retirable-req';
 import {
   incrementCapturedScreenCount,
