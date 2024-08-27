@@ -1,12 +1,13 @@
 'use client';
 
+import { ContestsTable } from '@/components/contests/contest-table';
 import Loading from '@/components/ui/loading';
-import { useAppSelector } from '@/lib/core/hooks';
-import { ContestsTable } from '@/lib/features/contest/components/contest-table';
-import { useGetContestsQuery } from '@/lib/features/contest/store/api';
+import { useGetContestsQuery } from '@/store/contests/api';
+import { useAppSelector } from '@/store/store';
 import React from 'react';
 
 export default function ContestsPage() {
+
   const user = useAppSelector((state) => state.auth.user);
   const { data, isLoading, error } = useGetContestsQuery(undefined, {
     skip: !user,

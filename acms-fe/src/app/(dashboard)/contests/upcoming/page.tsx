@@ -1,9 +1,9 @@
 'use client';
 
+import { ContestsTable } from '@/components/contests/contest-table';
 import Loading from '@/components/ui/loading';
-import { useAppSelector } from '@/lib/core/hooks';
-import { ContestsTable } from '@/lib/features/contest/components/contest-table';
-import { useGetUpcomingContestsQuery } from '@/lib/features/contest/store/api';
+import { useGetUpcomingContestsQuery } from '@/store/contests/api';
+import { useAppSelector } from '@/store/store';
 
 import React from 'react';
 

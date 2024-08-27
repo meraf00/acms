@@ -1,12 +1,12 @@
 'use client';
 
-import { useAppSelector } from '@/lib/core/hooks';
-import { cn } from '@/lib/core/utils';
-import { ContestForm } from '@/lib/features/contest/components/contest-form';
-import { useGetContestQuery } from '@/lib/features/contest/store/api';
+import { cn } from '@/lib/utils';
 
 import { useParams } from 'next/navigation';
 import React from 'react';
+import { useAppSelector } from '@/store/store';
+import { useGetContestQuery } from '@/store/contests/api';
+import { ContestForm } from '@/components/contests/contest-form';
 
 export default function EditContest() {
   const params = useParams();

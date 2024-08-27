@@ -1,4 +1,4 @@
-import AuthGuard from '@/lib/features/auth/components/auth-guard';
+import AuthGuard from "@/components/auth/auth-guard";
 
 function ContestsLayout({
   children,

@@ -12,9 +12,9 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
-import { ContestantsTable } from '@/lib/features/contest/components/contestants-table';
-import { useGetContestWithRecordQuery } from '@/lib/features/contest/store/api';
-import { useAppSelector } from '@/lib/core/hooks';
+import { useAppSelector } from '@/store/store';
+import { useGetContestWithRecordQuery } from '@/store/contests/api';
+import { ContestantsTable } from '@/components/contests/contestants/contestants-table';
 
 export default function Contest() {
   const { id } = useParams();
