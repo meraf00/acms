@@ -7,11 +7,6 @@ export const Roles = {
   student: 'student',
 };
 
-export interface Session {
-  user?: User;
-  token?: string;
-}
-
 export interface Profile {
   _id: string;
   group: string;
@@ -28,11 +23,11 @@ export interface User {
   picture: string;
 }
 
-export interface AuthState {
-  user: User | null;
-  token: string | null;
-}
-
 export interface LoginViaEmail {
   email: string;
+}
+
+export interface Session {
+  user?: User;
+  token?: string;
 }

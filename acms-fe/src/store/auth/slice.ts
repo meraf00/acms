@@ -1,7 +1,7 @@
 'use client';
 
 import { createSlice } from '@reduxjs/toolkit';
-import { Session } from './auth';
+import { type Session } from './types';
 
 export const authInitialState: Session = {};
 
