@@ -3,21 +3,18 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-import { siteConfig } from '@/lib/core/config';
-import { cn } from '@/lib/core/utils';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { Icons } from '@/components/ui/icons';
 import { BackgroundBeams } from '@/components/ui/background-beams';
-import { useTheme } from 'next-themes';
 import DarkLogo from '@public/logos/acms-high-resolution-logo-white-transparent.svg';
 import LightLogo from '@public/logos/acms-high-resolution-logo-transparent.svg';
 import { useState } from 'react';
-import { LoginForm } from '@/lib/features/auth/components/login-form';
 import { ChevronsLeft, ChevronsRight } from 'lucide-react';
+import { siteConfig } from '@/lib/config';
+import { cn } from '@/lib/utils';
+import { LoginForm } from '@/components/auth/login-form';
 
 export default function LoginPage() {
-  const theme = useTheme();
-
   const [page, setPage] = useState(false);
 
   return (

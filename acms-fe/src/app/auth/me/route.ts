@@ -1,6 +1,6 @@
 'use server';
 
-import { appCookies } from '@/lib/core/config';
+import { appCookies } from '@/lib/config';
 import { cookies } from 'next/headers';
 import { NextRequest } from 'next/server';
 

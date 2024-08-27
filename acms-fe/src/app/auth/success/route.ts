@@ -1,4 +1,4 @@
-import { appCookies, siteConfig } from '@/lib/core/config';
+import { appCookies, siteConfig } from '@/lib/config';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { NextRequest } from 'next/server';
