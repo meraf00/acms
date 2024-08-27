@@ -9,6 +9,7 @@ export const siteConfig = {
     google: process.env.NEXT_PUBLIC_GOOGLE_AUTH_URL,
     otp: process.env.NEXT_PUBLIC_OTP_AUTH_URL,
   },
+  isProduction: process.env.NEXT_PUBLIC_ENV !== 'development',
 };
 
 export const appCookies = {

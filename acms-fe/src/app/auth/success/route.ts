@@ -16,7 +16,7 @@ export async function GET(request: NextRequest) {
     name: appCookies.accessToken,
     value: authToken,
     httpOnly: true,
-    secure: true,
+    secure: siteConfig.isProduction,
     maxAge: siteConfig.api.cookieMaxAge,
     sameSite: 'strict',
     path: '/',
