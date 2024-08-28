@@ -1,4 +1,4 @@
-'use client';
+'use client'
 
 import { LogOut, User } from 'lucide-react';
 
@@ -12,8 +12,10 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import Link from 'next/link';
-import { useAppDispatch } from '@/store/store';
+
+import { logout } from '@/actions/auth';
+import { useRouter } from 'next/navigation';
+import { useAppSelector } from '@/store/store';
 
 export interface UserNavProps {
   avatarImage?: string;
@@ -23,8 +25,13 @@ export interface UserNavProps {
 }
 
 export function UserNav({ avatarImage, fallback, email, name }: UserNavProps) {
-  const dispatch = useAppDispatch();
-
+  const router = useRouter();
+  async function handleLogout() {
+    await logout();
+    router.replace('/auth/login');
+  }
+  const user = useAppSelector((state) => state.auth.user);
+  console.log(user)
   return (
     <>
       <DropdownMenu>
@@ -48,10 +55,10 @@ export function UserNav({ avatarImage, fallback, email, name }: UserNavProps) {
           <DropdownMenuSeparator />
           <DropdownMenuSeparator />
           <DropdownMenuItem>
-            <Link href="/auth/logout">
+            <Button variant='ghost' className='flex gap-1 p-0 h-6' onClick={handleLogout}>
               <LogOut className="mr-2 h-4 w-4" />
-              Log out
-            </Link>
+              <span>Log out</span>
+            </Button>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
