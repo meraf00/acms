@@ -17,7 +17,7 @@ import { cn } from '@/lib/utils';
 import { MailIcon } from 'lucide-react';
 import { useSendLoginLinkMutation } from '@/store/auth/api';
 
-const FormSchema = z.object({
+const LoginFormSchema = z.object({
   email: z
     .string()
     .email({
@@ -29,8 +29,8 @@ const FormSchema = z.object({
 });
 
 export function LoginForm() {
-  const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema),
+  const form = useForm<z.infer<typeof LoginFormSchema>>({
+    resolver: zodResolver(LoginFormSchema),
     defaultValues: {
       email: '',
     },
@@ -55,7 +55,7 @@ export function LoginForm() {
     });
   }
 
-  function onSubmit(data: z.infer<typeof FormSchema>) {
+  function onSubmit(data: z.infer<typeof LoginFormSchema>) {
     sendLoginLink({
       email: data.email,
     });

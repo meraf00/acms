@@ -5,12 +5,14 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import authReducer from './auth/slice';
 import { authApi } from './auth/api';
 import { contestApi } from './contests/api';
+import { issueApi } from './issue/api';
 
 const rootReducer = combineReducers({
   auth: authReducer,
   // monitoring: monitoringReducer,
   [authApi.reducerPath]: authApi.reducer,
   [contestApi.reducerPath]: contestApi.reducer,
+  [issueApi.reducerPath]: issueApi.reducer,
 });
 
 export const makeStore = () =>
@@ -18,7 +20,11 @@ export const makeStore = () =>
     reducer: rootReducer,
 
     middleware: (getDefaultMiddleware) =>
-      getDefaultMiddleware().concat(authApi.middleware, contestApi.middleware),
+      getDefaultMiddleware().concat(
+        authApi.middleware,
+        contestApi.middleware,
+        issueApi.middleware
+      ),
   });
 
 export type AppStore = ReturnType<typeof makeStore>;
