@@ -1,12 +1,15 @@
 'use client';
 
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { LoginViaEmail } from './types';
+import { LoginViaEmail, User } from './types';
 import { siteConfig } from '@/lib/config';
 import { RootState } from '../store';
+import { BaseResponse } from '@/lib/base-response';
 
 export const authApi = createApi({
   reducerPath: 'authApi',
+
+  tagTypes: ['User'],
 
   baseQuery: fetchBaseQuery({
     baseUrl: siteConfig.api.baseUrl,
@@ -22,6 +25,9 @@ export const authApi = createApi({
   endpoints: (builder) => ({
     getUser: builder.query<any, void>({
       query: () => '/users/me',
+      transformResponse: (response: BaseResponse<User>) => response.data,
+      providesTags: (result) =>
+        result ? [{ type: 'User', id: result.id }] : [],
     }),
 
     sendLoginLink: builder.mutation<any, LoginViaEmail>({
