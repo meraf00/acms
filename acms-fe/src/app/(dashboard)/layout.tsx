@@ -1,17 +1,16 @@
-"use client";
+import { auth } from '@/actions/auth';
+import AuthGuard from '@/components/auth/auth-guard';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { Sidebar } from '@/components/dashboard/side-bar';
+import { UserNav } from '@/components/dashboard/user-nav';
 
-import { useAppSelector } from "@/lib/core/hooks";
-import AuthGuard from "@/lib/features/auth/components/auth-guard";
-import { Sidebar } from "@/lib/features/dashboard/components/side-bar";
-import { UserNav } from "@/lib/features/dashboard/components/user-nav";
-import { ScrollArea } from "@radix-ui/react-scroll-area";
 
-function DashboardLayout({
+async function DashboardLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const user = useAppSelector((state) => state.auth.user);
+  let session = await auth();
 
   return (
     <div className="relative flex h-screen overflow-hidden">
@@ -28,11 +27,11 @@ function DashboardLayout({
         className="flex absolute right-4 top-0 pt-7 px-4  z-10 h-screen bg-opacity-70 backdrop-blur-sm dark:bg-[#171C23] dark:bg-opacity-70 dark:backdrop-blur-sm 
         dark:border-l dark:border-gray-600/25 border-l border-gray-600/25 border-dashed"
       >
-        {user && (
+        {session && session.user && (
           <UserNav
-            email={user!.email}
-            name={user!.name}
-            avatarImage={user!.picture}
+            email={session?.user.email}
+            name={session?.user.name}
+            avatarImage={session?.user.picture}
           />
         )}
       </div>
