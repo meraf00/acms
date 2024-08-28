@@ -1,6 +1,5 @@
 import { auth } from '@/actions/auth';
 import AuthGuard from '@/components/auth/auth-guard';
-import { ScrollArea } from '@/components/ui/scroll-area';
 import { Sidebar } from '@/components/dashboard/side-bar';
 import { UserNav } from '@/components/dashboard/user-nav';
 
@@ -24,7 +23,7 @@ async function DashboardLayout({
       </div>
 
       <div
-        className="flex absolute right-4 top-0 pt-7 px-4  z-10 h-screen bg-opacity-70 backdrop-blur-sm dark:bg-[#171C23] dark:bg-opacity-70 dark:backdrop-blur-sm 
+        className="flex absolute right-0 top-0 pt-7 px-4  z-10 h-screen bg-opacity-70 backdrop-blur-sm dark:bg-[#171C23] dark:bg-opacity-70 dark:backdrop-blur-sm 
         dark:border-l dark:border-gray-600/25 border-l border-gray-600/25 border-dashed"
       >
         {session && session.user && (
@@ -36,9 +35,9 @@ async function DashboardLayout({
         )}
       </div>
 
-      <ScrollArea className="relative w-full lg:w-4/5 h-screen overflow-auto dark:bg-opacity-5 dark:bg-black">
-        <main className="pl-16 py-6 mt-14">{children}</main>
-      </ScrollArea>
+      <div className="relative w-full h-screen overflow-x-hidden overflow-y-auto dark:bg-opacity-5 dark:bg-black no-scrollbar">
+        <main className="pl-16 py-6 mt-14 mr-10 w-full overflow-clip">{children}</main>
+      </div>
     </div>
   );
 }

@@ -83,7 +83,7 @@ export function ContestForm({ contest }: ContestFormProps) {
             id: data.id,
             name: data.name,
             students: contestants,
-            invitationLink: data.invitationLink,
+            invitationLink: `https://codeforces.com/gym/${data.id}`,
             startingTime: date.start.toAbsoluteString(),
             endingTime: date.end.toAbsoluteString(),
         }

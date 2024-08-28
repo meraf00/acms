@@ -106,7 +106,7 @@ export default function Contest() {
         <div>
           {data && (
             <ContestantsTable
-              contestId={data.contest._id}
+              contest={data.contest}
               contestants={students}
             />
           )}

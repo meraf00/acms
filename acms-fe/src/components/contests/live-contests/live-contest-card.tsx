@@ -101,10 +101,10 @@ export default function LiveContestCard({
           </CardContent>
           <div className="flex justify-between ">
             <CardHeader className="py-4 pl-5 flex flex-col items-start justify-center">
-              <CardTitle className="text-ellipsis text-md font-bold overflow-hidden text-left line-clamp-2">
+              <CardTitle className="text-ellipsis text-md font-bold overflow-hidden text-left line-clamp-1">
                 {contest.name}
               </CardTitle>
-              <CardDescription className="text-xs font-sm text-left">
+              <CardDescription className="text-xs font-sm text-left truncate">
                 {timeRef}
               </CardDescription>
             </CardHeader>
