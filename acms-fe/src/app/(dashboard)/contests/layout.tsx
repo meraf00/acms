@@ -8,7 +8,4 @@ function ContestsLayout({
   return children;
 }
 
-export default AuthGuard({
-  Component: ContestsLayout,
-  allowedRoles: ['hoe', 'hoa', 'acms'],
-});
+export default AuthGuard({ Component: ContestsLayout });
