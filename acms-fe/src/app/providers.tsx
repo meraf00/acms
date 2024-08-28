@@ -4,10 +4,10 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useEffect, useRef, useState } from 'react';
 import { Provider } from 'react-redux';
 import { ThemeProvider } from '@/components/theme-provider';
-import StreamProvider from '@/lib/features/recording/components/stream-provider';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { AppStore, makeStore } from '@/store/store';
 import AuthProvider from '@/components/auth/auth-provider';
+import StreamProvider from '@/components/monitoring/stream-provider';
 
 export default function Providers({ children }: { children: React.ReactNode }) {
   const [queryClient] = useState(() => new QueryClient());

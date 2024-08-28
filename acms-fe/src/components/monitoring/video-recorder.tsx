@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import { VideoIcon, VideoOffIcon } from 'lucide-react';
 
 export interface VideoRecorderProps {

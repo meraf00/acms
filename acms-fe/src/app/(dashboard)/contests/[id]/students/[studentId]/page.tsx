@@ -10,39 +10,43 @@ import {
   type CarouselApi,
 } from '@/components/ui/carousel';
 import Loading from '@/components/ui/loading';
-import { useGetContestImages } from '@/lib/features/recording/hooks/use-recordings';
+import { useGetContestImagesQuery } from '@/store/monitoring/slice';
+import { useAppSelector } from '@/store/store';
 import Image from 'next/image';
 import { useParams } from 'next/navigation';
 import React from 'react';
 
 export default function Student() {
   const params = useParams();
-  const {
-    data: images,
-    isLoading,
-    error,
-  } = useGetContestImages(params.id as string, params.studentId as string);
 
-  const [api, setApi] = React.useState<CarouselApi>();
+  const user = useAppSelector((state) => state.auth.user);
+  const { data: images, isLoading, error } = useGetContestImagesQuery({
+    contestId: params.id as string,
+    contestantId: params.studentId as string,
+  }, {
+    skip: !user,
+  });
+
+  const [carouselApi, setCarouselApi] = React.useState<CarouselApi>();
   const [current, setCurrent] = React.useState(0);
   const [count, setCount] = React.useState(0);
 
   React.useEffect(() => {
-    if (!api) {
+    if (!carouselApi) {
       return;
     }
 
     setCount(images?.length ?? 0);
     if (!images || images?.length === 0) {
-      setCurrent(api.selectedScrollSnap());
+      setCurrent(carouselApi.selectedScrollSnap());
     } else {
-      setCurrent(api.selectedScrollSnap());
+      setCurrent(carouselApi.selectedScrollSnap());
     }
 
-    api.on('select', () => {
-      setCurrent(api.selectedScrollSnap() + 1);
+    carouselApi.on('select', () => {
+      setCurrent(carouselApi.selectedScrollSnap() + 1);
     });
-  }, [api, images]);
+  }, [carouselApi, images]);
 
   return (
     <>
@@ -59,7 +63,7 @@ export default function Student() {
             {images?.length ? (
               <>
                 <Carousel
-                  setApi={setApi}
+                  setApi={setCarouselApi}
                   className="w-full bg-background relative"
                 >
                   <CarouselContent>
@@ -89,7 +93,7 @@ export default function Student() {
             ) : (
               <div className="flex w-full items-center justify-center">
                 <h1 className="font-bold text-2xl mb-10 flex gap-2 items-start opacity-50">
-                  There was no recording found for this student
+                  No recording was found for this student.
                 </h1>
               </div>
             )}

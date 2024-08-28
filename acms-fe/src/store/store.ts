@@ -6,10 +6,11 @@ import authReducer from './auth/slice';
 import { authApi } from './auth/api';
 import { contestApi } from './contests/api';
 import { issueApi } from './issue/api';
+import { monitoringApi } from './monitoring/slice';
 
 const rootReducer = combineReducers({
   auth: authReducer,
-  // monitoring: monitoringReducer,
+  [monitoringApi.reducerPath]: monitoringApi.reducer,
   [authApi.reducerPath]: authApi.reducer,
   [contestApi.reducerPath]: contestApi.reducer,
   [issueApi.reducerPath]: issueApi.reducer,
@@ -23,7 +24,8 @@ export const makeStore = () =>
       getDefaultMiddleware().concat(
         authApi.middleware,
         contestApi.middleware,
-        issueApi.middleware
+        issueApi.middleware,
+        monitoringApi.middleware
       ),
   });
 

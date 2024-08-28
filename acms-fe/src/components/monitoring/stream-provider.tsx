@@ -1,5 +1,5 @@
+import { Contest } from '@/store/contests/types';
 import { ReactNode, createContext, useContext, useState } from 'react';
-import { Contest } from '../../contest/types/contest';
 
 interface StreamContextInterface {
   cameraStream: MediaStream | null;
@@ -17,8 +17,8 @@ const StreamContext = createContext<StreamContextInterface>({
   isRecording: false,
   hasPermission: null,
   trackedContest: null,
-  startRecording: () => {},
-  stopRecording: () => {},
+  startRecording: () => { },
+  stopRecording: () => { },
 });
 
 export const useStreamContext = () => {
