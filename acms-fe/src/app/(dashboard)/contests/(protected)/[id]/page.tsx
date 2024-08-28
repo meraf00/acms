@@ -60,13 +60,13 @@ export default function Contest() {
     );
 
     const participated = data.record.map((r: any) => r.user);
-    const students = data.contest.students;
-    students.map((user) => {
+    const students = data.contest.students.map((user) => {
       return {
         ...user,
         participated: participated.includes(user._id),
       };
     });
+
 
     return (
       <div className="pr-24">
@@ -74,7 +74,7 @@ export default function Contest() {
           <h1 className="font-bold text-2xl mb-10 flex gap-2 items-start">
             {data.contest.name}
             <Link
-              href={`http://codeforces.com/gym/${data.contest.id}`}
+              href={data.contest.invitationLink}
               target="_blank"
             >
               <ExternalLink className="h-4 w-4" />

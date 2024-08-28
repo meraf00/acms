@@ -1,5 +1,4 @@
 import { Checkbox } from '@radix-ui/react-checkbox';
-import { Contest } from '../types/contest';
 import { ColumnDef } from '@tanstack/react-table';
 import {
   DropdownMenu,
@@ -12,6 +11,7 @@ import { Button } from '@/components/ui/button';
 import { CaretSortIcon, DotsHorizontalIcon } from '@radix-ui/react-icons';
 import Link from 'next/link';
 import { Edit } from 'lucide-react';
+import { Contest } from '@/store/contests/types';
 
 export const columns: ColumnDef<Contest>[] = [
   {
@@ -122,8 +122,6 @@ export const columns: ColumnDef<Contest>[] = [
     cell: ({ row }) => {
       const contest = row.original;
 
-      const contestUrl = `https://codeforces.com/gym/${contest.id}`;
-
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -144,7 +142,7 @@ export const columns: ColumnDef<Contest>[] = [
             </DropdownMenuItem>
             <DropdownMenuItem
               className="cursor-pointer"
-              onClick={() => navigator.clipboard.writeText(contestUrl)}
+              onClick={() => navigator.clipboard.writeText(contest.invitationLink)}
             >
               Copy contest URL
             </DropdownMenuItem>

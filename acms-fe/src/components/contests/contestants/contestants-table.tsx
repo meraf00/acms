@@ -31,7 +31,7 @@ import {
 } from '@/components/ui/table';
 
 import { columns } from './contestants-table-columns';
-import { User } from '../../auth/types/user';
+import { User } from '@/store/auth/types';
 
 export interface ContestantsTableProps {
   contestId: string;
@@ -119,9 +119,9 @@ export function ContestantsTable({
                       {header.isPlaceholder
                         ? null
                         : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
                     </TableHead>
                   );
                 })}
@@ -159,10 +159,10 @@ export function ContestantsTable({
         </Table>
       </div>
       <div className="flex items-center justify-end space-x-2 py-4">
-        <div className="flex-1 text-sm text-muted-foreground">
+        {/* <div className="flex-1 text-sm text-muted-foreground">
           {table.getFilteredSelectedRowModel().rows.length} of{' '}
           {table.getFilteredRowModel().rows.length} row(s) selected.
-        </div>
+        </div> */}
         <div className="space-x-2">
           {table.getCanPreviousPage() && (
             <Button

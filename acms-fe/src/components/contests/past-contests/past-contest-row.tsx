@@ -31,7 +31,7 @@ export default function PastContestRow({ contest }: { contest: Contest }) {
       </div>
       <div>
         <Link
-          href={`https://codeforces.com/contests/${contest.id}`}
+          href={contest.invitationLink}
           target="_blank"
           className={`  ${cn(
             buttonVariants({ variant: "default" }),

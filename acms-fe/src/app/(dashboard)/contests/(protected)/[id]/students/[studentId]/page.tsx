@@ -10,7 +10,7 @@ import {
   type CarouselApi,
 } from '@/components/ui/carousel';
 import Loading from '@/components/ui/loading';
-import { useGetContestImagesQuery } from '@/store/monitoring/slice';
+import { useGetContestImagesQuery } from '@/store/monitoring/api';
 import { useAppSelector } from '@/store/store';
 import Image from 'next/image';
 import { useParams } from 'next/navigation';
