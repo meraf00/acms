@@ -23,7 +23,7 @@ export default function ForbiddenPage() {
           .
         </div>
       </div>
-      <div className="w-full flex flex-col gap-10 justify-center items-center md:w-1/2 z-30">
+      <div className="w-full flex flex-col gap-10 justify-center md:w-1/2 items-center z-30">
         <Image
           className="block dark:hidden"
           src={LightLogo}
@@ -38,6 +38,7 @@ export default function ForbiddenPage() {
           height={200}
           alt="ACMS logo"
         />
+        <div className='z-[999]'>It&apos;s not safe here. Let&apos;s go <Link href="/" className='font-bold text-blue-500'>home</Link>.</div>
       </div>
     </div>
   );

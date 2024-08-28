@@ -16,6 +16,7 @@ import { toast } from '@/components/ui/use-toast';
 import { cn } from '@/lib/utils';
 import { MailIcon } from 'lucide-react';
 import { useSendLoginLinkMutation } from '@/store/auth/api';
+import Loading from '../ui/loading';
 
 const LoginFormSchema = z.object({
   email: z
@@ -36,31 +37,32 @@ export function LoginForm() {
     },
   });
 
-  const [sendLoginLink, { isLoading, isError, error, isSuccess }] =
+  const [sendLoginLink, { isLoading }] =
     useSendLoginLinkMutation();
 
-  if (isSuccess) {
-    toast({
-      title: 'Success',
-      description: 'Login link has been sent to your email.',
-    });
-    form.reset();
+  async function onSubmit(data: z.infer<typeof LoginFormSchema>) {
+    try {
+      await sendLoginLink({
+        email: data.email,
+      }).unwrap();
+
+      form.reset();
+
+      toast({
+        title: 'Success',
+        description: 'Login link has been sent to your email.',
+      });
+
+    } catch (error) {
+      toast({
+        title: 'Failed',
+        description:
+          'An error occurred while sending the login link. Please try again.',
+      });
+    }
   }
 
-  if (isError) {
-    toast({
-      title: 'Failed',
-      description:
-        'An error occurred while sending the login link. Please try again.',
-    });
-  }
-
-  function onSubmit(data: z.infer<typeof LoginFormSchema>) {
-    sendLoginLink({
-      email: data.email,
-    });
-    form.reset();
-  }
+  console.log(isLoading)
 
   return (
     <Form {...form}>
@@ -86,7 +88,7 @@ export function LoginForm() {
           )}
         />
 
-        <Button
+        {isLoading ? <div className='flex justify-center items-center'><Loading /></div> : <Button
           className={cn(
             buttonVariants({ variant: 'outline' }),
             'text-foreground'
@@ -94,7 +96,7 @@ export function LoginForm() {
           type="submit"
         >
           <MailIcon className="h-4 w-4 mr-5" /> Get login link via email
-        </Button>
+        </Button>}
       </form>
     </Form>
   );

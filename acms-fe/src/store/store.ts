@@ -3,13 +3,15 @@
 import { useDispatch, useSelector, useStore } from 'react-redux';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import authReducer from './auth/slice';
+import monitoringReducer from './monitoring/slice';
 import { authApi } from './auth/api';
 import { contestApi } from './contests/api';
 import { issueApi } from './issue/api';
-import { monitoringApi } from './monitoring/slice';
+import { monitoringApi } from './monitoring/api';
 
 const rootReducer = combineReducers({
   auth: authReducer,
+  monitoring: monitoringReducer,
   [monitoringApi.reducerPath]: monitoringApi.reducer,
   [authApi.reducerPath]: authApi.reducer,
   [contestApi.reducerPath]: contestApi.reducer,

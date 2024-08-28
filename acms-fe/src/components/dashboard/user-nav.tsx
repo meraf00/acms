@@ -31,7 +31,7 @@ export function UserNav({ avatarImage, fallback, email, name }: UserNavProps) {
     router.replace('/auth/login');
   }
   const user = useAppSelector((state) => state.auth.user);
-  console.log(user)
+
   return (
     <>
       <DropdownMenu>
