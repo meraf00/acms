@@ -11,8 +11,9 @@ import { CaretSortIcon, DotsHorizontalIcon } from '@radix-ui/react-icons';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { User } from '@/store/auth/types';
+import { Contest } from '@/store/contests/types';
 
-export const columns = (contestId: string): ColumnDef<User>[] => [
+export const columns = (contest: Contest): ColumnDef<User>[] => [
   {
     id: 'name',
     accessorKey: 'name',
@@ -30,7 +31,7 @@ export const columns = (contestId: string): ColumnDef<User>[] => [
     cell: ({ row }) => {
       return (
         <div className="capitalize px-5 max-w-64 text-ellipsis overflow-hidden text-nowrap">
-          <Link href={`/contests/${contestId}/students/${row.original._id}`}>
+          <Link href={`/contests/${contest._id}/students/${row.original._id}`}>
             {row.original.name}
           </Link>
         </div>
@@ -107,8 +108,6 @@ export const columns = (contestId: string): ColumnDef<User>[] => [
     id: 'actions',
     enableHiding: true,
     cell: ({ row }) => {
-      const contestUrl = `https://codeforces.com/gym/${contestId}`;
-
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -123,13 +122,13 @@ export const columns = (contestId: string): ColumnDef<User>[] => [
           >
             <DropdownMenuItem
               className="cursor-pointer"
-            //   onClick={() => navigator.clipboard.writeText(contest.id)}
+              onClick={() => navigator.clipboard.writeText(contest.id)}
             >
               Copy contest ID
             </DropdownMenuItem>
             <DropdownMenuItem
               className="cursor-pointer"
-              onClick={() => navigator.clipboard.writeText(contestUrl)}
+              onClick={() => navigator.clipboard.writeText(contest.invitationLink)}
             >
               Copy contest URL
             </DropdownMenuItem>

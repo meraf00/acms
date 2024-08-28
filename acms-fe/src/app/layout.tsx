@@ -22,7 +22,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={cn(inter.className, 'relative')}>
         <Providers>
-          <div className="fixed bottom-5 right-6 z-50">
+          <div className="fixed bottom-5 right-3 z-50">
             <ModeToggle />
           </div>
           {children}

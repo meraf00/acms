@@ -147,14 +147,6 @@ export const columns: ColumnDef<Contest>[] = [
               Copy contest URL
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem
-              className="cursor-pointer"
-              onClick={() =>
-                navigator.clipboard.writeText(contest.invitationLink)
-              }
-            >
-              Copy contest invitation link
-            </DropdownMenuItem>
             <DropdownMenuItem className="cursor-pointer flex items-center">
               <Link
                 href={`/contests/${row.original._id}/edit`}
