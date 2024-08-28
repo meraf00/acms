@@ -1,15 +1,10 @@
 import {
   Card,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { ExternalLinkIcon } from 'lucide-react';
-import { Contest } from '../types/contest';
-import { cn } from '@/lib/utils';
-import { buttonVariants } from '@/components/ui/button';
-import Link from 'next/link';
+import { Contest } from '@/store/contests/types';
 
 export interface ContestProps {
   contest: Contest;
