@@ -1,44 +1,44 @@
 'use client';
 
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { siteConfig } from '@/lib/config';
-import { RootState } from '@/store/store';
-import { BaseResponse } from '@/lib/base-response';
-import { CapturedImage, GetContestImagesDto } from './types';
+import { createSlice } from '@reduxjs/toolkit';
+import { MonitoringState } from './types';
 
-export const monitoringApi = createApi({
-  reducerPath: 'monitoringApi',
+export const Monitoring = 'monitoring';
+export const IncrementCapturedCount = `${Monitoring}/increment`;
+export const SetCaptureRate = `${Monitoring}/set-capture-rate`;
+export const MAX_INTERVAL = 15;
+export const MIN_INTERVAL = 8;
 
-  tagTypes: ['CapturedImages'],
+export const monitoringInitialState: MonitoringState = {
+  capturedScreenCount: 0,
+  capturedCameraCount: 0,
+  captureInterval: Math.floor(
+    (Math.random() * (MAX_INTERVAL - MIN_INTERVAL) + MIN_INTERVAL) * 60000
+  ),
+};
 
-  baseQuery: fetchBaseQuery({
-    baseUrl: siteConfig.api.baseUrl,
-
-    prepareHeaders: (headers, { getState }) => {
-      const token = (getState() as RootState).auth.token;
-
-      if (token) {
-        headers.set('authorization', `Bearer ${token}`);
-      }
-
-      return headers;
+const monitorSlice = createSlice({
+  name: Monitoring,
+  initialState: monitoringInitialState,
+  reducers: {
+    incrementCapturedScreenCount(state) {
+      state.capturedScreenCount += 1;
     },
-  }),
 
-  endpoints: (builder) => ({
-    getContestImages: builder.query<CapturedImage[], GetContestImagesDto>({
-      query: (params) =>
-        `/records/${params.contestId}/students/${params.contestantId}`,
-      transformResponse: (response: BaseResponse<CapturedImage[]>) =>
-        response.data,
-      providesTags: (result, error, params) => [
-        {
-          type: 'CapturedImages',
-          id: `${params.contestId}_${params.contestantId}`,
-        },
-      ],
-    }),
-  }),
+    incrementCapturedCameraCount(state) {
+      state.capturedScreenCount += 1;
+    },
+
+    setCaptureRate(state, action: { payload: number }) {
+      state.captureInterval = action.payload;
+    },
+  },
 });
 
-export const { useGetContestImagesQuery } = monitoringApi;
+export const {
+  incrementCapturedScreenCount,
+  incrementCapturedCameraCount,
+  setCaptureRate,
+} = monitorSlice.actions;
+
+export default monitorSlice.reducer;

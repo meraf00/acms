@@ -1,13 +1,13 @@
 'use client';
 
+import { useStreamContext } from '@/components/monitoring/stream-provider';
+import { VideoRecorder } from '@/components/monitoring/video-recorder';
 import { Button } from '@/components/ui/button';
 import { toast } from '@/components/ui/use-toast';
-import { useAppSelector } from '@/lib/core/hooks';
-import { useGetActiveContestQuery } from '@/lib/features/contest/store/api';
 
-import { useStreamContext } from '@/lib/features/recording/components/stream-provider';
-import { VideoRecorder } from '@/lib/features/recording/components/video-recorder';
-import { useUpload } from '@/lib/features/recording/hooks/use-upload';
+import { useGetActiveContestQuery } from '@/store/contests/api';
+import { useUpload } from '@/store/monitoring/hooks';
+import { useAppSelector } from '@/store/store';
 
 import { ScreenShareIcon, ScreenShareOffIcon } from 'lucide-react';
 import { useParams } from 'next/navigation';
@@ -16,10 +16,12 @@ import { useEffect, useRef } from 'react';
 export default function Monitor() {
   const params = useParams();
   const { id: contestId } = params;
-  const { data: contest } = useGetActiveContestQuery(contestId as string);
+  const user = useAppSelector((state) => state.auth.user);
+  const { data: contest } = useGetActiveContestQuery(contestId as string, {
+    skip: !user,
+  });
   const cameraRef = useRef<HTMLVideoElement>(null);
   const screenRef = useRef<HTMLVideoElement>(null);
-  const user = useAppSelector((state) => state.auth.user);
   const upload = useUpload(
     contestId as string,
     contest?.name ?? '',
@@ -101,7 +103,7 @@ export default function Monitor() {
         </div>
 
         <Button
-          className="hidden"
+          // className="hidden"
           onClick={() => upload(cameraRef.current, screenRef.current)}
         ></Button>
       </div>
