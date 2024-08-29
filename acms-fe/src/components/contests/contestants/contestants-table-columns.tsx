@@ -15,6 +15,28 @@ import { Contest } from '@/store/contests/types';
 
 export const columns = (contest: Contest): ColumnDef<User>[] => [
   {
+    id: 'rollNumber',
+    accessorKey: 'rollNumber',
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
+          #
+          <CaretSortIcon className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => {
+      return (
+        <div className="capitalize px-5 max-w-64 text-ellipsis overflow-hidden text-nowrap">
+          {row.index + 1}
+        </div>
+      );
+    },
+  },
+  {
     id: 'name',
     accessorKey: 'name',
     header: ({ column }) => {
