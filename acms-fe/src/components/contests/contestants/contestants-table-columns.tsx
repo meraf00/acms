@@ -60,6 +60,7 @@ export const columns = (contest: Contest): ColumnDef<User>[] => [
     },
   },
   {
+    id: 'group',
     accessorKey: 'profile.group',
     header: ({ column }) => (
       <Button
@@ -77,6 +78,10 @@ export const columns = (contest: Contest): ColumnDef<User>[] => [
         </div>
       );
     },
+    filterFn: (row, id, filterValue) => {
+      console.log("hehee>>", filterValue, row.original.profile.group);
+      return filterValue[row.original.profile.group]
+    }
   },
   {
     id: 'participation',
@@ -132,8 +137,6 @@ export const columns = (contest: Contest): ColumnDef<User>[] => [
             >
               Copy contest URL
             </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>View contest details</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );

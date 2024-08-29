@@ -51,6 +51,23 @@ export function ContestantsTable({
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
+  const [groupVisibility, setGroupVisibility] = React.useState({} as Record<string, boolean>);
+
+  const groups = contestants.reduce((acc, contestant) => {
+    if (!contestant.profile.group) return acc;
+    if (!acc.includes(contestant.profile.group)) {
+      acc.push(contestant.profile.group);
+    }
+    return acc;
+  }, [] as string[]);
+
+  React.useEffect(() => {
+    setGroupVisibility(groups.reduce((acc, group) => {
+      acc[group] = true;
+      return acc;
+    }, {} as Record<string, boolean>));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const table = useReactTable({
     data: contestants,
@@ -74,14 +91,47 @@ export function ContestantsTable({
   return (
     <div className="w-full ">
       <div className="flex items-center py-4">
-        <Input
-          placeholder="Filter users..."
-          value={(table.getColumn('name')?.getFilterValue() as string) ?? ''}
-          onChange={(event) =>
-            table.getColumn('name')?.setFilterValue(event.target.value)
-          }
-          className="max-w-sm"
-        />
+        <div className='flex gap-3'>
+          <Input
+            placeholder="Filter users..."
+            value={(table.getColumn('name')?.getFilterValue() as string) ?? ''}
+            onChange={(event) =>
+              table.getColumn('name')?.setFilterValue(event.target.value)
+            }
+            className="max-w-sm"
+          />
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" className="ml-auto">
+                Groups <ChevronDownIcon className="ml-2 h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              {groups.map((group) => {
+                return (
+                  <DropdownMenuCheckboxItem
+                    key={group}
+                    checked={groupVisibility[group]}
+                    onCheckedChange={(value) => {
+                      setGroupVisibility((prev) => {
+                        const filter = {
+                          ...prev,
+                          [group]: !!value,
+                        };
+
+                        table.getColumn('group')?.setFilterValue(filter);
+                        return filter;
+                      })
+                    }
+                    }
+                  >
+                    {group}
+                  </DropdownMenuCheckboxItem>
+                );
+              })}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto">
@@ -190,6 +240,6 @@ export function ContestantsTable({
           )}
         </div>
       </div>
-    </div>
+    </div >
   );
 }
