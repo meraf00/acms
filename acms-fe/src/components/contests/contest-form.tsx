@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -20,18 +20,20 @@ import { toast } from '@/components/ui/use-toast';
 
 import { parseAbsoluteToLocal } from '@internationalized/date';
 import { Textarea } from '@/components/ui/textarea';
-import { User } from '@/store/auth/types';
+import { Roles, User } from '@/store/auth/types';
 import { useCreateContestMutation, useUpdateContestMutation } from '@/store/contests/api';
 import { Contest } from '@/store/contests/types';
 import Loading from '@/components/ui/loading';
 import { useRouter } from 'next/navigation';
+import { useGetUsersQuery } from '@/store/auth/api';
+import { useAppSelector } from '@/store/store';
 
 const ContestFormSchema = z.object({
     id: z.string().min(1),
     name: z.string().min(1, {
         message: "Contest name can't be empty.",
     }),
-    invitationLink: z.string().url(),
+    invitationLink: z.string().optional(),
     timeRange: z.string(),
     contestants: z.string().refine(
         (value) => {
@@ -48,6 +50,10 @@ export interface ContestFormProps {
 }
 
 export function ContestForm({ contest }: ContestFormProps) {
+    const user = useAppSelector((state) => state.auth.user);
+    const { data: users, isLoading: isContestantsDataLoading, isSuccess } = useGetUsersQuery(undefined, { skip: !user || Boolean(contest) });
+
+
     const form = useForm<z.infer<typeof ContestFormSchema>>({
         resolver: zodResolver(ContestFormSchema),
         defaultValues: {
@@ -56,11 +62,18 @@ export function ContestForm({ contest }: ContestFormProps) {
             timeRange: '',
             invitationLink: contest?.invitationLink ?? '',
             contestants:
-                contest?.students
+                (contest?.students
                     ?.map((s: User) => s.profile.codeforcesHandle)
-                    .join('\n') ?? '',
+                    .join('\n')) ?? '',
         },
     });
+
+    useEffect(() => {
+        if (isSuccess) {
+            const students = users?.filter((u) => u.role === Roles.student && u.name !== 'ACMS') ?? [];
+            form.setValue('contestants', students.map((s) => s.profile.codeforcesHandle).join('\n'));
+        }
+    }, [isSuccess, form, users])
 
     const router = useRouter();
 
@@ -218,7 +231,7 @@ export function ContestForm({ contest }: ContestFormProps) {
                         <FormItem>
                             <FormLabel>Contestants</FormLabel>
                             <FormControl>
-                                <Textarea {...field} aria-label="Contestants" />
+                                <Textarea {...field} disabled={isContestantsDataLoading} className={isContestantsDataLoading ? 'animate-pulse' : ''} aria-label="Contestants" />
                             </FormControl>
                             <FormDescription className="flex gap-1">
                                 Contestants codeforces handles one handle per line.

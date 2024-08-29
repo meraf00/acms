@@ -9,7 +9,7 @@ import { BaseResponse } from '@/lib/base-response';
 export const authApi = createApi({
   reducerPath: 'authApi',
 
-  tagTypes: ['User'],
+  tagTypes: ['Users'],
 
   baseQuery: fetchBaseQuery({
     baseUrl: siteConfig.api.baseUrl,
@@ -23,11 +23,23 @@ export const authApi = createApi({
   }),
 
   endpoints: (builder) => ({
-    getUser: builder.query<any, void>({
+    getUser: builder.query<User, void>({
       query: () => '/users/me',
       transformResponse: (response: BaseResponse<User>) => response.data,
       providesTags: (result) =>
-        result ? [{ type: 'User', id: result.id }] : [],
+        result ? [{ type: 'Users', id: result.id }] : [],
+    }),
+
+    getUsers: builder.query<User[], void>({
+      query: () => '/users',
+      transformResponse: (response: BaseResponse<User[]>) => response.data,
+      providesTags: (result) =>
+        result
+          ? [
+              ...result.map(({ id }) => ({ type: 'Users', id } as const)),
+              { type: 'Users', id: 'LIST' },
+            ]
+          : [{ type: 'Users', id: 'LIST' }],
     }),
 
     sendLoginLink: builder.mutation<any, LoginViaEmail>({
@@ -40,4 +52,5 @@ export const authApi = createApi({
   }),
 });
 
-export const { useGetUserQuery, useSendLoginLinkMutation } = authApi;
+export const { useGetUserQuery, useGetUsersQuery, useSendLoginLinkMutation } =
+  authApi;
