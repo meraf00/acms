@@ -15,6 +15,17 @@ import { Contest } from '@/store/contests/types';
 
 export const columns = (contest: Contest): ColumnDef<User>[] => [
   {
+    accessorKey: 'index',
+    header: () => {
+      return (
+        <div className='<div className="ml-5 px-5 max-w-64 text-ellipsis overflow-hidden text-nowrap">'>#</div>
+      );
+    },
+    cell: ({ row, table }) => {
+      return <div className="px-5 max-w-64 text-ellipsis overflow-hidden text-nowrap">{table.getFilteredRowModel().rows.indexOf(row) + 1}</div>;
+    }
+  },
+  {
     id: 'name',
     accessorKey: 'name',
     header: ({ column }) => {
@@ -60,6 +71,7 @@ export const columns = (contest: Contest): ColumnDef<User>[] => [
     },
   },
   {
+    id: 'group',
     accessorKey: 'profile.group',
     header: ({ column }) => (
       <Button
@@ -77,6 +89,10 @@ export const columns = (contest: Contest): ColumnDef<User>[] => [
         </div>
       );
     },
+    filterFn: (row, id, filterValue) => {
+      console.log("hehee>>", filterValue, row.original.profile.group);
+      return filterValue[row.original.profile.group]
+    }
   },
   {
     id: 'participation',
@@ -132,8 +148,6 @@ export const columns = (contest: Contest): ColumnDef<User>[] => [
             >
               Copy contest URL
             </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>View contest details</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );

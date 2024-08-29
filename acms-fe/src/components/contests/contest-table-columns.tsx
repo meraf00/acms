@@ -15,26 +15,15 @@ import { Contest } from '@/store/contests/types';
 
 export const columns: ColumnDef<Contest>[] = [
   {
-    id: 'select',
-    header: ({ table }) => (
-      <Checkbox
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && 'indeterminate')
-        }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false,
+    accessorKey: 'index',
+    header: () => {
+      return (
+        <div className='<div className="ml-5 px-5 max-w-64 text-ellipsis overflow-hidden text-nowrap">'>#</div>
+      );
+    },
+    cell: ({ row, table }) => {
+      return <div className="px-5 max-w-64 text-ellipsis overflow-hidden text-nowrap">{table.getFilteredRowModel().rows.indexOf(row) + 1}</div>;
+    }
   },
   {
     accessorKey: 'name',
