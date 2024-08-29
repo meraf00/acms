@@ -1,9 +1,9 @@
 import type { Metadata } from 'next';
-import { Inter, Quicksand } from 'next/font/google';
+import { Inter } from 'next/font/google';
 import './globals.css';
 import Providers from './providers';
 import { ModeToggle } from '@/components/ui/mode-toggle';
-import { cn } from '@/lib/core/utils';
+import { cn } from '@/lib/utils';
 import { Toaster } from '@/components/ui/toaster';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -22,7 +22,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={cn(inter.className, 'relative')}>
         <Providers>
-          <div className="fixed bottom-5 right-6 z-50">
+          <div className="fixed bottom-5 right-3 z-50">
             <ModeToggle />
           </div>
           {children}

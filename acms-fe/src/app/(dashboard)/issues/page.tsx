@@ -8,19 +8,20 @@ import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { toast } from '@/components/ui/use-toast';
 
 import { Textarea } from '@/components/ui/textarea';
-import { useReportIssue } from '@/lib/features/issue/hooks';
+import { useReportIssueMutation } from '@/store/issue/api';
+import { toast } from '@/components/ui/use-toast';
+import Loading from '@/components/ui/loading';
 
-const FormSchema = z.object({
+
+const IssueFormSchema = z.object({
   type: z.string().min(1),
   message: z.string().min(1, {
     message: 'Message should not be empty',
@@ -28,34 +29,31 @@ const FormSchema = z.object({
 });
 
 function IssueForm() {
-  const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema),
+  const form = useForm<z.infer<typeof IssueFormSchema>>({
+    resolver: zodResolver(IssueFormSchema),
     defaultValues: {
       type: '',
       message: '',
     },
   });
 
-  const reportIssue = useReportIssue({
-    onSuccess: () => {
+  const [reportIssue, reportIssueResult] = useReportIssueMutation();
+
+  async function onSubmit(data: z.infer<typeof IssueFormSchema>) {
+    try {
+      await reportIssue(data).unwrap();
       toast({
         title: 'Success',
-        description: 'Message sent successfully.',
+        description: 'The issue has been reported successfully.',
       });
       form.reset();
-    },
-    onError: (error) => {
+    } catch (error) {
+      console.log(error)
       toast({
-        title: 'Error',
-        description: 'Failed to send message.',
+        title: 'Failed',
+        description: 'An error occurred while reporting the issue. Please contact your head.',
       });
-    },
-  });
-
-  function onSubmit(data: z.infer<typeof FormSchema>) {
-    reportIssue.mutate(data);
-
-    form.reset();
+    }
   }
 
   return (
@@ -102,7 +100,7 @@ function IssueForm() {
           )}
         />
 
-        <Button type="submit">Submit</Button>
+        {reportIssueResult.isLoading ? <Loading /> : <Button type="submit">Submit</Button>}
       </form>
     </Form>
   );

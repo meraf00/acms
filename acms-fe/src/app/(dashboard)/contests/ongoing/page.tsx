@@ -1,35 +1,30 @@
-"use client";
+'use client';
 
-import Loading from "@/components/ui/loading";
-import LiveContestCard from "@/lib/features/contest/components/live-contest-card";
-import { PastContestsTable } from "@/lib/features/contest/components/past-contest-table";
-import {
-  useGetActiveContests,
-  useGetPastContests,
-  useGetUpcomingContests,
-} from "@/lib/features/hooks";
-import LiveContestCardSkeleton from "@lib/features/contest/components/skeletons/live-contest-card-skeleton";
-import { PastContestsTableSkeleton } from "@lib/features/contest/components/skeletons/past-contest-table-skeleton";
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { useAppSelector } from '@/store/store';
+import { useGetActiveContestsQuery, useGetPastContestsQuery, useGetUpcomingContestsQuery } from '@/store/contests/api';
+import LiveContestCardSkeleton from '@/components/contests/live-contests/live-contest-card-skeleton';
+import LiveContestCard from '@/components/contests/live-contests/live-contest-card';
+import { PastContestsTableSkeleton } from '@/components/contests/past-contests/past-contest-table-skeleton';
+import { PastContestsTable } from '@/components/contests/past-contests/past-contest-table';
 
 export default function ActiveContests() {
   const router = useRouter();
+  const user = useAppSelector((state) => state.auth.user);
+
   const {
     data: activeContests,
     isLoading: isActiveLoading,
-    error: activeError,
-  } = useGetActiveContests();
+  } = useGetActiveContestsQuery(undefined, { skip: !user });
   const {
     data: upcomingContests,
     isLoading: isUpcomingLoading,
-    error: upcomingError,
-  } = useGetUpcomingContests();
+  } = useGetUpcomingContestsQuery(undefined, { skip: !user });
   const {
     data: pastContests,
     isLoading: isPastLoading,
-    error: pastError,
-  } = useGetPastContests();
+  } = useGetPastContestsQuery(undefined, { skip: !user });
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -56,7 +51,7 @@ export default function ActiveContests() {
 
     return () => clearInterval(interval);
   }, [activeContests, upcomingContests, router]);
-  const isLoading = true;
+
   return (
     <div className="space-y-10 mb-32 mr-2">
       <div>
@@ -66,9 +61,6 @@ export default function ActiveContests() {
         <hr className="mb-12 h-0.5 border-t-0 bg-neutral-200 dark:bg-white/10 " />
         <div className="flex w-full overflow-auto gap-10 no-scrollbar px-6 pb-8 pr-24 ">
           {isActiveLoading ? (
-            // <div className="flex w-full h-[70vh] items-center justify-center">
-            //   <Loading />
-            // </div>
             Array.from({ length: 4 }).map((_, i) => (
               <LiveContestCardSkeleton key={i} isUpcoming={false} />
             ))
