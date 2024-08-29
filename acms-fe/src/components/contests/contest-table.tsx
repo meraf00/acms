@@ -108,7 +108,6 @@ export function ContestsTable({ contests }: ContestTableProps) {
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
-                <TableHead><div className='<div className="ml-5 px-5 max-w-64 text-ellipsis overflow-hidden text-nowrap">'>#</div></TableHead>
                 {headerGroup.headers.map((header) => {
                   return (
                     <TableHead key={header.id}>
@@ -126,16 +125,11 @@ export function ContestsTable({ contests }: ContestTableProps) {
           </TableHeader>
           <TableBody>
             {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row, index) => (
+              table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
                 >
-                  <TableCell key={index}>
-                    <div className="px-5 max-w-64 text-ellipsis overflow-hidden text-nowrap">
-                      {index + 1}
-                    </div>
-                  </TableCell>
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
                       {flexRender(

@@ -15,6 +15,17 @@ import { Contest } from '@/store/contests/types';
 
 export const columns: ColumnDef<Contest>[] = [
   {
+    accessorKey: 'index',
+    header: () => {
+      return (
+        <div className='<div className="ml-5 px-5 max-w-64 text-ellipsis overflow-hidden text-nowrap">'>#</div>
+      );
+    },
+    cell: ({ row, table }) => {
+      return <div className="px-5 max-w-64 text-ellipsis overflow-hidden text-nowrap">{table.getFilteredRowModel().rows.indexOf(row) + 1}</div>;
+    }
+  },
+  {
     accessorKey: 'name',
     header: ({ column }) => {
       return (
