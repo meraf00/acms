@@ -7,7 +7,7 @@ export const Monitoring = 'monitoring';
 export const IncrementCapturedCount = `${Monitoring}/increment`;
 export const SetCaptureRate = `${Monitoring}/set-capture-rate`;
 export const MAX_INTERVAL = 15;
-export const MIN_INTERVAL = 8;
+export const MIN_INTERVAL = 6;
 
 export const monitoringInitialState: MonitoringState = {
   capturedScreenCount: 0,

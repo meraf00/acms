@@ -110,13 +110,13 @@ export default function LiveContestCard({
             </CardHeader>
 
             <CardFooter className="flex flex-col px-0 py-4 mr-3 gap-2 max-w-44 items-start justify-end">
-              <Link
+              {user?.role !== Roles.student && <Link
                 href={contest.invitationLink ?? ''}
                 target="_blank"
                 className={` ${cn('', buttonVariants({ variant: 'link' }))}`}
               >
                 <ExternalLinkIcon className="mr-2 h-4 w-4" /> Open Contest
-              </Link>
+              </Link>}
               {user?.role === Roles.student && isLive ? (
                 <Link
                   href={`/monitoring/${contest._id}`}

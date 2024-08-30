@@ -90,7 +90,6 @@ export const columns = (contest: Contest): ColumnDef<User>[] => [
       );
     },
     filterFn: (row, id, filterValue) => {
-      console.log("hehee>>", filterValue, row.original.profile.group);
       return filterValue[row.original.profile.group]
     }
   },

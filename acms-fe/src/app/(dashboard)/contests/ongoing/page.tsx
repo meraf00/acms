@@ -8,6 +8,7 @@ import LiveContestCardSkeleton from '@/components/contests/live-contests/live-co
 import LiveContestCard from '@/components/contests/live-contests/live-contest-card';
 import { PastContestsTableSkeleton } from '@/components/contests/past-contests/past-contest-table-skeleton';
 import { PastContestsTable } from '@/components/contests/past-contests/past-contest-table';
+import { toast } from '@/components/ui/use-toast';
 
 export default function ActiveContests() {
   const router = useRouter();
@@ -51,6 +52,16 @@ export default function ActiveContests() {
 
     return () => clearInterval(interval);
   }, [activeContests, upcomingContests, router]);
+
+  useEffect(() => {
+    console.log('Announcement')
+    toast(
+      {
+        title: 'Announcement',
+        description: 'You can find the contest link after you start monitoring'
+      }
+    )
+  }, [user])
 
   return (
     <div className="space-y-10 mb-32 mr-2">

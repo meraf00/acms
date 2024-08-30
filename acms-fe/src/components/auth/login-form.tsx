@@ -62,8 +62,6 @@ export function LoginForm() {
     }
   }
 
-  console.log(isLoading)
-
   return (
     <Form {...form}>
       <form
