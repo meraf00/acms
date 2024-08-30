@@ -83,15 +83,14 @@ export class CodeforcesService {
 
     const signedUrl = this.signReq(method, params);
     try {
-      console.log(await fetch(signedUrl, { method: 'GET' }));
-    } catch (error) {
-      console.error(error);
+      return this.httpService.get(signedUrl).pipe(
+        map((resp) => {
+          console.log(resp);
+          return resp.data.result;
+        }),
+      );
+    } catch (e) {
+      console.log(e);
     }
-    // return this.httpService.get(signedUrl).pipe(
-    //   map((resp) => {
-    //     console.log(resp);
-    //     return resp.data.result;
-    //   }),
-    // );
   }
 }
