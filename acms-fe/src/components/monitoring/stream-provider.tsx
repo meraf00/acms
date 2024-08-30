@@ -52,7 +52,7 @@ export default function StreamProvider({ children }: { children: ReactNode }) {
     } catch (e: any) {
       if (e.name === 'NotAllowedError') {
         setHasPermission(false);
-        return;
+        // return;
       }
     }
 

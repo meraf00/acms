@@ -2,14 +2,16 @@
 
 import { useStreamContext } from '@/components/monitoring/stream-provider';
 import { VideoRecorder } from '@/components/monitoring/video-recorder';
-import { Button } from '@/components/ui/button';
+import { Button, buttonVariants } from '@/components/ui/button';
 import { toast } from '@/components/ui/use-toast';
+import { cn } from '@/lib/utils';
 
 import { useGetActiveContestQuery } from '@/store/contests/api';
 import { useUpload } from '@/store/monitoring/hooks';
 import { useAppSelector } from '@/store/store';
 
-import { ScreenShareIcon, ScreenShareOffIcon } from 'lucide-react';
+import { ExternalLinkIcon, ScreenShareIcon, ScreenShareOffIcon } from 'lucide-react';
+import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { useEffect, useRef } from 'react';
 
@@ -79,6 +81,16 @@ export default function Monitor() {
       <h1 className="font-bold text-2xl mb-10 flex gap-2 items-start">
         Monitoring {trackedContest && trackedContest.name}
       </h1>
+
+      {trackedContest && <div>
+        <Link
+          href={trackedContest.invitationLink ?? ''}
+          target="_blank"
+          className={` ${cn('', buttonVariants({ variant: 'link' }))}`}
+        >
+          <ExternalLinkIcon className="mr-2 h-4 w-4" /> Open Contest
+        </Link></div>
+      }
 
       <div className="flex in gap-5 flex-wrap">
         <div className="lg:w-[48%]">
