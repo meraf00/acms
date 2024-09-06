@@ -96,7 +96,7 @@ export function ContestForm({ contest }: ContestFormProps) {
             id: data.id,
             name: data.name,
             students: contestants,
-            invitationLink: `https://codeforces.com/gym/${data.id}`,
+            invitationLink: `https://codeforces.com/contests/${data.id}`,
             startingTime: date.start.toAbsoluteString(),
             endingTime: date.end.toAbsoluteString(),
         }
@@ -193,7 +193,7 @@ export function ContestForm({ contest }: ContestFormProps) {
                                     disabled
                                     placeholder="https://codeforces..."
                                     {...field}
-                                    value={`https://codeforces.com/gym/${form.watch('id')}`}
+                                    value={`https://codeforces.com/contests/${form.watch('id')}`}
                                     aria-label="Contest URL"
                                 />
                             </FormControl>
