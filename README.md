@@ -2,31 +2,6 @@
 
 This project is a Contest Monitoring System designed to monitor participation and performance in contests. The system uses NestJS for the backend and a Next.js for the frontend. The frontend is deployed on Vercel, and the backend is hosted on Google App Engine.
 
-## Table of Contents
-
-- [Branches](#branches)
-- [Deployments](#deployments)
-- [Requirements](#requirements)
-
-## Branches
-
-- **main**: For production **(protected branch)**
-- **dev**: For preview and development
-- **stage**: For preview before merging to `main`
-
-## Deployments
-
-### Backend
-
-- **Production deployment**: Google App Engine [contest-monitoring.el.r.appspot.com](https://contest-monitoring.el.r.appspot.com)
-- **Dev deployment**: Render [acms-dev.onrender.com](https://acms-dev.onrender.com)
-- **Stage deployment**: Render [acms-stage.onrender.com](https://acms-stage.onrender.com)
-
-### Frontend
-
-- **Production deployment**: Vercel [acms-five.vercel.app](https://acms-five.vercel.app)
-- **Dev deployment**: Vercel [acms-five-dev.vercel.app](https://acms-five-dev.vercel.app)
-
 ## Requirements
 
 The system requires the following external services and credentials:
